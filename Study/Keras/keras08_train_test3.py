@@ -31,12 +31,12 @@ X_train, X_test, Y_train, Y_test =train_test_split(   # ()=함수
     random_state=123     #파라미터
 )
 
-'''
+
 print('X_train :', X_train)
 print('X_test :', X_test)
 print('Y_train :', Y_train)
 print('Y_test :',Y_test)
-'''
+
 
 #2.모델구성
 model=Sequential()

@@ -14,9 +14,6 @@ X_test=x[-3:]  #[7:10]   [7:]
 Y_train=y[:-3]
 Y_test=y[-3:]
 
-'''
-
-'''
 
 #2.모델구성
 model=Sequential()
