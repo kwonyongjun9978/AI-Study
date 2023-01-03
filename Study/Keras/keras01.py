@@ -16,7 +16,7 @@ model.add(Dense(1, input_dim=1)) #1 = y(output dim), input_dim=1 = x /dim = dime
 
 # 3.컴파일,훈련
 model.compile(loss='mae', optimizer='adam')
-model.fit(x,y, epochs=2000)  #epochs(훈련을 시키는 횟수), 훈련을 많이 할수록 오차가 줄어듬, 너무 많이하면 과부하 발생
+model.fit(x,y, epochs=100)  #epochs(훈련을 시키는 횟수), 훈련을 많이 할수록 오차가 줄어듬, 너무 많이하면 과부하 발생
 
 # 4.평가,예측
 result=model.predict([4])
