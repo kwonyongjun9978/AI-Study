@@ -17,7 +17,7 @@ y=np.array(range(10))              #(10, )
 
 #사이킷런 사용
 '''
-훈련데이터와 평가데이터를 분리할때 전체데이터 내에서 훈련데이터와 평가데이터를 분리한다(과적합 문제가 발생할수도 있음)
+훈련데이터와 평가데이터를 분리할때 전체데이터 내에서 훈련데이터와 평가데이터를 분리한다
 |----------|
     |----------|
 '''
@@ -28,7 +28,7 @@ X_train, X_test, Y_train, Y_test =train_test_split(   # ()=함수
     train_size=0.7,      #파라미터 
     #test_size=0.3,      #파라미터
     #shuffle=True,       #파라미터(shuffle=랜덤하게 섞는다),기본값(default)=true
-    random_state=123     #파라미터
+    random_state=123     #파라미터(랜덤 난수표에 의거해서 고정시킨다)
 )
 
 
@@ -53,7 +53,7 @@ model.add(Dense(1))
 
 
 #3.컴파일, 훈련
-model.compile(loss='mae', optimizer='adam')
+model.compile(loss='mae', optimizer='adam') 
 model.fit(X_train,Y_train,epochs=200, batch_size=1)
 
 #4.평가, 예측

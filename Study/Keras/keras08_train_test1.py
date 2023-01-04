@@ -8,7 +8,7 @@ from tensorflow.keras.layers import Dense
 #y=wx+b //w=1,b=-1
 
 '''
-과적합된 데이터로 훈련-->극복방법-->훈련데이터(train set)와 평가데이터(test set)로 분리해서 관리 
+전체데이터를 훈련시키면 과적합(overfit)발생-->극복방법-->훈련데이터(train set)와 평가데이터(test set)로 분리해서 관리 
 ex)7:3  |-------|---|
 '''
 X_train=np.array([1,2,3,4,5,6,7]) #(7,) 특성이 하나(7,1)(같지는 않음)
@@ -36,7 +36,7 @@ model.compile(loss='mae', optimizer='adam')
 model.fit(X_train,Y_train,epochs=200, batch_size=1)
 
 #4.평가, 예측
-loss=model.evaluate(X_test,Y_test)
+loss=model.evaluate(X_test,Y_test) #평가데이터는 실질적으로 훈련에 관여하지 않는다.
 print('loss : ', loss)
 result=model.predict([11])
 print('[11]의 결과', result)
