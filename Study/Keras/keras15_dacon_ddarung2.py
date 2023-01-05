@@ -56,8 +56,11 @@ model.add(Dense(2))
 model.add(Dense(1))
 
 #3.컴파일, 훈련
-model.compile(loss='mse', optimizer='adam') 
-model.fit(x_train, y_train, epochs=1000, batch_size=110)
+import time 
+model.compile(loss='mse', optimizer='adam')
+start=time.time() 
+model.fit(x_train, y_train, epochs=100, batch_size=32)
+end=time.time()
 
 #4.평가,예측
 loss=model.evaluate(x_test, y_test) 
@@ -68,6 +71,7 @@ print('y_predict : ', y_predict)
 
 def RMSE(y_test, y_predict):  #RMSE라는 함수를 정의
     return np.sqrt(mean_squared_error(y_test, y_predict))              
+
 
 #제출
 y_submit=model.predict(test_csv)
@@ -83,5 +87,8 @@ print(submission)
 
 submission.to_csv(path+'submission_0105.csv')
 print("RMSE : ", RMSE(y_test, y_predict)) 
+print("걸린시간 : ", end-start)
 
 
+#걸린시간 :  9.419771671295166
+#
