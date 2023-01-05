@@ -31,7 +31,7 @@ print(dataset.DESCR)
 
 x_train, x_test, y_train, y_test=train_test_split(
     x,y,
-    train_size=0.7,
+    train_size=0.8,
     shuffle=True,
     random_state=123
 )
@@ -43,30 +43,24 @@ print('y_test :',y_test)
 '''
 #2.모델구성
 model=Sequential()
-model.add(Dense(100, input_dim=13))
-model.add(Dense(95))
-model.add(Dense(90))
-model.add(Dense(85))
-model.add(Dense(75))
-model.add(Dense(70))
-model.add(Dense(65))
-model.add(Dense(60))
-model.add(Dense(55))
-model.add(Dense(50))
-model.add(Dense(45))
+model.add(Dense(128, input_dim=13))
+model.add(Dense(168))
+model.add(Dense(208))
+model.add(Dense(248))
+model.add(Dense(288))
+model.add(Dense(240))
+model.add(Dense(200))
+model.add(Dense(160))
+model.add(Dense(120))
+model.add(Dense(80))
 model.add(Dense(40))
-model.add(Dense(35))
-model.add(Dense(30))
-model.add(Dense(25))
 model.add(Dense(20))
-model.add(Dense(15))
-model.add(Dense(10))
-model.add(Dense(5))
+model.add(Dense(9))
 model.add(Dense(1))
 
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae']) 
-model.fit(x_train, y_train, epochs=2000, batch_size=3)
+model.fit(x_train, y_train, epochs=1500, batch_size=40)
 #4.평가,예측
 loss=model.evaluate(x_test, y_test) 
 print('loss : ', loss)
@@ -89,4 +83,10 @@ print("RMSE : ", RMSE(y_test, y_predict))
 
 r2=r2_score(y_test,y_predict)
 print("R2 : ", r2)
+
+'''
+loss :  [30.844316482543945, 3.8789093494415283]
+RMSE :  5.553766069292831
+R2 :  0.6271948279920736
+'''
 

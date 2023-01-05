@@ -3,9 +3,9 @@
 R2 0.62 이상
 '''
 from  sklearn.datasets import load_diabetes
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-from sklearn.model_selection import train_test_split
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import Input, Dense
+from sklearn.model_selection import train_test_split, GridSearchCV
 import numpy as np
 
 #1.데이터
@@ -23,32 +23,32 @@ print(datasets.DESCR)
 '''
 x_train, x_test, y_train, y_test=train_test_split(
     x,y,
-    train_size=0.7,
+    train_size=0.9,
     shuffle=True,
     random_state=123
 )
 #2.모델구성
-model=Sequential()
-model.add(Dense(50, input_dim=10))
-model.add(Dense(100))
-model.add(Dense(150))
-model.add(Dense(200))
-model.add(Dense(250))
-model.add(Dense(200))
-model.add(Dense(150))
-model.add(Dense(100))
-model.add(Dense(50))
-model.add(Dense(1))
+inputs=Input(shape=(10, ))
+hidden1= Dense(256, activation='relu') (inputs)
+hidden2=Dense(128) (hidden1)
+hidden3=Dense(64) (hidden2)
+hidden4=Dense(64) (hidden3)
+hidden5=Dense(10) (hidden4)
+hidden6=Dense(5) (hidden5)
+output=Dense(1) (hidden6)
+
+Model= Model(inputs=inputs,outputs=output)
 
 
 #3.컴파일, 훈련
-model.compile(loss='mse', optimizer='adam', metrics=['mae']) 
-model.fit(x_train, y_train, epochs=2000, batch_size=20)
+Model.compile(loss='mse', optimizer='adam', metrics=['mae']) 
+Model.fit(x_train, y_train, epochs=500, batch_size=32, validation_split=0.5)
+
 #4.평가,예측
-loss=model.evaluate(x_test, y_test) 
+loss=Model.evaluate(x_test, y_test) 
 print('loss : ', loss)
 
-y_predict=model.predict(x_test)
+y_predict=Model.predict(x_test)
 
 '''
 print("===================")
