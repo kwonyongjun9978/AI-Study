@@ -7,24 +7,24 @@ from sklearn.metrics import mean_squared_error, r2_score
 
 #1. 데이터
 path='./_data/ddarung/' #데이터 위치 표시
-train_csv=pd.read_csv(path+'train.csv', index_col=0) #./_data/ddarung/train.csv
-test_csv=pd.read_csv(path+'test.csv', index_col=0) #0번째 컬럼(id)은 데이터가 아니라 인덱스
-submission=pd.read_csv(path+'submission.csv', index_col=0) #pandas의 '.read_csv' api사용
-
+train_csv=pd.read_csv(path+'train.csv', index_col=0)            #./_data/ddarung/train.csv
+test_csv=pd.read_csv(path+'test.csv', index_col=0)              #0번째 컬럼(id)은 데이터가 아니라 인덱스
+submission=pd.read_csv(path+'submission.csv', index_col=0)      #pandas의 '.read_csv' api사용
+'''
 print(train_csv) #(1459,10), count(y값)를 빼면 input_dim은 9개이다
 print(train_csv.columns) #Index(['hour', 'hour_bef_temperature', 'hour_bef_precipitation',
                          #       'hour_bef_windspeed', 'hour_bef_humidity', 'hour_bef_visibility',
                          #       'hour_bef_ozone', 'hour_bef_pm10', 'hour_bef_pm2.5', 'count'],
                          #        dtype='object')
-print(train_csv.info()) #결측치가 있는 데이터는 삭제한다
-print(test_csv.info())
+print(train_csv.info()) #결측치 확인
+print(test_csv.info())  #결측치 확인
 print(train_csv.describe())
-
-x=train_csv.drop(['count'], axis=1)
-print(x)   #[1459 rows x 9 columns]
+'''
+x=train_csv.drop(['count'], axis=1) #10개 중 count 컬럼을 제외한 나머지 9개만 inputing 
+#print(x)   #[1459 rows x 9 columns]
 y=train_csv['count']
-print(y)
-print(y.shape) #(1459,)
+#print(y)
+#print(y.shape) #(1459,)
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,y,
@@ -32,8 +32,8 @@ x_train, x_test, y_train, y_test = train_test_split(
     shuffle=True,
     random_state=1234
 )
-print(x_train.shape, x_test.shape) #(1021, 9) (438, 9)
-print(y_train.shape, y_test.shape) #(1021,) (438,)
+#print(x_train.shape, x_test.shape) #(1021, 9) (438, 9)
+#print(y_train.shape, y_test.shape) #(1021,) (438,)
 
 #2.모델구성
 model=Sequential()
@@ -63,9 +63,11 @@ loss=model.evaluate(x_test, y_test)
 print('loss : ', loss)
 
 y_predict=model.predict(x_test)
+
 # 결측치 나쁜놈!!!
-# 결측치 때문에 다시~
-def RMSE(y_test, y_predict):  #RMSE라는 함수를 정의
+# 결측치 때문에 To Be Continue!
+
+def RMSE(y_test, y_predict):  
     return np.sqrt(mean_squared_error(y_test, y_predict))    
 print("RMSE : ", RMSE(y_test, y_predict))            
 
