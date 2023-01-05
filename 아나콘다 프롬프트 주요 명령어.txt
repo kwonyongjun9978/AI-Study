@@ -17,6 +17,9 @@ print(tf.__version__) //파이썬에서 텐서플로우 버전 확인
 scikit-learn 버전 변경
 pip uninstall scikit-learn //원래있던 버전을 지운다
 pip install scikit-learn==원하는버전 //원하는 버전을 다운받는다
+nvidia-smi //그래픽드라이버 카드 설치확인
+nvcc -V //쿠다 버전 확인
+conda search python //아나콘다에서 설치가능한 파이썬 버전 확인
 
 
 

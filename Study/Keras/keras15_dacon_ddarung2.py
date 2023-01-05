@@ -45,21 +45,19 @@ print(y_train.shape, y_test.shape) #(929,) (399,)
 
 #2.모델구성
 model=Sequential()
-model.add(Dense(44, input_dim=9))
-model.add(Dense(204))
-model.add(Dense(169))
-model.add(Dense(138))
-model.add(Dense(98))
-model.add(Dense(66))
-model.add(Dense(49))
+model.add(Dense(256, input_dim=9))
+model.add(Dense(128))
+model.add(Dense(64))
 model.add(Dense(32))
 model.add(Dense(16))
+model.add(Dense(8))
 model.add(Dense(4))
+model.add(Dense(2))
 model.add(Dense(1))
 
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam') 
-model.fit(x_train, y_train, epochs=300, batch_size=89)
+model.fit(x_train, y_train, epochs=1000, batch_size=110)
 
 #4.평가,예측
 loss=model.evaluate(x_test, y_test) 
@@ -69,8 +67,7 @@ print('x_test : ', x_test)
 print('y_predict : ', y_predict)
 
 def RMSE(y_test, y_predict):  #RMSE라는 함수를 정의
-    return np.sqrt(mean_squared_error(y_test, y_predict))    
-print("RMSE : ", RMSE(y_test, y_predict))            
+    return np.sqrt(mean_squared_error(y_test, y_predict))              
 
 #제출
 y_submit=model.predict(test_csv)
