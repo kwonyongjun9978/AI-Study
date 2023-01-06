@@ -6,23 +6,23 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 
 #1. 데이터
-path='./_data/bike/' #데이터 위치 표시
-train_csv=pd.read_csv(path+'train.csv', index_col=0) 
-test_csv=pd.read_csv(path+'test.csv', index_col=0) 
-submission=pd.read_csv(path+'sampleSubmission.csv', index_col=0)
+path='./_data/ddarung/' #데이터 위치 표시
+train_csv=pd.read_csv(path+'train.csv', index_col=0) #./_data/ddarung/train.csv
+test_csv=pd.read_csv(path+'test.csv', index_col=0) #0번째 컬럼(id)은 데이터가 아니라 인덱스
+submission=pd.read_csv(path+'submission.csv', index_col=0) #pandas의 '.read_csv' api사용
 
 #결측치 처리 
 #1.결측치 제거 - 데이터 10%를 지웠기 때문에 좋은 방법은 아님 
 #print(train_csv.isnull().sum()) #train_csv의 컬럼별 null값
 train_csv = train_csv.dropna()  #결측치 제거
 #print(train_csv.isnull().sum())
-#print(train_csv.shape)  
+#print(train_csv.shape)  #(1328,10)
 
-x=train_csv.drop(['casual','registered','count'], axis=1)
-#print(x) #[10886 rows x 8 columns]
+x=train_csv.drop(['count'], axis=1)
+#print(x)   #[1328 rows x 9 columns]
 y=train_csv['count']
 #print(y)
-#print(y.shape) #(10886,)
+#print(y.shape) #(1328,)
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,y,
@@ -31,33 +31,27 @@ x_train, x_test, y_train, y_test = train_test_split(
     random_state=123
 )
 
-print(x_train.shape, x_test.shape) #(7620, 8) (3266, 8)
-print(y_train.shape, y_test.shape) #(7620,) (3266,)
-print(submission.shape) 
+#print(x_train.shape, x_test.shape) #(929, 9) (399, 9)
+#print(y_train.shape, y_test.shape) #(929,) (399,)
+#print(submission.shape) #(715, 1)
 
 #2.모델구성
-'''
-활성화함수(activation)
-=레이어에서 레이어로 이동할때 값자체를 한정시킴
-sigmoid : 0~1
-relu : 0이하는 0, 0이상은 그 값 그대로 한정된다
-'''
 model=Sequential()
-model.add(Dense(256, input_dim=8, activation='relu')) 
-model.add(Dense(128, activation='relu'))
-model.add(Dense(64, activation='relu'))
-model.add(Dense(32, activation='relu'))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(8, activation='relu'))
-model.add(Dense(4, activation='relu'))
-model.add(Dense(2, activation='relu'))
-model.add(Dense(1, activation='linear'))
+model.add(Dense(50, input_dim=9, activation='relu'))
+model.add(Dense(100, activation='relu'))
+model.add(Dense(200, activation='relu'))
+model.add(Dense(300, activation='relu'))
+model.add(Dense(200, activation='relu'))
+model.add(Dense(100, activation='relu'))
+model.add(Dense(80, activation='relu'))
+model.add(Dense(50, activation='relu'))
+model.add(Dense(1))
 
 #3.컴파일, 훈련
 import time 
 model.compile(loss='mse', optimizer='adam')
 start=time.time() 
-model.fit(x_train, y_train, epochs=690, batch_size=204)
+model.fit(x_train, y_train, epochs=3000, batch_size=100, validation_split=0.25)
 end=time.time()
 
 #4.평가,예측
@@ -79,17 +73,13 @@ y_submit=model.predict(test_csv)
 
 
 #.to_csv()를 사용해서
-#submission_0106.csv를 완성하시오!!
+#submission_0105.csv를 완성하시오!!
 
 submission['count']=y_submit
 #print(submission)
 
-submission.to_csv(path+'submission_010601.csv')
+submission.to_csv(path+'submission_0106.csv')
 
 print("걸린시간 : ", end-start)
 
 
-'''
-loss :  23266.326171875
-RMSE :  152.5330470652978
-'''
