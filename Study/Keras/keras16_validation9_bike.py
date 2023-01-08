@@ -32,8 +32,7 @@ print(submission.shape)
 
 #2.모델구성
 model=Sequential()
-model.add(Dense(50, input_dim=8, activation='relu')) 
-model.add(Dense(32, input_dim = 8))
+model.add(Dense(32, input_dim=8, activation='relu')) 
 model.add(Dense(256, activation='relu'))
 model.add(Dense(512, activation='relu'))
 model.add(Dense(128, activation='relu'))
@@ -72,7 +71,7 @@ y_submit=model.predict(test_csv)
 submission['count']=y_submit
 #print(submission)
 
-submission.to_csv(path+'submission_010801.csv')
+submission.to_csv(path+'submission_010803.csv')
 
 print("걸린시간 : ", end-start)
 
@@ -82,11 +81,19 @@ print("걸린시간 : ", end-start)
 loss :  22147.0625
 RMSE :  148.81888841142472
 걸린시간 :  123.88783955574036
-'''
 
-'''
 010801
 loss :  22387.5859375
 RMSE :  149.62481718191893
 걸린시간 :  139.6375584602356
+
+010802
+loss :  22255.8671875
+RMSE :  149.18398443418045
+걸린시간 :  178.96774125099182
+
+010803
+loss :  22086.767578125
+RMSE :  148.61617584960914
+걸린시간 :  62.70538115501404
 '''
