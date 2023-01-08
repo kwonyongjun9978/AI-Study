@@ -6,7 +6,7 @@
 ###########################
 # 라이브러리 사용
 import pandas as pd
- 
+
 ###########################
 # 파일로부터 데이터 읽어오기
 파일경로 = 'https://raw.githubusercontent.com/blackdew/tensorflow1/master/csv/lemonade.csv'
@@ -30,7 +30,6 @@ print(레모네이드.columns)
 print(보스턴.columns)
 print(아이리스.columns)
  
- 
 ###########################
 # 독립변수와 종속변수 분리
 독립 = 레모네이드[['온도']]
@@ -46,7 +45,6 @@ print(독립.shape, 종속.shape)
 독립 = 아이리스[['꽃잎길이', '꽃잎폭', '꽃받침길이', '꽃받침폭']]
 종속 = 아이리스[['품종']]
 print(독립.shape, 종속.shape)
- 
  
 ###########################
 # 각각의 데이터 확인해보기
