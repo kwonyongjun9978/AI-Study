@@ -64,7 +64,7 @@ print('loss : ', loss)
 
 y_predict=model.predict(x_test)
 
-# 결측치 나쁜놈!!!
+# 결측치(데이터에 값이 없는 것) 나쁜놈!!!
 # 결측치 때문에 To Be Continue!
 
 def RMSE(y_test, y_predict):  

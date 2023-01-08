@@ -43,7 +43,7 @@ model.add(Dense(1))
 
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae']) 
-model.fit(x_train, y_train, epochs=100, batch_size=1) #fit = 가중치(w) 생성                                  
+model.fit(x_train, y_train, epochs=100, batch_size=1)                                 
 
 #4.평가,예측
 loss=model.evaluate(x_test, y_test) 
@@ -57,8 +57,7 @@ print(y_test)
 print(y_predict)
 print("===================")
 '''
-#R2=정확도와 비슷한 개념,1에 가까울수록 좋다
-#R2를 사용하려면 sklearn을 import 한다음 임의로 함수를 정의해야한다
+
 from sklearn.metrics import mean_squared_error, r2_score
 '''
 def RMSE(y_test, y_predict):  #RMSE라는 함수를 정의

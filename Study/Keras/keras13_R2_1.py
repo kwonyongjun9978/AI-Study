@@ -31,19 +31,10 @@ print('loss : ', loss)
 
 y_predict=model.predict(x_test)
 
-print("===================")
-print(y_test)
-print(y_predict)
-print("===================")
-
-
-
-#R2=정확도와 비슷한 개념,1에 가까울수록 좋다
-#R2를 사용하려면 sklearn을 import 한다음 임의로 함수를 정의해야한다
+#R2를 사용하려면 sklearn api의 r2_score를 import 한다음 임의로 함수를 정의해야한다
 from sklearn.metrics import mean_squared_error, r2_score
 def RMSE(y_test, y_predict):  #RMSE라는 함수를 정의
-    return np.sqrt(mean_squared_error(y_test, y_predict))    
-            #루트                  mse                    =rmse
+    return np.sqrt(mean_squared_error(y_test, y_predict))         
 print("RMSE : ", RMSE(y_test, y_predict))            
 
 r2=r2_score(y_test,y_predict)

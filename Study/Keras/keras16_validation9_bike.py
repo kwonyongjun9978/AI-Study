@@ -6,17 +6,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 
 #1. 데이터
-path='./_data/bike/' #데이터 위치 표시
+path='./_data/bike/' 
 train_csv=pd.read_csv(path+'train.csv', index_col=0) 
 test_csv=pd.read_csv(path+'test.csv', index_col=0) 
 submission=pd.read_csv(path+'sampleSubmission.csv', index_col=0)
 
-#결측치 처리 
-#1.결측치 제거 - 데이터 10%를 지웠기 때문에 좋은 방법은 아님 
-#print(train_csv.isnull().sum()) #train_csv의 컬럼별 null값
 train_csv = train_csv.dropna()  #결측치 제거
-#print(train_csv.isnull().sum())
-#print(train_csv.shape)  
 
 x=train_csv.drop(['casual','registered','count'], axis=1)
 #print(x) #[10886 rows x 8 columns]
@@ -28,7 +23,7 @@ x_train, x_test, y_train, y_test = train_test_split(
     x,y,
     train_size=0.7,
     shuffle=True,
-    random_state=123
+    random_state=44
 )
 
 print(x_train.shape, x_test.shape) #(7620, 8) (3266, 8)
@@ -36,29 +31,21 @@ print(y_train.shape, y_test.shape) #(7620,) (3266,)
 print(submission.shape) 
 
 #2.모델구성
-'''
-활성화함수(activation)
-=레이어에서 레이어로 이동할때 값자체를 한정시킴
-sigmoid : 0~1
-relu : 0이하는 0, 0이상은 그 값 그대로 한정된다
-'''
 model=Sequential()
-model.add(Dense(256, input_dim=8, activation='relu')) 
+model.add(Dense(50, input_dim=8, activation='relu')) 
+model.add(Dense(32, input_dim = 8))
+model.add(Dense(256, activation='relu'))
+model.add(Dense(512, activation='relu'))
 model.add(Dense(128, activation='relu'))
-model.add(Dense(64, activation='relu'))
-model.add(Dense(32, activation='relu'))
 model.add(Dense(16, activation='relu'))
-model.add(Dense(8, activation='relu'))
-model.add(Dense(4, activation='relu'))
-model.add(Dense(2, activation='relu'))
-model.add(Dense(1, activation='linear'))
+model.add(Dense(1))
 
 #3.컴파일, 훈련
 import time 
 model.compile(loss='mse', optimizer='adam')
 start=time.time() 
-model.fit(x_train, y_train, epochs=690, batch_size=204,
-          validation_split=0.25)
+model.fit(x_train, y_train, epochs=100, batch_size=10,
+          validation_split=0.2)
 end=time.time()
 
 #4.평가,예측
@@ -85,12 +72,21 @@ y_submit=model.predict(test_csv)
 submission['count']=y_submit
 #print(submission)
 
-submission.to_csv(path+'submission_010602.csv')
+submission.to_csv(path+'submission_010801.csv')
 
 print("걸린시간 : ", end-start)
 
 
 '''
-loss :  23266.326171875
-RMSE :  152.5330470652978
+010801
+loss :  22147.0625
+RMSE :  148.81888841142472
+걸린시간 :  123.88783955574036
+'''
+
+'''
+010801
+loss :  22387.5859375
+RMSE :  149.62481718191893
+걸린시간 :  139.6375584602356
 '''

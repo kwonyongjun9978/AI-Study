@@ -1,5 +1,5 @@
 import tensorflow as tf  # 텐서플로를 입포트합니다. 하지만 너무 길어서 as로 뒤는줄여준다.
-print(tf.__version__)
+# print(tf.__version__) #텐서플로 버전 확인
 import numpy as np
 
 # 1.데이터
@@ -7,12 +7,12 @@ x=np.array([1,2,3])
 y=np.array([1,2,3])
 
 # 2.모델구성
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import Sequential 
 from tensorflow.keras.layers import Dense
 
 model=Sequential()
-model.add(Dense(1, input_dim=1)) #1 = y(output dim), input_dim=1 = x /dim = dimension(차원)
-
+model.add(Dense(1, input_dim=1)) # y = 1(output dim), x = 1(input_dim)  
+                                 # dim = dimension(차원) 
 
 # 3.컴파일,훈련
 model.compile(loss='mae', optimizer='adam')

@@ -14,7 +14,7 @@ x=x.T # T : 행과 열을 바꿈
 print(x.shape)  #(10,2) 10행2열
 
 #2.모델구성
-model=Sequential() #순차적 모델을 만든다
+model=Sequential() 
 model.add(Dense(5, input_dim=2)) # input_dim = 열의 개수
 model.add(Dense(4))
 model.add(Dense(3))

@@ -30,19 +30,19 @@ loss=model.evaluate(x_test, y_test)
 print('loss : ', loss)
 
 y_predict=model.predict(x_test)
+# loss 값이 2개 나오는 이유: compile 해서 evalutate 할 때 loss와 metrics를 둘 다 사용했기 때문에 각각의 loss값이 나온다.
+# loss :  [14.770852088928223, 2.94441294670105]
 
 print("===================")
 print(y_test)
 print(y_predict)
 print("===================")
-
-# loss :  [14.770852088928223, 2.94441294670105] #loss,metrics
-
-#rmse사용하려면 sklearn을 import 한다음 임의로 함수를 정의해야한다
+ 
+#rmse사용하려면 sklearn api의 mean_squared_error를 import 한다음 임의로 함수를 정의해야한다
 from sklearn.metrics import mean_squared_error
 def RMSE(y_test, y_predict):  #RMSE라는 함수를 정의
     return np.sqrt(mean_squared_error(y_test, y_predict))    
-            #루트                  mse                    =rmse
+         # np.sqrt는 바깥쪽에 루트를 씌우는 걸 의미한다.
 print("RMSE : ", RMSE(y_test, y_predict))            
 
 #RMSE :  3.8439300378661714

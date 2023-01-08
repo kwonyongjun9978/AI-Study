@@ -7,8 +7,9 @@ from tensorflow.keras.layers import Dense
 x=np.array([1,2,3,4,5])
 y=np.array([1,2,3,5,4])
 
-#2.모델구성(hidden layer 구성 변경(노드,layer 의 개수)->하이퍼 파라미터 튜닝)
-model=Sequential()  #Sequential api를 모델이라는 이름으로 정의
+#2.모델구성
+# 하이퍼 파라미터 튜닝 - 1.hidden layer 구성 변경(노드,layer 의 개수))
+model=Sequential()  
 model.add(Dense(3, input_dim=1))  
 model.add(Dense(5))  #input layer는 표시하지 않아도 된다.  #hidden layer
 model.add(Dense(4))  #hidden layer

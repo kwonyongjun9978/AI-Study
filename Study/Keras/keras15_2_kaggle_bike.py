@@ -12,11 +12,7 @@ test_csv=pd.read_csv(path+'test.csv', index_col=0)
 submission=pd.read_csv(path+'sampleSubmission.csv', index_col=0)
 
 #결측치 처리 
-#1.결측치 제거 - 데이터 10%를 지웠기 때문에 좋은 방법은 아님 
-#print(train_csv.isnull().sum()) #train_csv의 컬럼별 null값
-train_csv = train_csv.dropna()  #결측치 제거
-#print(train_csv.isnull().sum())
-#print(train_csv.shape)  
+train_csv = train_csv.dropna()  
 
 x=train_csv.drop(['casual','registered','count'], axis=1)
 #print(x) #[10886 rows x 8 columns]
@@ -68,7 +64,7 @@ y_predict=model.predict(x_test)
 #print('x_test : ', x_test)
 #print('y_predict : ', y_predict)
 
-def RMSE(y_test, y_predict):  #RMSE라는 함수를 정의
+def RMSE(y_test, y_predict):  
     return np.sqrt(mean_squared_error(y_test, y_predict))              
 print("RMSE : ", RMSE(y_test, y_predict)) 
 

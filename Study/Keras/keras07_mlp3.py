@@ -4,9 +4,8 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 
 #1.데이터
-x=np.array([range(10), range(21,31), range(201,211)])
-# print(range(10))  // ctrl+/
-# print(x.shape)    // (3,10)
+x=np.array([range(10), range(21,31), range(201,211)]) # 0 ~ (x-1), 0~9
+#print(x.shape) //(3,10)
 y=np.array([[1,2,3,4,5,6,7,8,9,10], [1,1,1,1,2,1.3,1.4,1.5,1.6,1.4]])
 x=x.T #(10,3)
 y=y.T #(10,2)

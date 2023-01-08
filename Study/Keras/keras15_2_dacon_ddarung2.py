@@ -7,13 +7,13 @@ from sklearn.metrics import mean_squared_error, r2_score
 
 #1. 데이터
 path='./_data/ddarung/' #데이터 위치 표시
-train_csv=pd.read_csv(path+'train.csv', index_col=0) #./_data/ddarung/train.csv
-test_csv=pd.read_csv(path+'test.csv', index_col=0) #0번째 컬럼(id)은 데이터가 아니라 인덱스
-submission=pd.read_csv(path+'submission.csv', index_col=0) #pandas의 '.read_csv' api사용
+train_csv=pd.read_csv(path+'train.csv', index_col=0) 
+test_csv=pd.read_csv(path+'test.csv', index_col=0) 
+submission=pd.read_csv(path+'submission.csv', index_col=0) 
 
 #결측치 처리 
 #1.결측치 제거 - 데이터 10%를 지웠기 때문에 좋은 방법은 아님 
-#print(train_csv.isnull().sum()) #train_csv의 컬럼별 null값
+#print(train_csv.isnull().sum()) #train_csv의 컬럼별 null값 확인
 train_csv = train_csv.dropna()  #결측치 제거
 #print(train_csv.isnull().sum())
 #print(train_csv.shape)  #(1328,10)
@@ -71,6 +71,8 @@ y_submit=model.predict(test_csv)
 #print(y_submit)
 #print(y_submit.shape)  #(715,1)
 
+# print(y_submit)에서 [nan]이 나오는 이유는 test.csv도 결측치가 있었다는 뜻임.
+# 하지만 test.csv에서의 있는 nan은 삭제하면 안된다. submission으로 제출해야하기때문에 공란이 있으면 안된다.
 
 #.to_csv()를 사용해서
 #submission_0105.csv를 완성하시오!!

@@ -39,9 +39,17 @@ x_train, x_test, y_train, y_test = train_test_split(
 model=Sequential()
 model.add(Dense(50, input_dim=9, activation='relu'))
 model.add(Dense(100, activation='relu'))
+model.add(Dense(150, activation='relu'))
 model.add(Dense(200, activation='relu'))
+model.add(Dense(250, activation='relu'))
 model.add(Dense(300, activation='relu'))
+model.add(Dense(350, activation='relu'))
+model.add(Dense(400, activation='relu'))
+model.add(Dense(350, activation='relu'))
+model.add(Dense(300, activation='relu'))
+model.add(Dense(250, activation='relu'))
 model.add(Dense(200, activation='relu'))
+model.add(Dense(150, activation='relu'))
 model.add(Dense(100, activation='relu'))
 model.add(Dense(80, activation='relu'))
 model.add(Dense(50, activation='relu'))
@@ -51,7 +59,7 @@ model.add(Dense(1))
 import time 
 model.compile(loss='mse', optimizer='adam')
 start=time.time() 
-model.fit(x_train, y_train, epochs=3000, batch_size=100, validation_split=0.25)
+model.fit(x_train, y_train, epochs=1000, batch_size=70, validation_split=0.25)
 end=time.time()
 
 #4.평가,예측
@@ -82,4 +90,9 @@ submission.to_csv(path+'submission_0106.csv')
 
 print("걸린시간 : ", end-start)
 
+'''
+loss :  2563.315673828125
+RMSE :  50.62919679970939
+걸린시간 :  70.55993747711182
+'''
 
