@@ -33,6 +33,9 @@ earlyStopping = EarlyStopping(monitor='val_loss',
                               restore_best_weights=True, 
                               verbose=1 )                                  
 '''
+*콜백함수가 필요한 이유 : 모델이 학습을 시작하면 학습이 완료될 때까지 사람이 할 수 있는게 없습니다. 
+                        따라서 이를 해결하고자 존재하는 것이 콜백함수입니다. 
+                        예를 들어, 학습되는 과정 사이에 학습률을 변화시키거나 val_loss가 개선되지 않으면 학습을 멈추게 하는 등의 작업을 할 수 있습니다.
 1.monitor : EarlyStopping의 기준이 되는 값을 입력합니다.
 2.min_delta : 개선된 것으로 간주하기 위한 최소한의 변화량입니다.
               예를 들어, min_delta가 0.01이고, 30에폭에 정확도가 0.8532라고 할 때,
