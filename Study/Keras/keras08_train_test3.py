@@ -46,7 +46,7 @@ model.compile(loss='mae', optimizer='adam')
 model.fit(X_train,Y_train,epochs=200, batch_size=1)
 
 #4.평가, 예측
-loss=model.evaluate(X_test,Y_test) # 평가 데이터로만 평가해야함 (훈련 데이터 범위 내에서 평가 데이터를 분리)
+loss=model.evaluate(X_test,Y_test) # 평가(test) 데이터로만 평가해야함 (훈련 데이터 범위 내에서 평가 데이터를 분리)
 print('loss : ', loss)
 result=model.predict([11])
 print('[11]의 결과', result)

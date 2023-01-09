@@ -1,9 +1,8 @@
-import numpy as np
 import pandas as pd
 from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import Dense, Input
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import mean_squared_error
 
 #1. 데이터
 path='./_data/ddarung/' #데이터 위치 표시
@@ -46,43 +45,31 @@ output = Dense(1) (hidden6)
 model = Model(inputs=inputs, outputs=output)
 
 #3.컴파일, 훈련
-import time 
 model.compile(loss='mae', optimizer='adam')
-start=time.time() 
-model.fit(x_train, y_train, epochs=200, batch_size=10, validation_data=(x_validation, y_validation))
-end=time.time()
+hist=model.fit(x_train, y_train, epochs=200, batch_size=10, validation_data=(x_validation, y_validation))
 
 #4.평가,예측
 loss=model.evaluate(x_test, y_test) 
 print('loss : ', loss)
-y_predict=model.predict(x_test)
 
-#print('x_test : ', x_test)
-#print('y_predict : ', y_predict)
+print("===============================")
+print(hist) #
+print("===============================")
+print(hist.history) 
+print("===============================")
+print(hist.history['loss'])   
+print("===============================")
+print(hist.history['val_loss'])   
 
-def RMSE(y_test, y_predict):  #RMSE라는 함수를 정의
-    return np.sqrt(mean_squared_error(y_test, y_predict))              
-print("RMSE : ", RMSE(y_test, y_predict)) 
+import matplotlib.pyplot as plt
+plt.figure(figsize=(9,6))  
+plt.plot(hist.history['loss'], c='red', marker='.', label='loss')
+plt.plot(hist.history['val_loss'], c='blue', marker='.', label='val_loss')
+plt.grid() 
+plt.xlabel('epochs') 
+plt.ylabel('loss')   
+plt.title('ddarung loss') 
+plt.legend() 
+plt.show()
 
-#제출
-y_submit=model.predict(test_csv)
-#print(y_submit)
-#print(y_submit.shape)  #(715,1)
-
-
-#.to_csv()를 사용해서
-#submission_0105.csv를 완성하시오!!
-
-submission['count']=y_submit
-#print(submission)
-
-submission.to_csv(path+'submission_0106.csv')
-
-print("걸린시간 : ", end-start)
-
-'''
-loss :  2563.315673828125
-RMSE :  50.62919679970939
-걸린시간 :  70.55993747711182
-'''
 
