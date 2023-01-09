@@ -43,9 +43,12 @@ print("===============================")
 print(hist.history['val_loss'])   
 
 import matplotlib.pyplot as plt
+
+#title 한글로 변경
 import matplotlib as mpl
-plt.rc('font', family='Malgun Gothic')
-mpl.rcParams['axes.unicode_minus'] = False
+plt.rc('font', family='Malgun Gothic')     
+mpl.rcParams['axes.unicode_minus'] = False 
+
 plt.figure(figsize=(9,6)) #판사이즈  
 plt.plot(hist.history['loss'], c='red', marker='.', label='loss')
 plt.plot(hist.history['val_loss'], c='blue', marker='.', label='val_loss')

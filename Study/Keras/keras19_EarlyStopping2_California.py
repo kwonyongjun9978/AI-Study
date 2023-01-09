@@ -42,11 +42,11 @@ model.compile(loss='mse', optimizer='adam')
 from tensorflow.keras.callbacks import EarlyStopping 
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min', 
-                              patience=100, 
+                              patience=300, 
                               restore_best_weights=True, 
                               verbose=1)
 
-hist = model.fit(x_train, y_train, epochs=1000, batch_size=100, 
+hist = model.fit(x_train, y_train, epochs=10000, batch_size=100, 
                  validation_split=0.25, callbacks=[earlyStopping], 
                  verbose=1)  
 

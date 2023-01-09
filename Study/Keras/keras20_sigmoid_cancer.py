@@ -54,6 +54,7 @@ print('accuracy : ', accuracy)
 
 y_predict=model.predict(x_test)
 
+#y_predict 정수형으로 변환
 y_predict = y_predict.flatten() # 차원 펴주기
 y_predict = np.where(y_predict > 0.5, 1 , 0) #0.5보다크면 1, 작으면 0
 
