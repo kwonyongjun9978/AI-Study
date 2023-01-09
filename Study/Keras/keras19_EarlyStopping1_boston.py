@@ -25,8 +25,17 @@ model.add(Dense(1))
 
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam') 
-hist = model.fit(x_train, y_train, epochs=100, batch_size=1, validation_split=0.2, verbose=1)  
-#hist = history
+
+from tensorflow.keras.callbacks import EarlyStopping #대문자=class, 소문자=함수 
+earlyStopping = EarlyStopping(monitor='val_loss', 
+                              mode='min', 
+                              patience=10, 
+                              restore_best_weights=True, #restore_best_weights의 default값 : True
+                              verbose=1)                                  
+                                                                         
+hist = model.fit(x_train, y_train, epochs=300, batch_size=1, 
+                 validation_split=0.2, callbacks=[earlyStopping], 
+                 verbose=1)  
 
 #4.평가,예측
 loss=model.evaluate(x_test, y_test) 
@@ -35,26 +44,21 @@ print('loss : ', loss)
 print("===============================")
 print(hist) #<keras.callbacks.History object at 0x00000231DF5D2AC0>
 print("===============================")
-print(hist.history) #model.fit에서 반환하는 loss와 val-loss의 변화량
-                    #dictionary(key,value값으로 이루어짐)형태의 자료형
+print(hist.history) 
 print("===============================")
 print(hist.history['loss'])   
 print("===============================")
 print(hist.history['val_loss'])   
 
 import matplotlib.pyplot as plt
-import matplotlib as mpl
-plt.rc('font', family='Malgun Gothic')
-mpl.rcParams['axes.unicode_minus'] = False
-plt.figure(figsize=(9,6)) #판사이즈  
+plt.figure(figsize=(9,6)) 
 plt.plot(hist.history['loss'], c='red', marker='.', label='loss')
 plt.plot(hist.history['val_loss'], c='blue', marker='.', label='val_loss')
-plt.grid() #격자
-plt.xlabel('epochs') #x축 라벨
-plt.ylabel('loss')   #y축 라벨
-plt.title('보스턴 손실함수') #이름
-plt.legend() #선의 이름
-#plt.legend(loc='upper left') 
+plt.grid() 
+plt.xlabel('epochs') 
+plt.ylabel('loss')   
+plt.title('boston loss') 
+plt.legend()  
 plt.show()
 
 
