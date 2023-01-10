@@ -14,7 +14,7 @@ y=datasets.target
 
 # print(x.shape, y.shape) #(178, 13) (178,)
 # print(y)
-# print(np.unique(y)) #[0 1 2] //y데이터에는 0,1,2값만 있다
+# print(np.unique(y)) #[0 1 2] //y데이터에는 0,1,2값만 있다 -> 다중분류 확인  
 # print(np.unique(y, return_counts=True)) #(array([0, 1, 2]), array([59, 71, 48], dtype=int64))
 
 # 원핫인코딩

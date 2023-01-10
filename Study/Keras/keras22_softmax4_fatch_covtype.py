@@ -1,6 +1,5 @@
 import numpy as np
 import tensorflow as tf
-import pandas as pd
 from sklearn.datasets import fetch_covtype
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
@@ -14,30 +13,86 @@ print(x.shape, y.shape) #(581012, 54) (581012,)
 print(np.unique(y, return_counts=True)) #(array([1, 2, 3, 4, 5, 6, 7]), array([211840,283301,35754,2747,9493,17367,20510],dtype=int64))
 
 # 원핫인코딩
+#<1.keras-to_categorical vs 2.pandas-get_dummies vs 3.scikit-onehotencoder>
 #방법1
 # from tensorflow.keras.utils import to_categorical
 # y=to_categorical(y)
-# print(type(y))
-# 힌트 np.delete
+# y=np.delete(y,0,axis=1)
+
+'''
+to_categorical의 특성 : 무조건 0부터 시작하게끔 한다. => 0이 없을 경우 class 하나 더 만듦.
+y 데이터가 [1 2 3 4 5 6 7]일 경우 to_categorical(y)하면 [0 1 2 3 4 5 6 7]로 0을 더 추가해 만듦.
+=> 해결방법: 첫번째 칼럼 삭제하기!
+=> y = np.delete(y, 0, axis=1)
+np.delete(데이터, 0번째, 행삭제는 axis=0, 열삭제는 axis=1)
+'''
 
 #방법2
 # import pandas as pd
 # y=pd.get_dummies(y)
-# print(type(y))
-#힌트 .values .numpy()
+# y = np.array(y) #방법2-1
+
+'''
+get_dummies : 명목변수만 원핫인코딩을 해준다.
+=> 해결방법: 자료형 확인
+=> print(type()) 으로 자료형을 확인
+y_predict는 <class 'numpy.ndarray'>
+y_test는 <class 'pandas.core.frame.DataFrame'>가 나온다.
+즉, y_test의 Dataframe을 numpy.ndarray로 바꿔줘야한다.
+=> .values 로 pandas DataFrame을 Numpy ndarray로 바꿔주거나
+=> .to_numpy() 로 pandas DataFrame을 Numpy ndarray로 바꿔주기.
+'''
 
 #방법3
 from sklearn.preprocessing import OneHotEncoder
-# print(y)
-# print(y.shape)
-y=y.reshape(-1,1)
-#print(y)
 ohe = OneHotEncoder()
+# print(y) # [5 5 2 ... 3 3 3]
+# print(y.shape) # (581012,)
+# print(type(y)) # <class 'numpy.ndarray'>
+y = y.reshape(-1, 1)
+# print(y) # [[5] [5] [2] ... [3] [3] [3]]
+# print(y.shape) # (581012, 1)
+# print(type(y)) # <class 'numpy.ndarray'>
 y = ohe.fit_transform(y)
-#print(y)
-y=y.toarray()
+ohe = OneHotEncoder(sparse=False)
 # print(y)
-# print(y.shape) #(581012, 7)
+#   (0, 4)        1.0
+#   (1, 4)        1.0
+#   (2, 1)        1.0
+#   (3, 1)        1.0
+#   :     :
+#   (581010, 2)   1.0
+#   (581011, 2)   1.0
+# print(y.shape) # (581012, 7)
+# print(type(y)) # <class 'scipy.sparse._csr.csr_matrix'>
+y = y.toarray()
+# print(y)
+# [[0. 0. 0. ... 1. 0. 0.]
+#  [0. 0. 0. ... 1. 0. 0.]
+#  [0. 1. 0. ... 0. 0. 0.]
+#  ...
+#  [0. 0. 1. ... 0. 0. 0.]
+#  [0. 0. 1. ... 0. 0. 0.]
+#  [0. 0. 1. ... 0. 0. 0.]]
+# print(y.shape) # (581012, 7)
+# print(type(y)) # <class 'numpy.ndarray'>
+
+'''
+OneHotEncoder : 명목변수든 순위변수든 모두 원핫인코딩을 해준다.
+=> 해결방법: shape 맞추기
+0) scikit-learn에서 OneHotEncoder 가져오기
+from sklearn.preprocessing import OneHotEncoder
+ohe = OneHotEncoder(sparse=False)
+1) 스칼라: 원본 데이터를 y, y.shape, type(y)를 print 해보면
+(581012,) 스칼라 형태의 numpy.ndarray 임을 알 수 있다.
+2) 벡터: 원핫엔코더하려면 벡터 형태로 reshape 해줘야 한다.
+y = y.reshape(-1,1) 해서 (581012, 1) 벡터 형태의 numpy.ndarray를 만든다.
+# (-1,1) 하면 (전체, 1)과 같다.
+3) 원핫엔코딩: y = ohe.fit_transform(y)로 원핫엔코딩한다.
+y = ohe.fit_transform(y) 하면 (581012, 7) 벡터 형태의 scipy.sparse._csr.csr_matrix가 나온다.
+4) 데이터형태 바꾸기 : scipy CSR matrix 를 Numpy ndarray로 바꾼다.
+y = y.toarray() 하면 데이터 종류만 numpy ndarray로 바뀐다.
+'''
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,y,
@@ -64,21 +119,26 @@ model.compile(loss='categorical_crossentropy', optimizer='adam',
 from tensorflow.keras.callbacks import EarlyStopping 
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min', 
-                              patience=500, 
+                              patience=3, 
                               restore_best_weights=True, 
                               verbose=1)
 start=time.time() 
-model.fit(x_train, y_train, epochs=300000, batch_size=500,
+model.fit(x_train, y_train, epochs=10, batch_size=500,
           validation_split=0.2,
           callbacks=[earlyStopping],
           verbose=1)
 end=time.time()
+
 #4 평가, 예측
 loss, accuracy = model.evaluate(x_test,y_test)
 print('loss : ', loss)
 print('accuracy : ', accuracy) 
 
 from sklearn.metrics import accuracy_score
+
+#방법2-2
+# y_test = y_test.values
+# y_test = y_test.to_numpy() 로 해줘도 된다.
 
 y_predict=model.predict(x_test)
 y_predict=np.argmax(y_predict, axis=1) 

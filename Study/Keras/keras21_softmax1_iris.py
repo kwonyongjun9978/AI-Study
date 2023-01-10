@@ -14,11 +14,11 @@ y=datasets['target']
 # print(y)
 # print(x.shape, y.shape) #(150, 4) (150,)
 
-# 원핫인코딩(범주형 데이터를 1과 0의 데이터로 바꿔주는 과정)
+# 원핫인코딩
 from tensorflow.keras.utils import to_categorical
 y=to_categorical(y)
 # print(y) 
-# print(y.shape) # y=(150,) -> (150,3) = y값(의 클래스)의 개수 만큼 컬럼이 늘어난다
+# print(y.shape) # y=(150,) -> (150,3) 
  
 x_train, x_test, y_train, y_test = train_test_split(
     x,y,
@@ -51,10 +51,10 @@ model.compile(loss='categorical_crossentropy', optimizer='adam',
 from tensorflow.keras.callbacks import EarlyStopping 
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min', 
-                              patience=25, 
+                              patience=30, 
                               restore_best_weights=True, 
                               verbose=1)
-model.fit(x_train, y_train, epochs=1000, batch_size=10,
+model.fit(x_train, y_train, epochs=1000, batch_size=8,
           validation_split=0.2,
           callbacks=[earlyStopping],
           verbose=1)
@@ -79,12 +79,42 @@ acc=accuracy_score(y_test, y_predict)
 print(acc)
 
 '''
-*파이썬 넘파이 argmax, argmin 함수*
-= 파이썬 넘파이 라이브러리에서 제공하는 최대값, 최소값의 위치 인덱스를 반환하는 함수
+<파이썬 넘파이 argmax, argmin 함수>
+= 파이썬 넘파이 라이브러리에서 제공하는 최대값, 최소값의 위치 인덱스를 반환하는 함수.
 np.argmax : 함수 내에 array와 비슷한 형태(리스트 등 포함)의 input을 넣어주면 가장 큰 원소의 인덱스를 반환하는 형식입니다.
-            다만, 가장 큰 원소가 여러개 있는 경우 가장 앞의 인덱스를 반환
-np.argmin : np.argmax 와 반대로 최소값의 인덱스를 반환하는 함수
-<==================================================================================================================>
-*axis*
-axis=1 행, axis=0 열 기준으로 계산한다는 의미           
+            다만, 가장 큰 원소가 여러개 있는 경우 가장 앞의 인덱스를 반환.
+np.argmin : np.argmax 와 반대로 최소값의 인덱스를 반환하는 함수.
+
+<axis>
+axis=1 행, axis=0 열 기준으로 계산한다는 의미.          
+'''
+
+'''
+<softmax의 원리>
+softmax는 입력받은 값을 출력으로 0~1사이의 값으로 모두 정규화하며 출력 값들의 총합은 항상 1이 되도록 한다.
+예를 들어, 0 1 2 는 각각 1%, 49%, 50% 이렇게 나눠서 총합 100%를 만듦.
+
+<One-Hot Encoding>
+모든 데이터를 수치화하지만 1,2,3,4 모두 분류를 위한 값으로 연산이 가능한 값이 아니라 가치가 동등한 값으로 만들기 위해 One-Hot Encoding을 사용한다.
+One-Hot Encoding의 원리는 값들을 좌표, 즉 벡터로 만든다는 것이다.
+예시 컬럼    0   1   2       합 
+         0  1   0   0      = 1
+         1  0   1   0      = 1
+         2  0   0   1      = 1
+        모든 값을 다 합 1로 만들어 가치를 평등하게 함.
+y=(150,) 에서 one-hot encoding을 거치면 y=(150,3)이 된다.
+=> training하기 전에 상위 데이터셋에서 one-hot encoding 해야 함.
+
+<One-Hot Encoding 하는 방법>
+1) to_categorical
+from tensorflow.keras.utils import to_categorical
+y = to_categorical(y)
+2) OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder
+ohe = OneHotEncoder()
+ohe.fit(y.reshape(-1,1))
+y=ohe.transform(y.reshape(-1,1)).toarray()
+3) get_dummies
+import pandas as pd
+y = pd.get_dummies(y, columns=['0','1','2']) 또는 그냥 y=pd.get_dummies(y) 라 해도 된다.
 '''

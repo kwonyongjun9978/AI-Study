@@ -13,9 +13,12 @@ x=datasets.data
 y=datasets['target']
 # print(x.shape, y.shape) #(1797, 64) (1797,)
 # print(np.unique(y, return_counts=True))
-# #(array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), 
-# # array([178, 182, 177, 183, 181, 182, 181, 179, 174, 180], dtype=int64))
+'''
+(array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), 
+array([178, 182, 177, 183, 181, 182, 181, 179, 174, 180], dtype=int64))
+'''
 
+#이미지
 import matplotlib.pyplot as plt
 plt.gray()
 plt.matshow(datasets.images[4])
