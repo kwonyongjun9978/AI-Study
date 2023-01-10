@@ -37,7 +37,7 @@ model.compile(loss='binary_crossentropy', optimizer='adam',
 from tensorflow.keras.callbacks import EarlyStopping 
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min', 
-                              patience=10, 
+                              patience=50, 
                               restore_best_weights=True, 
                               verbose=1)
 model.fit(x_train, y_train, epochs=10000, batch_size=16,

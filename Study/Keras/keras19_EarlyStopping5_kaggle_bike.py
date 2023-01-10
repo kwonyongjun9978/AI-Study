@@ -18,8 +18,7 @@ y=train_csv['count']
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,y,
-    train_size=0.8
-    ,
+    train_size=0.7,
     shuffle=True,
     random_state=44
 )
@@ -39,11 +38,11 @@ model.compile(loss='mse', optimizer='adam')
 from tensorflow.keras.callbacks import EarlyStopping  
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min', 
-                              patience=300, 
+                              patience=30, 
                               restore_best_weights=True, 
                               verbose=1)  
 
-hist = model.fit(x_train, y_train, epochs=3000, batch_size=10,
+hist = model.fit(x_train, y_train, epochs=1000, batch_size=10,
                  validation_split=0.2, callbacks=[earlyStopping], 
                  verbose=1)
 
@@ -61,7 +60,7 @@ y_submit=model.predict(test_csv)
 
 submission['count']=y_submit
 
-submission.to_csv(path+'submission_010901.csv')
+submission.to_csv(path+'submission_011001.csv')
 
 import matplotlib.pyplot as plt
 plt.figure(figsize=(9,6)) 
@@ -70,7 +69,7 @@ plt.plot(hist.history['val_loss'], c='blue', marker='.', label='val_loss')
 plt.grid() 
 plt.xlabel('epochs') 
 plt.ylabel('loss')   
-plt.title('boston loss') 
+plt.title('BIKE loss') 
 plt.legend() 
 plt.show()
 
