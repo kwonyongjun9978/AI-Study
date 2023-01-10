@@ -30,9 +30,10 @@ np.delete(데이터, 0번째, 행삭제는 axis=0, 열삭제는 axis=1)
 #방법2
 # import pandas as pd
 # y=pd.get_dummies(y)
-# y = np.array(y) #방법2-1
+# y = np.array(y) #(방법2-1)
 
 '''
+(방법2-2)
 get_dummies : 명목변수만 원핫인코딩을 해준다.
 => 해결방법: 자료형 확인
 => print(type()) 으로 자료형을 확인
@@ -41,6 +42,13 @@ y_test는 <class 'pandas.core.frame.DataFrame'>가 나온다.
 즉, y_test의 Dataframe을 numpy.ndarray로 바꿔줘야한다.
 => .values 로 pandas DataFrame을 Numpy ndarray로 바꿔주거나
 => .to_numpy() 로 pandas DataFrame을 Numpy ndarray로 바꿔주기.
+
+(방법2-3)
+get_dummies를 쓰면 자료형이 <class 'pandas.core.frame.DataFrame'>이다.
+여기서 굳이 자료형을 <class 'numpy.ndarray'>로 바꾸지 않고
+np.argmax를 tf.argmax로 바꿔서 결과를 구할수도 있다.
+대신 마지막 결과에 나오는 데이터형이 <class 'numpy.ndarray'>가 아니라
+<class 'tensorflow.python.framework.ops.EagerTensor'> 이다.
 '''
 
 #방법3
@@ -136,11 +144,14 @@ print('accuracy : ', accuracy)
 
 from sklearn.metrics import accuracy_score
 
-#방법2-2
-# y_test = y_test.values
-# y_test = y_test.to_numpy() 로 해줘도 된다.
-
 y_predict=model.predict(x_test)
+
+#(방법2-2)
+# print(type(y_predict))
+# print(type(y_test))
+# y_test = y_test.values
+# #y_test = y_test.to_numpy() 로 해줘도 된다.
+
 y_predict=np.argmax(y_predict, axis=1) 
 print("y_predict(예측값) : ", y_predict)
 y_test=np.argmax(y_test, axis=1)
