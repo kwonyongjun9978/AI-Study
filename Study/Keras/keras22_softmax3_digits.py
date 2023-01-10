@@ -1,25 +1,31 @@
 import numpy as np
-import pandas as pd
-from sklearn.datasets import load_wine
+from sklearn.datasets import load_digits
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from sklearn.model_selection import train_test_split
 
-#1.데이터
-datasets=load_wine()
+#1. 데이터
+datasets=load_digits()
+
+#print(datasets.DESCR)
+
 x=datasets.data
-y=datasets.target
+y=datasets['target']
+# print(x.shape, y.shape) #(1797, 64) (1797,)
+# print(np.unique(y, return_counts=True))
+# #(array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), 
+# # array([178, 182, 177, 183, 181, 182, 181, 179, 174, 180], dtype=int64))
 
-#print(datasets.DESCR)   
-
-# print(x.shape, y.shape) #(178, 13) (178,)
-# print(y)
-# print(np.unique(y)) #[0 1 2] //y데이터에는 0,1,2값만 있다
-# print(np.unique(y, return_counts=True)) #(array([0, 1, 2]), array([59, 71, 48], dtype=int64))
+import matplotlib.pyplot as plt
+plt.gray()
+plt.matshow(datasets.images[4])
+plt.show()
 
 # 원핫인코딩
 from tensorflow.keras.utils import to_categorical
 y=to_categorical(y)
+# print(y)
+# print(y.shape)
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,y,
@@ -31,12 +37,12 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 #2. 모델구성
 model=Sequential()
-model.add(Dense(256, activation='relu', input_shape=(13,)))
+model.add(Dense(256, activation='relu', input_shape=(64,)))
 model.add(Dense(128, activation='relu'))
 model.add(Dense(64, activation='relu'))
 model.add(Dense(32, activation='relu'))
 model.add(Dense(16, activation='relu'))
-model.add(Dense(3, activation='softmax'))
+model.add(Dense(10, activation='softmax'))
 
 #3. 컴파일, 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam',
@@ -45,10 +51,10 @@ model.compile(loss='categorical_crossentropy', optimizer='adam',
 from tensorflow.keras.callbacks import EarlyStopping 
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min', 
-                              patience=30, 
+                              patience=200, 
                               restore_best_weights=True, 
                               verbose=1)
-model.fit(x_train, y_train, epochs=1000, batch_size=8,
+model.fit(x_train, y_train, epochs=30000, batch_size=32,
           validation_split=0.2,
           callbacks=[earlyStopping],
           verbose=1)
@@ -59,7 +65,7 @@ print('loss : ', loss)
 print('accuracy : ', accuracy) 
 
 from sklearn.metrics import accuracy_score
-import numpy as np
+
 y_predict=model.predict(x_test)
 y_predict=np.argmax(y_predict, axis=1) 
 print("y_predict(예측값) : ", y_predict)

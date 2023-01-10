@@ -12,7 +12,7 @@ test_csv=pd.read_csv(path+'test.csv', index_col=0) #0번째 컬럼(id)은 데이
 submission=pd.read_csv(path+'submission.csv', index_col=0) #pandas의 '.read_csv' api사용
 
 #결측치 처리 
-# 1. 선형 방법을 이용하여 결측치
+# 1. 선형 방법을 이용하여 결측치 제거
 train_csv = train_csv.interpolate(method='linear', limit_direction='forward')
 
 x=train_csv.drop(['count'], axis=1)
