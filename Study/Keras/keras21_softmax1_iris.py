@@ -74,7 +74,7 @@ y_predict=model.predict(x_test)
 y_predict=np.argmax(y_predict, axis=1) 
 print("y_predict(예측값) : ", y_predict)
 y_test=np.argmax(y_test, axis=1)
-print("y_test(원래값) : ", y_test)
+print("   y_test(원래값) : ", y_test)
 acc=accuracy_score(y_test, y_predict)
 print(acc)
 
@@ -95,7 +95,7 @@ softmax는 입력받은 값을 출력으로 0~1사이의 값으로 모두 정규
 예를 들어, 0 1 2 는 각각 1%, 49%, 50% 이렇게 나눠서 총합 100%를 만듦.
 
 <One-Hot Encoding>
-모든 데이터를 수치화하지만 1,2,3,4 모두 분류를 위한 값으로 연산이 가능한 값이 아니라 가치가 동등한 값으로 만들기 위해 One-Hot Encoding을 사용한다.
+모든 데이터를 수치화하지만 1,2,3,4 모두 분류를 위한 값으로, 연산이 가능한 값이 아니라 가치가 동등한 값으로 만들기 위해 One-Hot Encoding을 사용한다.
 One-Hot Encoding의 원리는 값들을 좌표, 즉 벡터로 만든다는 것이다.
 예시 컬럼    0   1   2       합 
          0  1   0   0      = 1
@@ -105,16 +105,4 @@ One-Hot Encoding의 원리는 값들을 좌표, 즉 벡터로 만든다는 것�
 y=(150,) 에서 one-hot encoding을 거치면 y=(150,3)이 된다.
 => training하기 전에 상위 데이터셋에서 one-hot encoding 해야 함.
 
-<One-Hot Encoding 하는 방법>
-1) to_categorical
-from tensorflow.keras.utils import to_categorical
-y = to_categorical(y)
-2) OneHotEncoder
-from sklearn.preprocessing import OneHotEncoder
-ohe = OneHotEncoder()
-ohe.fit(y.reshape(-1,1))
-y=ohe.transform(y.reshape(-1,1)).toarray()
-3) get_dummies
-import pandas as pd
-y = pd.get_dummies(y, columns=['0','1','2']) 또는 그냥 y=pd.get_dummies(y) 라 해도 된다.
 '''

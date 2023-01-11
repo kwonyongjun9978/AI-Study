@@ -5,4 +5,4 @@
 분류  (이진)    binary_crossentropy               1개(0 or 1)                      sigmoid, softmax(△)             △
 ---------------------------------------------------------------------------------------------------------------------------------
      (다중)    categorical_crossentropy          원핫인코딩한 클래스의 갯수 만큼       softmax                         O
-              sparse_categorical_crossentropy                                                                     X
+              sparse_categorical_crossentropy                                                                      X

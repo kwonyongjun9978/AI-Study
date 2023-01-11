@@ -9,8 +9,8 @@ from sklearn.model_selection import train_test_split
 datasets=fetch_covtype()
 x=datasets.data
 y=datasets['target']
-print(x.shape, y.shape) #(581012, 54) (581012,)
-print(np.unique(y, return_counts=True)) #(array([1, 2, 3, 4, 5, 6, 7]), array([211840,283301,35754,2747,9493,17367,20510],dtype=int64))
+# print(x.shape, y.shape) #(581012, 54) (581012,)
+# print(np.unique(y, return_counts=True)) #(array([1, 2, 3, 4, 5, 6, 7]), array([211840,283301,35754,2747,9493,17367,20510],dtype=int64))
 
 # 원핫인코딩
 #<1.keras-to_categorical vs 2.pandas-get_dummies vs 3.scikit-onehotencoder>
@@ -128,11 +128,11 @@ model.compile(loss='categorical_crossentropy', optimizer='adam',
 from tensorflow.keras.callbacks import EarlyStopping 
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min', 
-                              patience=15, 
+                              patience=20, 
                               restore_best_weights=True, 
                               verbose=1)
 start=time.time() 
-model.fit(x_train, y_train, epochs=100, batch_size=2000,
+model.fit(x_train, y_train, epochs=500, batch_size=3000,
           validation_split=0.2,
           callbacks=[earlyStopping],
           verbose=1)
@@ -154,5 +154,13 @@ print("y_test(원래값) : ", y_test[:20])
 acc=accuracy_score(y_test, y_predict)
 print("acc(정확도) : ", acc)
 
-
 print("걸린시간 : ", end-start)
+
+'''
+loss :  0.24194777011871338
+accuracy :  0.904141902923584
+y_predict(예측값) :  [5 1 2 1 2 1 1 0 1 1 1 1 0 0 1 1 1 0 1 5]
+y_test(원래값) :  [5 1 2 1 2 5 1 0 1 1 1 1 0 0 1 1 1 0 1 5]
+acc(정확도) :  0.9041418896241922
+걸린시간 :  347.91144156455994
+'''
