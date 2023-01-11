@@ -5,8 +5,6 @@ from sklearn.model_selection import train_test_split
 
 #1. 데이터
 datasets=load_iris()
-#print(datasets.DESCR)         #클래스 개수 확인        
-#print(datasets.feature_names)  
 
 x=datasets.data
 y=datasets['target']
@@ -38,7 +36,7 @@ model.add(Dense(30, activation='relu'))
 model.add(Dense(20, activation='relu'))
 model.add(Dense(10, activation='relu'))
 model.add(Dense(3, activation='softmax'))
-#원핫은 하지 않았지만 loos에 sparse_categorical_crossentropy 사용하였으므로 자동으로 y의 컬럼을 맞춰준다
+#sparse_categorical_crossentropy로 다중 분류할 때 softmax의 node의 개수는 one-hot 하지 않았지만 one-hot한 것처럼 y의 class 개수를 적어준다.
                                    
 #3. 컴파일, 훈련
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',

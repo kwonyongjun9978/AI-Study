@@ -6,7 +6,7 @@ from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 #1. 데이터
 datasets=load_iris()
-#print(datasets.DESCR)         #클래스 개수 확인        
+#print(datasets.DESCR)          
 #print(datasets.feature_names)  
 
 x=datasets.data
@@ -45,12 +45,7 @@ model.add(Dense(30, activation='relu'))
 model.add(Dense(20, activation='relu'))
 model.add(Dense(10, activation='relu'))
 model.add(Dense(3, activation='softmax'))
-'''
-다중분류
-마지막 레이어의 activation은 무조건 softmax
-클래스의 개수를 최종 Output layer 노드의 개수로 설정
-loss 는 categorical_crossentropy
-'''                                    
+                            
 #3. 컴파일, 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam',
               metrics=['accuracy'])

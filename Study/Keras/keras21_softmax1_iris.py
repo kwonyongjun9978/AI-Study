@@ -70,8 +70,9 @@ print('accuracy : ', accuracy)
 
 from sklearn.metrics import accuracy_score
 import numpy as np
-y_predict=model.predict(x_test)
-y_predict=np.argmax(y_predict, axis=1) 
+y_predict=model.predict(x_test)  # argmax하기 전, 단순히 predict한 경우에는 실수값이 있는 벡터 데이터가 나옴.
+# print(y_predict)
+y_predict=np.argmax(y_predict, axis=1) # argmax 후의 y_predict는 0,1,2 정수값만 나옴.
 print("y_predict(예측값) : ", y_predict)
 y_test=np.argmax(y_test, axis=1)
 print("   y_test(원래값) : ", y_test)
