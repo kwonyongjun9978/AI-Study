@@ -15,11 +15,20 @@ print(np.unique(y, return_counts=True)) #(array([1, 2, 3, 4, 5, 6, 7]), array([2
 # 원핫인코딩
 #<1.keras-to_categorical vs 2.pandas-get_dummies vs 3.scikit-onehotencoder>
 #방법1
-# from tensorflow.keras.utils import to_categorical
-# y=to_categorical(y)
-# y=np.delete(y,0,axis=1)
+from tensorflow.keras.utils import to_categorical
+y=to_categorical(y)
+#print(y.shape) #(581012, 8)
+#print(type(y)) #<class 'numpy.ndarray'>
+#print(y[:10])
+#print(np.unique(y[:, 0], return_counts=True)) #모든 행의 0번째 컬럼 #(array([0.], dtype=float32), array([581012], dtype=int64))
+#print(np.unique(y[:, 1], return_counts=True)) #(array([0., 1.], dtype=float32), array([369172, 211840], dtype=int64))
+y=np.delete(y,0,axis=1)
+#print(y.shape) #(581012, 7)
+#print(y[:10])
+#print(np.unique(y[:, 0], return_counts=True)) #(array([0., 1.], dtype=float32), array([369172, 211840], dtype=int64))
 
 '''
+방법1
 to_categorical의 특성 : 무조건 0부터 시작하게끔 한다. => 0이 없을 경우 class 하나 더 만듦.
 y 데이터가 [1 2 3 4 5 6 7]일 경우 to_categorical(y)하면 [0 1 2 3 4 5 6 7]로 0을 더 추가해 만듦.
 => 해결방법: 첫번째 칼럼 삭제하기!
@@ -33,6 +42,7 @@ np.delete(데이터, 0번째, 행삭제는 axis=0, 열삭제는 axis=1)
 # y = np.array(y) #(방법2-1)
 
 '''
+방법2
 (방법2-2)
 get_dummies : 명목변수만 원핫인코딩을 해준다.
 => 해결방법: 자료형 확인
@@ -52,40 +62,41 @@ np.argmax를 tf.argmax로 바꿔서 결과를 구할수도 있다.
 '''
 
 #방법3
-from sklearn.preprocessing import OneHotEncoder
-ohe = OneHotEncoder()
-# print(y) # [5 5 2 ... 3 3 3]
-# print(y.shape) # (581012,)
-# print(type(y)) # <class 'numpy.ndarray'>
-y = y.reshape(-1, 1)
-# print(y) # [[5] [5] [2] ... [3] [3] [3]]
-# print(y.shape) # (581012, 1)
-# print(type(y)) # <class 'numpy.ndarray'>
-y = ohe.fit_transform(y)
-ohe = OneHotEncoder(sparse=False)
-# print(y)
-#   (0, 4)        1.0
-#   (1, 4)        1.0
-#   (2, 1)        1.0
-#   (3, 1)        1.0
-#   :     :
-#   (581010, 2)   1.0
-#   (581011, 2)   1.0
-# print(y.shape) # (581012, 7)
-# print(type(y)) # <class 'scipy.sparse._csr.csr_matrix'>
-y = y.toarray()
-# print(y)
-# [[0. 0. 0. ... 1. 0. 0.]
-#  [0. 0. 0. ... 1. 0. 0.]
-#  [0. 1. 0. ... 0. 0. 0.]
-#  ...
-#  [0. 0. 1. ... 0. 0. 0.]
-#  [0. 0. 1. ... 0. 0. 0.]
-#  [0. 0. 1. ... 0. 0. 0.]]
-# print(y.shape) # (581012, 7)
-# print(type(y)) # <class 'numpy.ndarray'>
+# from sklearn.preprocessing import OneHotEncoder
+# ohe = OneHotEncoder()
+# # print(y) # [5 5 2 ... 3 3 3]
+# # print(y.shape) # (581012,)
+# # print(type(y)) # <class 'numpy.ndarray'>
+# y = y.reshape(-1, 1)
+# # print(y) # [[5] [5] [2] ... [3] [3] [3]]
+# # print(y.shape) # (581012, 1)
+# # print(type(y)) # <class 'numpy.ndarray'>
+# y = ohe.fit_transform(y)
+# ohe = OneHotEncoder(sparse=False)
+# # print(y)
+# #   (0, 4)        1.0
+# #   (1, 4)        1.0
+# #   (2, 1)        1.0
+# #   (3, 1)        1.0
+# #   :     :
+# #   (581010, 2)   1.0
+# #   (581011, 2)   1.0
+# # print(y.shape) # (581012, 7)
+# # print(type(y)) # <class 'scipy.sparse._csr.csr_matrix'>
+# y = y.toarray()
+# # print(y)
+# # [[0. 0. 0. ... 1. 0. 0.]
+# #  [0. 0. 0. ... 1. 0. 0.]
+# #  [0. 1. 0. ... 0. 0. 0.]
+# #  ...
+# #  [0. 0. 1. ... 0. 0. 0.]
+# #  [0. 0. 1. ... 0. 0. 0.]
+# #  [0. 0. 1. ... 0. 0. 0.]]
+# # print(y.shape) # (581012, 7)
+# # print(type(y)) # <class 'numpy.ndarray'>
 
 '''
+방법3
 OneHotEncoder : 명목변수든 순위변수든 모두 원핫인코딩을 해준다.
 => 해결방법: shape 맞추기
 0) scikit-learn에서 OneHotEncoder 가져오기
@@ -127,11 +138,11 @@ model.compile(loss='categorical_crossentropy', optimizer='adam',
 from tensorflow.keras.callbacks import EarlyStopping 
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min', 
-                              patience=3, 
+                              patience=69, 
                               restore_best_weights=True, 
                               verbose=1)
 start=time.time() 
-model.fit(x_train, y_train, epochs=10, batch_size=500,
+model.fit(x_train, y_train, epochs=100000, batch_size=2000,
           validation_split=0.2,
           callbacks=[earlyStopping],
           verbose=1)
@@ -153,10 +164,11 @@ y_predict=model.predict(x_test)
 # #y_test = y_test.to_numpy() 로 해줘도 된다.
 
 y_predict=np.argmax(y_predict, axis=1) 
-print("y_predict(예측값) : ", y_predict)
+print("y_predict(예측값) : ", y_predict[:20])
 y_test=np.argmax(y_test, axis=1)
-print("y_test(원래값) : ", y_test)
+print("y_test(원래값) : ", y_test[:20])
 acc=accuracy_score(y_test, y_predict)
-print(acc)
+print("acc(정확도) : ", acc)
+
 
 print("걸린시간 : ", end-start)
