@@ -14,18 +14,18 @@ print(np.unique(y, return_counts=True)) #(array([1, 2, 3, 4, 5, 6, 7]), array([2
 
 # 원핫인코딩
 #<1.keras-to_categorical vs 2.pandas-get_dummies vs 3.scikit-onehotencoder>
-#방법1
-from tensorflow.keras.utils import to_categorical
-y=to_categorical(y)
-#print(y.shape) #(581012, 8)
-#print(type(y)) #<class 'numpy.ndarray'>
-#print(y[:10])
-#print(np.unique(y[:, 0], return_counts=True)) #모든 행의 0번째 컬럼 #(array([0.], dtype=float32), array([581012], dtype=int64))
-#print(np.unique(y[:, 1], return_counts=True)) #(array([0., 1.], dtype=float32), array([369172, 211840], dtype=int64))
-y=np.delete(y,0,axis=1)
-#print(y.shape) #(581012, 7)
-#print(y[:10])
-#print(np.unique(y[:, 0], return_counts=True)) #(array([0., 1.], dtype=float32), array([369172, 211840], dtype=int64))
+#방법1(keras-to_categorical)
+# from tensorflow.keras.utils import to_categorical
+# y=to_categorical(y)
+# #print(y.shape) #(581012, 8)
+# #print(type(y)) #<class 'numpy.ndarray'>
+# #print(y[:10])
+# #print(np.unique(y[:, 0], return_counts=True)) #모든 행의 0번째 컬럼 #(array([0.], dtype=float32), array([581012], dtype=int64))
+# #print(np.unique(y[:, 1], return_counts=True)) #(array([0., 1.], dtype=float32), array([369172, 211840], dtype=int64))
+# y=np.delete(y,0,axis=1)
+# #print(y.shape) #(581012, 7)
+# #print(y[:10])
+# #print(np.unique(y[:, 0], return_counts=True)) #(array([0., 1.], dtype=float32), array([369172, 211840], dtype=int64))
 
 '''
 방법1
@@ -36,10 +36,12 @@ y 데이터가 [1 2 3 4 5 6 7]일 경우 to_categorical(y)하면 [0 1 2 3 4 5 6 
 np.delete(데이터, 0번째, 행삭제는 axis=0, 열삭제는 axis=1)
 '''
 
-#방법2
-# import pandas as pd
-# y=pd.get_dummies(y)
-# y = np.array(y) #(방법2-1)
+#방법2(pandas-get_dummies)
+import pandas as pd
+y=pd.get_dummies(y)
+print(y[:10])
+print(type(y))
+#y = np.array(y) #(방법2-1)
 
 '''
 방법2
@@ -61,7 +63,7 @@ np.argmax를 tf.argmax로 바꿔서 결과를 구할수도 있다.
 <class 'tensorflow.python.framework.ops.EagerTensor'> 이다.
 '''
 
-#방법3
+#방법3(scikit-onehotencoder)
 # from sklearn.preprocessing import OneHotEncoder
 # ohe = OneHotEncoder()
 # # print(y) # [5 5 2 ... 3 3 3]
@@ -113,62 +115,62 @@ y = ohe.fit_transform(y) 하면 (581012, 7) 벡터 형태의 scipy.sparse._csr.c
 y = y.toarray() 하면 데이터 종류만 numpy ndarray로 바뀐다.
 '''
 
-x_train, x_test, y_train, y_test = train_test_split(
-    x,y,
-    test_size=0.2,
-    shuffle=True,     
-    #random_state=333
-    stratify=y 
-)
+# x_train, x_test, y_train, y_test = train_test_split(
+#     x,y,
+#     test_size=0.2,
+#     shuffle=True,     
+#     #random_state=333
+#     stratify=y 
+# )
 
-#2. 모델구성
-model=Sequential()
-model.add(Dense(256, activation='relu', input_shape=(54,)))
-model.add(Dense(128, activation='relu'))
-model.add(Dense(64, activation='relu'))
-model.add(Dense(32, activation='relu'))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(7, activation='softmax'))
+# #2. 모델구성
+# model=Sequential()
+# model.add(Dense(256, activation='relu', input_shape=(54,)))
+# model.add(Dense(128, activation='relu'))
+# model.add(Dense(64, activation='relu'))
+# model.add(Dense(32, activation='relu'))
+# model.add(Dense(16, activation='relu'))
+# model.add(Dense(7, activation='softmax'))
 
-#3. 컴파일, 훈련
-import time 
-model.compile(loss='categorical_crossentropy', optimizer='adam',
-              metrics=['accuracy'])
+# #3. 컴파일, 훈련
+# import time 
+# model.compile(loss='categorical_crossentropy', optimizer='adam',
+#               metrics=['accuracy'])
 
-from tensorflow.keras.callbacks import EarlyStopping 
-earlyStopping = EarlyStopping(monitor='val_loss', 
-                              mode='min', 
-                              patience=69, 
-                              restore_best_weights=True, 
-                              verbose=1)
-start=time.time() 
-model.fit(x_train, y_train, epochs=100000, batch_size=2000,
-          validation_split=0.2,
-          callbacks=[earlyStopping],
-          verbose=1)
-end=time.time()
+# from tensorflow.keras.callbacks import EarlyStopping 
+# earlyStopping = EarlyStopping(monitor='val_loss', 
+#                               mode='min', 
+#                               patience=69, 
+#                               restore_best_weights=True, 
+#                               verbose=1)
+# start=time.time() 
+# model.fit(x_train, y_train, epochs=100000, batch_size=2000,
+#           validation_split=0.2,
+#           callbacks=[earlyStopping],
+#           verbose=1)
+# end=time.time()
 
-#4 평가, 예측
-loss, accuracy = model.evaluate(x_test,y_test)
-print('loss : ', loss)
-print('accuracy : ', accuracy) 
+# #4 평가, 예측
+# loss, accuracy = model.evaluate(x_test,y_test)
+# print('loss : ', loss)
+# print('accuracy : ', accuracy) 
 
-from sklearn.metrics import accuracy_score
+# from sklearn.metrics import accuracy_score
 
-y_predict=model.predict(x_test)
+# y_predict=model.predict(x_test)
 
-#(방법2-2)
-# print(type(y_predict))
-# print(type(y_test))
-# y_test = y_test.values
-# #y_test = y_test.to_numpy() 로 해줘도 된다.
+# #(방법2-2)
+# # print(type(y_predict))
+# # print(type(y_test))
+# # y_test = y_test.values
+# # #y_test = y_test.to_numpy() 로 해줘도 된다.
 
-y_predict=np.argmax(y_predict, axis=1) 
-print("y_predict(예측값) : ", y_predict[:20])
-y_test=np.argmax(y_test, axis=1)
-print("y_test(원래값) : ", y_test[:20])
-acc=accuracy_score(y_test, y_predict)
-print("acc(정확도) : ", acc)
+# y_predict=np.argmax(y_predict, axis=1) 
+# print("y_predict(예측값) : ", y_predict[:20])
+# y_test=np.argmax(y_test, axis=1)
+# print("y_test(원래값) : ", y_test[:20])
+# acc=accuracy_score(y_test, y_predict)
+# print("acc(정확도) : ", acc)
 
 
-print("걸린시간 : ", end-start)
+# print("걸린시간 : ", end-start)
