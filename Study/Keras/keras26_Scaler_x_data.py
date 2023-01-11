@@ -8,15 +8,22 @@ dataset=load_boston()
 x=dataset.data
 y=dataset.target
 
-#Scaler
-from sklearn.preprocessing import MinMaxScaler
-scaler = MinMaxScaler()
-scaler.fit(x) #가중치 생성
-x = scaler.transform(x) #값을 변환
-# print(x)
-# print(type(x)) #<class 'numpy.ndarray'> 
-# print("최소값 : ",np.min(x)) #최소값 :  0.0
-# print("최대값 : ",np.max(x)) #최대값 :  1.0
+#Scaler(데이터 전처리) 
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+#1.MinMaxScaler
+# scaler = MinMaxScaler()
+# scaler.fit(x) #가중치 생성
+# x = scaler.transform(x) #값을 변환
+# # print(x)
+# # print(type(x)) #<class 'numpy.ndarray'> 
+# # print("최소값 : ",np.min(x)) #최소값 :  0.0
+# # print("최대값 : ",np.max(x)) #최대값 :  1.0
+
+#2.StandardScaler
+scaler = StandardScaler()
+# scaler.fit(x) 
+# x = scaler.transform(x) 
+
 
 x_train, x_test, y_train, y_test=train_test_split(
     x,y,
@@ -24,6 +31,10 @@ x_train, x_test, y_train, y_test=train_test_split(
     shuffle=True,
     random_state=333
 )
+
+x_train=scaler.fit_transform(x_train)
+x_test=scaler.transform(x_test)
+# fit.transform은 train데이터만 써야만한다
 
 # 2.모델구성
 model=Sequential()
@@ -41,11 +52,11 @@ model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 from tensorflow.keras.callbacks import EarlyStopping #대문자=class, 소문자=함수 
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min',          
-                              patience=10, 
+                              patience=40, 
                               restore_best_weights=True, 
                               verbose=1 )                                  
                                                                       
-hist = model.fit(x_train, y_train, epochs=300, batch_size=1, 
+hist = model.fit(x_train, y_train, epochs=500, batch_size=2, 
                  validation_split=0.2, callbacks=[earlyStopping], 
                  verbose=1)  
 
@@ -65,9 +76,13 @@ print("R2 : ", r2)
 loss :  [23.091249465942383, 3.2509610652923584]
 R2 :  0.7645647106714789
 
-변환후
+변환후(MinMaxScaler)
 loss :  [15.005447387695312, 2.478259563446045]
 R2 :  0.8470064684470626
+
+변환후(StandardScaler)
+loss :  [14.572355270385742, 2.2068114280700684]
+R2 :  0.8514222205864113
 '''
 
 
