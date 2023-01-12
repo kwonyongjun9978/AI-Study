@@ -26,12 +26,10 @@ x=(0,0.5,1)
 X - (X의 평균) / (X의 표준편차)
 =Standard Scaler(표준화)
 
-                       
-
                  
-Train data                            
-val data        훈련(가중치)에 영향을 미친다         
-Test data       훈련(가중치)에 영향을 미치지 않는다    
+Train data      훈련(가중치)에 영향을 미친다         
+Test data       훈련(가중치)에 영향을 미치지 않는다
+->fit은 Train만 한다!!    
 
 
 훈련데이터를 기준으로 스케일링 한다

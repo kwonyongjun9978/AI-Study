@@ -28,6 +28,7 @@ x_train, x_validation, y_train, y_validation = train_test_split(x, y,
 x_train, x_test, y_train, y_test = train_test_split(x_train, y_train,
     test_size=0.3, shuffle=False
 )
+
 scaler = StandardScaler()
 # scaler = MinMaxScaler()
 # scaler.fit(x_train)

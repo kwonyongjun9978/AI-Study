@@ -34,6 +34,7 @@ scaler = StandardScaler()
 # x_train=scaler.transform(x_train)
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
+
 test_csv=scaler.transform(test_csv)
 
 #2.모델구성
@@ -41,11 +42,10 @@ inputs = Input(shape=(9, ))
 hidden1 = Dense(256, activation='relu') (inputs)
 hidden2 = Dense(128, activation='relu') (hidden1)
 hidden3 = Dense(64, activation='relu') (hidden2)
-hidden4 = Dense(32) (hidden3)
-hidden5 = Dense(16) (hidden4)
-hidden6 = Dense(8) (hidden5)
-output = Dense(1) (hidden6)
-
+hidden4 = Dense(32, activation='relu') (hidden3)
+hidden5 = Dense(16, activation='relu') (hidden4)
+hidden6 = Dense(8, activation='relu') (hidden5)
+output = Dense(1, activation='relu') (hidden6)
 model = Model(inputs=inputs, outputs=output)
 
 #3.컴파일, 훈련
@@ -75,7 +75,7 @@ y_submit=model.predict(test_csv)
 
 submission['count']=y_submit
 
-submission.to_csv(path+'submission_011102.csv')
+submission.to_csv(path+'submission_011201.csv')
 
 
 

@@ -1,8 +1,10 @@
 from sklearn.datasets import load_boston
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import Dense, Input
 from sklearn.model_selection import train_test_split
 import numpy as np
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+path='./_save/'
 
 # 1. 데이터
 dataset=load_boston()
@@ -16,22 +18,23 @@ x_train, x_test, y_train, y_test=train_test_split(
     random_state=333
 )
 
-#Scaler(데이터 전처리) 
-from sklearn.preprocessing import MinMaxScaler, StandardScaler
 scaler = MinMaxScaler()
-# scaler.fit(x_train)
-# x_train=scaler.transform(x_train)
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
 
-# 2.모델구성
-model=Sequential()
-model.add(Dense(256, activation='relu', input_shape=(13,)))
-model.add(Dense(128, activation='relu'))
-model.add(Dense(64, activation='relu'))
-model.add(Dense(32, activation='relu'))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(1, activation='relu'))
+# 2.모델구성(함수형)
+input1=Input(shape=(13,))
+dense1=Dense(256, activation='relu')(input1)
+dense2=Dense(128, activation='relu')(dense1)
+dense3=Dense(64, activation='relu')(dense2)
+dense4=Dense(32, activation='relu')(dense3)
+dense5=Dense(16, activation='relu')(dense4)
+output1=Dense(1, activation='relu')(dense5)
+model=Model(inputs=input1, outputs=output1)
+model.summary() #Total params: 47,361
+
+# model.save_weights(path + 'keras29_05_save_weights1.h5')
+model.load_weights(path + 'keras29_05_save_weights1.h5') #에러
 
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae']) 
@@ -47,6 +50,12 @@ hist = model.fit(x_train, y_train, epochs=500, batch_size=2,
                  validation_split=0.2, callbacks=[earlyStopping], 
                  verbose=1)  
 
+# model.save_weights(path + 'keras29_05_save_weights2.h5')
+model.load_weights(path + 'keras29_05_save_weights2.h5')
+#순수하게 가중치만 저장된다 
+#모델,컴파일 저장X 
+#모델,컴파일이 정의가 되어있어야한다.
+
 #4.평가,예측
 loss=model.evaluate(x_test, y_test) 
 print('loss : ', loss)
@@ -58,19 +67,8 @@ r2=r2_score(y_test,y_predict)
 print("R2 : ", r2)
 
 
-'''
-변환전
-loss :  [23.091249465942383, 3.2509610652923584]
-R2 :  0.7645647106714789
 
-변환후(MinMaxScaler)
-loss :  [15.005447387695312, 2.478259563446045]
-R2 :  0.8470064684470626
 
-변환후(StandardScaler)
-loss :  [14.572355270385742, 2.2068114280700684]
-R2 :  0.8514222205864113
-'''
 
 
 

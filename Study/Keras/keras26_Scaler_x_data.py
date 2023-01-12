@@ -11,16 +11,16 @@ y=dataset.target
 #Scaler(데이터 전처리) 
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 #1.MinMaxScaler
-scaler = MinMaxScaler()
-scaler.fit(x) # 가중치 설정할 뿐 x에 저장하진 않음.
-x = scaler.transform(x) # 나온 가중치로 x를 변환
-print(x)
-print(type(x)) #<class 'numpy.ndarray'> 
-print("최소값 : ",np.min(x)) #최소값 :  0.0
-print("최대값 : ",np.max(x)) #최대값 :  1.0
+# scaler = MinMaxScaler()
+# scaler.fit(x) # 가중치 설정할 뿐 x에 저장하진 않음.
+# x = scaler.transform(x) # 나온 가중치로 x를 변환
+# # print(x)
+# # print(type(x)) #<class 'numpy.ndarray'> 
+# # print("최소값 : ",np.min(x)) #최소값 :  0.0
+# # print("최대값 : ",np.max(x)) #최대값 :  1.0
 
 #2.StandardScaler
-# scaler = StandardScaler()
+scaler = StandardScaler()
 # scaler.fit(x) 
 # x = scaler.transform(x) 
 
