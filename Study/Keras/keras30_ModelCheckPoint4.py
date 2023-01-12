@@ -51,7 +51,9 @@ print(date) #0112_1502
 print(type(date)) #<class 'str'>
 
 filepath='./_save/MCP/'
-filename='{epoch:04d}-{val_loss:.4f}.hdf5' #0037-0.0048.hdf8
+filename='{epoch:04d}-{val_loss:.4f}.hdf5' #0037-0.0048.hdf8 
+# {} 안에 있는 건 값 가져오라는 뜻임. 일반적인 문자와 다름.
+# epoch의 점수 4자리, loss의 소수점 4자리까지 있는 모델 파일명
 
 #ModelCheckpoint
 ModelCheckpoint = ModelCheckpoint(monitor='val_loss',

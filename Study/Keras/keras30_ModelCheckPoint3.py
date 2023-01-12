@@ -86,6 +86,16 @@ y_predict=model3.predict(x_test)
 r2=r2_score(y_test,y_predict)
 print("R2 : ", r2)
 
+'''
+이론상으로 restore_best_weights=False(Default) 하면 ModelCheckPoint가 기본출력이랑 load_model한 것보다 더 좋게 나온다.
+왜냐하면, restore_best_weights=False(Default) 했을 때, ModelCheckPoint는 오차가 최소인 지점에서 브레이크 건 상태에서 결과값을 내 모델과 가중치를 저장하고,
+그냥 .save는 오차가 최소인 지점에서 브레이크를 걸지 않고 patience 만큼 더 간 상태에서 결과값을 내 모델과 가중치를 저장하기 때문이다.
+만약 restore_best_weights=True로 설정해주면 ModelCheckPoint랑 .save 둘 다 최소인 지점에서 브레이크를 걸기 때문에 동일한 값이 나온다.
+가끔 restore_best_weights=False 해도 ModelCheckPoint의 결과가 안 좋을 때에도 있다.
+그 이유는 평가하는 데이터가 x_train이 아니라 x_test이기 때문이다.
+x_train 에서는 브레이크 걸었을 때 가중치가 안 걸었을 때보다 더 좋게 나오지만 x_test 에서는 브레이크 걸었을 때 가중치가 안 걸었을 때보다 안 좋을 수 있기 때문이다.
+'''
+
 
 
 

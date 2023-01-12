@@ -36,7 +36,7 @@ model.summary() #Total params: 47,361
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae']) 
 
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint #대문자=class, 소문자=함수 
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint  
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min',          
                               patience=40, 

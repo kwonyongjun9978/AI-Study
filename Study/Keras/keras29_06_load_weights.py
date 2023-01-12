@@ -33,7 +33,6 @@ output1=Dense(1, activation='relu')(dense5)
 model=Model(inputs=input1, outputs=output1)
 model.summary() #Total params: 47,361
 
-# model.save_weights(path + 'keras29_05_save_weights1.h5')
 model.load_weights(path + 'keras29_05_save_weights1.h5') #에러
 
 #3.컴파일, 훈련
@@ -50,12 +49,16 @@ hist = model.fit(x_train, y_train, epochs=500, batch_size=2,
                  validation_split=0.2, callbacks=[earlyStopping], 
                  verbose=1)  
 
-# model.save_weights(path + 'keras29_05_save_weights2.h5')
 model.load_weights(path + 'keras29_05_save_weights2.h5')
-#순수하게 가중치만 저장된다 
-#모델,컴파일 저장X 
-#모델,컴파일이 정의가 되어있어야한다.
+'''
+save_weights는 모델 저장은 안되고 순수하게 가중치만 저장된다.
+컴파일, 훈련 전에 save_weights 하면 가중치가 아예 없음.
+컴파일, 훈련 이후에 save_weights 하면 컴파일, 훈련된 가중치만 저장된다.
 
+컴파일 하지 않고 load_weights 하면
+You must compile your model before training/testing. Use `model.compile(optimizer, loss)` 에러 뜸.
+load_weights 쓰려면 모델이랑 컴파일까지 알아야 함.
+'''
 #4.평가,예측
 loss=model.evaluate(x_test, y_test) 
 print('loss : ', loss)
