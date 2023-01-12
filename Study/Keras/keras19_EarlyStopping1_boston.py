@@ -54,7 +54,7 @@ earlyStopping = EarlyStopping(monitor='val_loss',
              patience 이내에 모델이 baseline보다 개선됨이 보이지 않으면 Training을 중단시킵니다.
              예를 들어 patience가 3이고 baseline이 정확도기준 0.98 이라면,
              3번의 trianing안에 0.98의 정확도를 달성하지 못하면 Training이 종료됩니다.
-7.restore_best_weights : True(기본값), False
+7.restore_best_weights : True, False(기본값)
                          True라면 training이 끝난 후, model의 weight를 monitor하고 있던 값이 가장 좋았을 때의 weight로 복원합니다.
                          False라면, 마지막 training이 끝난 후의 weight로 놔둡니다.                                                        
 '''                                                                         
