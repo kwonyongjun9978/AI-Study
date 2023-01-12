@@ -41,7 +41,7 @@ path='./_save/'    # ./ : 현재 디렉토리                              #상�
 model.save(path + 'keras29_01_save_model.h5')
 # model.save('./_save/keras29_01_save_model.h5')
 
-'''
+
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae']) 
 
@@ -65,7 +65,7 @@ y_predict=model.predict(x_test)
 from sklearn.metrics import mean_squared_error, r2_score
 r2=r2_score(y_test,y_predict)
 print("R2 : ", r2)
-'''
+
 
 
 
