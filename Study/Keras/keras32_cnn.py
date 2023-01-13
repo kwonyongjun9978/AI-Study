@@ -3,12 +3,7 @@ from tensorflow.keras.layers import Dense, Conv2D, Flatten
 #2D(2차원,평면,그림,이미지)
 
 model=Sequential()
-'''
-CNN
-독립변수 데이터(x) : 이미지
-이미지를 일정하게 조각내서 조각들의 특성값들을 계산해서 종속변수(y)를 알아내는 작업 
-특성값을 추출해서 높은 추출값을 맞추는 작업
-'''
+
 #인풋은 (60000, 5, 5, 1) (데이터의개수, 가로, 세로, 컬러)
 #행의개수(=데이터의개수) 무시
 model.add(Conv2D(filters=10, kernel_size=(2,2),
@@ -41,10 +36,12 @@ Flatten 한 이후에야 Dense 레이어 층에 넣어 인공 신경망을 돌�
 예를 들어, 그 전의 Conv2D의 shape이 (None,3,4,5)이면 Flatten하면 shape이 3x4x5=60 으로 (None,60)이 된다.
 실제로 (60000, 5, 5, 1) 이런 식으로 인풋함. 60000장, 세로5, 가로5, 흑백이미지를 인풋한다는 의미이다.
 행무시 열우선이기 때문에 실제 (60000, 5, 5, 1) 이미지를 (None, 5, 5, 1)로 표현한다. None은 데이터의 개수를 의미한다.
+
 <Output Shape 계산법>
 무조건 마지막 값은 filters에서 결정된다. input_shape의 마지막 값과는 상관없다.
 input_shape=(x,y,k) 을 filters=e, kernel_size=(m,n) 로 통과시키면
 output_shape=(x-m+1, y-n+1, e)가 된다.
+
 <Param # 계산법>
 Conv2d : (number of filters * filter height * filter width * number of input channels) + (number of filters)
 Dense : (number of input neurons * number of output neurons) + (number of output neurons)
@@ -53,9 +50,7 @@ model.add(Conv2D(filters=10, kernel_size=(2,2), input_shape=(5,5,1)))   # param 
 model.add(Conv2D(filters=5, kernel_size=(2,2)))                         # param : 5*2*2*10+5 = 205
 # model.add(Conv2D(filters=5, kernel_size=(2,2)))
 # model.add(Conv2D(5, (2,2))) 이렇게 간단히 표현 가능하다.
-"""
 
-"""
 <Conv2D의 설명>
 <Arguments>
 1) filters : convolutional layer(합성곱 층)에서 사용하는 필터의 수 (dense에서 output layer의 노드 수랑 비슷한 의미)
@@ -81,6 +76,7 @@ relu, sigmoid, tanh, elu 등이 있음.
 11) kernel_regularizer, bias_regularizer : 가중치 정교화
 12) kernel_constraint, bias_constraint : 제약 조건 지정
 13) activity_regularizer : 활동 정규화
+
 <Input shape : 4-dimensional tensor>
 (batch_size, height, width, channels) : data_format='channels_last' (Tensorflow에서는 이게 default)
 (batch_size, channels, height, width) : data_format='channels_first' (Theano library에서는 이게 default)
@@ -91,9 +87,7 @@ channels : 인풋 데이터의 채널수 (RGB는 3, grayscale은 1)
 <output shape : 4-dimensional tensor>
 (batch_size, new_height, new_width, number_of_filters).
 new_height, new_width : stride, padding and kernel size와 같은 convolutional layer에 따라 달라짐.
-"""
 
-"""
 <Dense의 설명>
 <Arguments>
 1) units: 레이어의 뉴런수(노드수)
@@ -110,5 +104,4 @@ new_height, new_width : stride, padding and kernel size와 같은 convolutional 
 (batch_size, ... , input_dim) N차원 텐서
 <Output shape>
 (batch_size, ... , units) N차원 텐서
-"""
 '''
