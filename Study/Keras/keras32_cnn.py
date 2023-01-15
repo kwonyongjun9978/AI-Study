@@ -5,12 +5,12 @@ from tensorflow.keras.layers import Dense, Conv2D, Flatten
 model=Sequential()
 
 #인풋은 (60000, 5, 5, 1) (데이터의개수, 가로, 세로, 컬러)
-#행의개수(=데이터의개수) 무시
 model.add(Conv2D(filters=10, kernel_size=(2,2),
                  input_shape=(5,5,1))) 
 #(5,5)크기의 1개의 filters를 가지고있는 이미지를 (2,2)크기로 조각낸다 -> (4,4)으로 변경된 이미지를 10개(filters)로 변경(N,4,4,10)
+
 #model.add(Conv2D(filters=5, kernel_size=(2,2))) #(N,3,3,5)
-#(batch_size(훈련의 개수), rows, channels(=colors, filters))
+#(batch_size(데이터의 개수), rows, channels(=colors, filters))
 model.add(Conv2D(5, (2,2))) #(N,3,3,5)
 model.add(Flatten()) #(N,45,) (3x3x5=45) #DNN
 model.add(Dense(units=10)) #(N,10)
@@ -25,14 +25,14 @@ model.summary()
 <CNN에서 이미지를 인식하는 방법>
 CNN : Convolutional Neural Networks
 한 레이어 지날 때마다 이미지를 조각내서 행렬 형태 데이터로 만들어 높을 특성을 계속 합치고 낮은 특성을 도태시킨다.
-나중에 나온 행렬 결과값을 가지고 이미지를 인식한다.
+나중에 나온 행렬 결과값을 가지고 이미지를 인식한다.(특정한 패턴의 특징이 어디서 나타나는지를 확인하는 도구)
 filters=10 : 사진 1장의 필터를 10판으로 늘리겠다는 의미이다. (연산량 증가)
 kernel_size=(2,2) : 연산할 때 사진을 자르는 단위 (행, 열)
 input_shape=(5,5,1) : (5,5) 크기의 흑백 이미지를 갖고 있다.
 :사진의 세로길이, 가로길이를 몇 칸으로 나눌지 직접 정해 적고, 마지막 값은 사진이 흑백이면 1 컬러면 3을 적는다.
 컬러는 애초에 3장 필요하므로 input_shape의 마지막 값이 3이여야 함.
-Flatten() 하면 그 전의 Conv2D의 shape 값을 곱한 만큼 column이 생겨서 연산하기 쉬운 형태로 만듬.
-Flatten 한 이후에야 Dense 레이어 층에 넣어 인공 신경망을 돌릴 수 있음.
+Flatten() 하면 그 전의 Conv2D의 shape 값을 곱한 만큼 column이 생겨서 연산하기 쉬운 형태로 만듬.(reshape를 대체한다)
+Flatten 한 이후에야 Dense 레이어 층에 넣어 인공 신경망을 돌릴 수 있음.(이미지 데이터를 표 형태의 데이터로 변경)
 예를 들어, 그 전의 Conv2D의 shape이 (None,3,4,5)이면 Flatten하면 shape이 3x4x5=60 으로 (None,60)이 된다.
 실제로 (60000, 5, 5, 1) 이런 식으로 인풋함. 60000장, 세로5, 가로5, 흑백이미지를 인풋한다는 의미이다.
 행무시 열우선이기 때문에 실제 (60000, 5, 5, 1) 이미지를 (None, 5, 5, 1)로 표현한다. None은 데이터의 개수를 의미한다.

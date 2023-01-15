@@ -32,6 +32,8 @@ model.add(Dense(32, activation='relu'))   #input_shape=(40000,)
                                           #(60000,40000)=(batch_size,input_dim)
 model.add(Dense(10, activation='softmax'))
 
+model.summary()
+
 #3. 컴파일, 훈련
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',
               metrics=['acc'])

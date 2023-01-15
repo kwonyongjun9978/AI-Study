@@ -16,10 +16,10 @@ from tensorflow.keras.layers import Conv2D, Dense, Flatten, Dropout
 #2. 모델
 model = Sequential()
 model.add(Conv2D(filters=512, kernel_size=(3,3), input_shape=(32, 32, 3), activation='relu'))
-model.add(Conv2D(256, (3,3)))
-model.add(Conv2D(128, (3,3)))
-model.add(Conv2D(64, (3,3)))
-model.add(Conv2D(32, (3,3)))
+model.add(Conv2D(256, (3,3), activation='relu'))
+model.add(Conv2D(128, (3,3), activation='relu'))
+model.add(Conv2D(64, (3,3), activation='relu'))
+model.add(Conv2D(32, (3,3), activation='relu'))
 model.add(Flatten())
 model.add(Dense(512, activation='relu'))
 model.add(Dropout(0.5))
@@ -68,6 +68,6 @@ print('loss : ', results[0])
 print('acc : ', results[1])
 
 '''
-loss :  4.265405178070068
-acc :  0.04280000180006027
+loss :  4.605130672454834
+acc :  0.010099999606609344
 '''
