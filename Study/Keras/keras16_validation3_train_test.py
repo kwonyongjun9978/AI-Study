@@ -13,7 +13,7 @@ y=np.array(range(1,17))
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,y,
-    train_size = 0.6, 
+    test_size = 0.375, 
     shuffle = True, 
     random_state = 123)
 x_val, x_test, y_val, y_test = train_test_split(

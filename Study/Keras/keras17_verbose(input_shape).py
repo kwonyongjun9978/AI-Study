@@ -19,20 +19,28 @@ x_train, x_test, y_train, y_test=train_test_split(
 
 # 2.모델구성
 model=Sequential()
-#model.add(Dense(5, input_dim=13))     #input_dim : 2차원(행렬)
-model.add(Dense(5, input_shape=(13,))) #input_shape : 다차원 ex(100,10,5) -> (10,5)
+#model.add(Dense(5, input_dim=13))     
+model.add(Dense(5, input_shape=(13,))) 
 model.add(Dense(4))
 model.add(Dense(3))
 model.add(Dense(2))
 model.add(Dense(1))
+'''
+<input_dim, input_shape>
+input_dim 은 오직 (행,렬)에서만 사용가능하다.
+input_shape 는 다차원 ( , , , , ...)에서도 사용 가능하다.
+예를 들어, (100, 10, 5)의 경우 (10,5)가 100개 있다는 뜻이고
+행무시 열우선이므로 맨 앞에 있는 100을 제외하고 input_shape에 (10,5)를 넣는다.
+'''
 
 #3.컴파일, 훈련
 import time
 model.compile(loss='mse', optimizer='adam') 
 start=time.time()
-model.fit(x_train, y_train, epochs=50, batch_size=1, validation_split=0.2, 
-          verbose=0)  
+model.fit(x_train, y_train, epochs=50, batch_size=1, validation_split=0.25, 
+          verbose=2)  
 end=time.time()
+
 #4.평가,예측
 loss=model.evaluate(x_test, y_test) 
 print('loss : ', loss)

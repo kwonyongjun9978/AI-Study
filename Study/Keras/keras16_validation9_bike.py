@@ -55,7 +55,7 @@ y_predict=model.predict(x_test)
 #print('x_test : ', x_test)
 #print('y_predict : ', y_predict)
 
-def RMSE(y_test, y_predict):  #RMSE라는 함수를 정의
+def RMSE(y_test, y_predict):  
     return np.sqrt(mean_squared_error(y_test, y_predict))              
 print("RMSE : ", RMSE(y_test, y_predict)) 
 
@@ -63,7 +63,6 @@ print("RMSE : ", RMSE(y_test, y_predict))
 y_submit=model.predict(test_csv)
 #print(y_submit)
 #print(y_submit.shape)  #(715,1)
-
 
 #.to_csv()를 사용해서
 #submission_0106.csv를 완성하시오!!
