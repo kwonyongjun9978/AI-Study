@@ -15,8 +15,8 @@ model.add(Dense(1))
 # 3. 컴파일, 훈련
 model.compile(loss='mae', optimizer='adam')
 model.fit(x,y,epochs=100, batch_size=2) #하이퍼 파라미터 튜닝 - 2. batch_size 조절
-                                       #6개를 2개단위로 나누어서 훈련(batch),3/3
-                                       #batch size default(기본값)=32
+                                        #6개를 2개단위로 나누어서 훈련(batch),3/3
+                                        #batch size default(기본값)=32
                                        
                                     
 # 4. 평가, 예측

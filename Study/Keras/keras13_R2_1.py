@@ -40,5 +40,9 @@ print("RMSE : ", RMSE(y_test, y_predict))
 r2=r2_score(y_test,y_predict)
 print("R2 : ", r2)
 
+'''
+RMSE는 낮을수록, R2가 높아지면 성능이 좋다고 판단할 수 있다.
+보통 성능 지표는 2가지 이상을 본다.
+'''
 
 

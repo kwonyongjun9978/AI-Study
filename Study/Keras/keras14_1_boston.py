@@ -36,12 +36,14 @@ x_train, x_test, y_train, y_test=train_test_split(
     shuffle=True,
     random_state=123
 )
+
 '''
 print('x_train :', x_train)
 print('x_test :', x_test)
 print('y_train :', y_train)
 print('y_test :',y_test)
 '''
+
 #2.모델구성
 model=Sequential()
 model.add(Dense(128, input_dim=13))

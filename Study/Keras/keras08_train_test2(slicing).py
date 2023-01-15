@@ -16,9 +16,10 @@ y_test = y[7:]  # 7,8,9
 X_train=x[:-3] 
 X_test=x[-3:]  
 Y_train=y[:-3]  
-Y_test=y[-3:]  
+Y_test=y[-3:] 
+ 
+앞에서 시작할 때는 처음에 0부터 시작하고, 뒤에서 시작할 때는 처음에 -1로 시작한다.
 '''
-
 
 #2.모델구성
 model=Sequential()
@@ -32,7 +33,6 @@ model.add(Dense(8))
 model.add(Dense(7))
 model.add(Dense(4))
 model.add(Dense(1))
-
 
 #3.컴파일, 훈련
 model.compile(loss='mae', optimizer='adam')

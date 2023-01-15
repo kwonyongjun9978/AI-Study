@@ -10,7 +10,7 @@ y=np.array([2,4,6,8,10,12,14,16,18,20])
 print(x.shape)  #(3,10) 3행10열
 print(y.shape)  #(10,)
 
-x=x.T # T : 행과 열을 바꿈
+x=x.T 
 print(x.shape)  #(10,3) 10행3열
 
 #2.모델구성

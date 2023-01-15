@@ -24,6 +24,9 @@ print('loss : ', loss)
 results=model.predict([6])
 print('6의 예측값 : ', results)
 
-
+'''
+evaluate의 batch_size의 default(기본값)도 32이다.
+그래서 마지막에 1/1 나온다.
+'''
 
 

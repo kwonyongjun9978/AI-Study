@@ -31,4 +31,6 @@ print('loss : ', loss)
 results=model.predict([[10, 1.4]])
 print('[10, 1.4]의 예측값 : ', results)
 
-
+'''
+mlp는 multiple을 의미한다. 다중 입력값을 의미한다.
+'''

@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 x=np.array(range(1,21))
 y=np.array([1,2,4,3,5,7,9,3,8,12,13,8,14,15,9,6,17,23,21,20])
 
+print(x.shape, y.shape)
 x_train, x_test, y_train, y_test=train_test_split(
     x,y,
     train_size=0.7,

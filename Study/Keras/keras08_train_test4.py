@@ -37,7 +37,6 @@ model.add(Dense(4))
 model.add(Dense(3))
 model.add(Dense(2))
 
-
 #3.컴파일,훈련
 model.compile(loss='mae', optimizer='adam')
 model.fit(x,y,epochs=100, batch_size=1)

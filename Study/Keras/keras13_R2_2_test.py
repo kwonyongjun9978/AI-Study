@@ -29,20 +29,20 @@ x_train, x_test, y_train, y_test=train_test_split(
 model=Sequential()
 model.add(Dense(400, input_dim=1))
 model.add(Dense(10))
-model.add(Dense(200))
+model.add(Dense(2000))
 model.add(Dense(10))
-model.add(Dense(200))
+model.add(Dense(2000))
 model.add(Dense(10))
-model.add(Dense(200))
+model.add(Dense(2000))
 model.add(Dense(10))
-model.add(Dense(200))
+model.add(Dense(2000))
 model.add(Dense(10))
-model.add(Dense(200))
+model.add(Dense(2000))
 model.add(Dense(10))
 model.add(Dense(1))
 
 #3.컴파일, 훈련
-model.compile(loss='mse', optimizer='adam', metrics=['mae']) 
+model.compile(loss='mae', optimizer='adam', metrics=['mse']) 
 model.fit(x_train, y_train, epochs=100, batch_size=1)                                 
 
 #4.평가,예측
