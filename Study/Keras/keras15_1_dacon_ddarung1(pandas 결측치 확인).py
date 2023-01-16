@@ -20,8 +20,8 @@ print(train_csv.info()) #결측치 확인
 print(test_csv.info())  #결측치 확인
 print(train_csv.describe())
 '''
-x=train_csv.drop(['count'], axis=1) #10개 중 count 컬럼을 제외한 나머지 9개만 inputing 
-# print(x)   #[1459 rows x 9 columns]
+x=train_csv.drop(['count'], axis=1)     #10개 중 count 컬럼을 제외한 나머지 9개만 inputing
+# print(x)   #[1459 rows x 9 columns]   #axis=1 행, axis=0 열 기준으로 계산한다는 의미.
 y=train_csv['count']
 # print(y)
 # print(y.shape) #(1459,)

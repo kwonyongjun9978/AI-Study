@@ -19,13 +19,13 @@ y=datasets['target']
 # y=to_categorical(y)
 # #print(y.shape) #(581012, 8)
 # #print(type(y)) #<class 'numpy.ndarray'>
-# #print(y[:10])
-# #print(np.unique(y[:, 0], return_counts=True)) #모든 행의 0번째 컬럼 #(array([0.], dtype=float32), array([581012], dtype=int64))
-# #print(np.unique(y[:, 1], return_counts=True)) #(array([0., 1.], dtype=float32), array([369172, 211840], dtype=int64))
+# # print(y[:10])
+# # print(np.unique(y[:, 0], return_counts=True)) #모든 행의 0번째 컬럼 #(array([0.], dtype=float32), array([581012], dtype=int64))
+# # print(np.unique(y[:, 1], return_counts=True)) #(array([0., 1.], dtype=float32), array([369172, 211840], dtype=int64))
 # y=np.delete(y,0,axis=1)
-# #print(y.shape) #(581012, 7)
-# #print(y[:10])
-# #print(np.unique(y[:, 0], return_counts=True)) #(array([0., 1.], dtype=float32), array([369172, 211840], dtype=int64))
+# # print(y.shape) #(581012, 7)
+# # print(y[:10])
+# # print(np.unique(y[:, 0], return_counts=True)) #(array([0., 1.], dtype=float32), array([369172, 211840], dtype=int64))
 
 '''
 방법1
@@ -46,6 +46,7 @@ np.delete(데이터, 0번째, 행삭제는 axis=0, 열삭제는 axis=1)
 # #print(type(y)) #<class 'numpy.ndarray'>
 # #print(y.shape)
 # #y=y.to_numpy() 로 해줘도 된다.
+
 # #y = np.array(y) #(방법2-1)
 
 '''
@@ -91,13 +92,13 @@ OneHotEncoder : 명목변수든 순위변수든 모두 원핫인코딩을 해준
 => 해결방법: shape 맞추기
 1) 스칼라: 원본 데이터를 y, y.shape, type(y)를 print 해보면
 (581012,) 스칼라 형태의 numpy.ndarray 임을 알 수 있다.
-2) 벡터: 원핫엔코더하려면 벡터 형태로 reshape 해줘야 한다.
+2) 벡터: 원핫인코딩하려면 벡터 형태로 reshape 해줘야 한다.
 y = y.reshape(581012,1) 해서 (581012, 1) 벡터 형태를 만든다.
 # (-1,1) 하면 (전체, 1)과 같다.
 3) scikit-learn에서 OneHotEncoder 가져오기
 from sklearn.preprocessing import OneHotEncoder
 ohe = OneHotEncoder()
-4) 원핫엔코딩: y = ohe.fit_transform(y)로 원핫엔코딩한다.
+4) 원핫인코딩: y = ohe.fit_transform(y)로 원핫인코딩한다.
 y = ohe.fit_transform(y) 하면 (581012, 7) 벡터 형태의 scipy.sparse._csr.csr_matrix가 나온다.
 5) 데이터형태 바꾸기 : scipy CSR matrix 를 Numpy ndarray로 바꾼다.
 y = y.toarray() 하면 데이터 종류만 numpy ndarray로 바뀐다.

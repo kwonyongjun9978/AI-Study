@@ -5,8 +5,8 @@ from sklearn.model_selection import train_test_split
 
 #1. 데이터
 datasets=load_iris()
-#print(datasets.DESCR)         #클래스 개수 확인        
-#print(datasets.feature_names)  
+print(datasets.DESCR)         #클래스 개수 확인        
+print(datasets.feature_names)  
 
 x=datasets.data
 y=datasets['target']
@@ -77,7 +77,7 @@ print("y_predict(예측값) : ", y_predict)
 y_test=np.argmax(y_test, axis=1)
 print("   y_test(원래값) : ", y_test)
 acc=accuracy_score(y_test, y_predict)
-print(acc)
+print('acc : ', acc)
 
 '''
 <파이썬 넘파이 argmax, argmin 함수>
@@ -88,9 +88,7 @@ np.argmin : np.argmax 와 반대로 최소값의 인덱스를 반환하는 함�
 
 <axis>
 axis=1 행, axis=0 열 기준으로 계산한다는 의미.          
-'''
 
-'''
 <softmax의 원리>
 softmax는 입력받은 값을 출력으로 0~1사이의 값으로 모두 정규화하며 출력 값들의 총합은 항상 1이 되도록 한다.
 예를 들어, 0 1 2 는 각각 1%, 49%, 50% 이렇게 나눠서 총합 100%를 만듦.
@@ -105,5 +103,4 @@ One-Hot Encoding의 원리는 값들을 좌표, 즉 벡터로 만든다는 것�
         모든 값을 다 합 1로 만들어 가치를 평등하게 함.
 y=(150,) 에서 one-hot encoding을 거치면 y=(150,3)이 된다.
 => training하기 전에 상위 데이터셋에서 one-hot encoding 해야 함.
-
 '''

@@ -15,7 +15,7 @@ y=datasets.target
 # print(x.shape, y.shape) #(178, 13) (178,)
 # print(y)
 # print(np.unique(y)) #[0 1 2] //y데이터에는 0,1,2값만 있다 -> 다중분류 확인  
-# print(np.unique(y, return_counts=True)) #(array([0, 1, 2]), array([59, 71, 48], dtype=int64))
+print(np.unique(y, return_counts=True)) #(array([0, 1, 2]), array([59, 71, 48], dtype=int64))
 
 # 원핫인코딩
 from tensorflow.keras.utils import to_categorical
@@ -66,4 +66,4 @@ print("y_predict(예측값) : ", y_predict)
 y_test=np.argmax(y_test, axis=1)
 print("y_test(원래값) : ", y_test)
 acc=accuracy_score(y_test, y_predict)
-print(acc)
+print('acc : ', acc)
