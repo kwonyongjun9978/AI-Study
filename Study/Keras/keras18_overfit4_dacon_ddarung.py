@@ -51,16 +51,16 @@ hist=model.fit(x_train, y_train, epochs=200, batch_size=10, validation_data=(x_v
 #4.평가,예측
 loss=model.evaluate(x_test, y_test) 
 print('loss : ', loss)
-
+'''
 print("===============================")
-print(hist) #
+print(hist) 
 print("===============================")
 print(hist.history) 
 print("===============================")
 print(hist.history['loss'])   
 print("===============================")
 print(hist.history['val_loss'])   
-
+'''
 import matplotlib.pyplot as plt
 plt.figure(figsize=(9,6))  
 plt.plot(hist.history['loss'], c='red', marker='.', label='loss')

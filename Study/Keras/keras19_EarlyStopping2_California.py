@@ -53,7 +53,7 @@ hist = model.fit(x_train, y_train, epochs=10000, batch_size=100,
 #4.평가,예측
 loss=model.evaluate(x_test, y_test) 
 print('loss : ', loss)
-
+'''
 print("===============================")
 print(hist) #
 print("===============================")
@@ -62,7 +62,7 @@ print("===============================")
 print(hist.history['loss'])   
 print("===============================")
 print(hist.history['val_loss'])   
-
+'''
 y_predict=model.predict(x_test)
 
 def RMSE(y_test, y_predict):  
