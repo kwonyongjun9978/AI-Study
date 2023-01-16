@@ -53,7 +53,7 @@ loss=model.evaluate(x_test, y_test)
 print('loss : ', loss)
 
 print("===============================")
-print(hist) #
+print(hist) 
 print("===============================")
 print(hist.history) 
 print("===============================")

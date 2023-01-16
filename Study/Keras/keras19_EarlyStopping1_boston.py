@@ -67,7 +67,7 @@ loss=model.evaluate(x_test, y_test)
 print('loss : ', loss)
 
 print("===============================")
-print(hist) #<keras.callbacks.History object at 0x00000231DF5D2AC0>
+print(hist) 
 print("===============================")
 print(hist.history) 
 print("===============================")
