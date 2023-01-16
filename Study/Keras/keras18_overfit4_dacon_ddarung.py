@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 
 #1. 데이터
-path='./_data/ddarung/' #데이터 위치 표시
+path='./_data/ddarung/' 
 train_csv=pd.read_csv(path+'train.csv', index_col=0) #./_data/ddarung/train.csv
 test_csv=pd.read_csv(path+'test.csv', index_col=0) #0번째 컬럼(id)은 데이터가 아니라 인덱스
 submission=pd.read_csv(path+'submission.csv', index_col=0) #pandas의 '.read_csv' api사용
