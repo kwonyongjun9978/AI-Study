@@ -2,6 +2,7 @@ from sklearn.datasets import load_iris
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from sklearn.model_selection import train_test_split
+import numpy as np
 
 #1. 데이터
 datasets=load_iris()
@@ -11,6 +12,7 @@ y=datasets['target']
 # print(x)
 # print(y)
 # print(x.shape, y.shape) #(150, 4) (150,)
+# print(np.unique(y, return_counts=True)) #(array([0, 1, 2]), array([50, 50, 50], dtype=int64))
 
 # 원핫인코딩
 # from tensorflow.keras.utils import to_categorical
@@ -63,7 +65,6 @@ print('accuracy : ', accuracy)
 # print(y_predict)
 
 from sklearn.metrics import accuracy_score
-import numpy as np
 y_predict=model.predict(x_test)
 y_predict=np.argmax(y_predict, axis=1) 
 print("y_predict(예측값) : ", y_predict)

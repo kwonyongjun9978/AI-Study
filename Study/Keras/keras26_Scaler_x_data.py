@@ -15,15 +15,15 @@ from sklearn.preprocessing import MinMaxScaler, StandardScaler
 # scaler.fit(x) # 가중치 설정할 뿐 x에 저장하진 않음.
 # x = scaler.transform(x) # 나온 가중치로 x를 변환
 # # print(x)
+# # print(x.shape)
 # # print(type(x)) #<class 'numpy.ndarray'> 
 # # print("최소값 : ",np.min(x)) #최소값 :  0.0
 # # print("최대값 : ",np.max(x)) #최대값 :  1.0
 
 #2.StandardScaler
-scaler = StandardScaler()
+# scaler = StandardScaler()
 # scaler.fit(x) 
 # x = scaler.transform(x) 
-
 
 x_train, x_test, y_train, y_test=train_test_split(
     x,y,
@@ -31,10 +31,6 @@ x_train, x_test, y_train, y_test=train_test_split(
     shuffle=True,
     random_state=333
 )
-
-x_train=scaler.fit_transform(x_train)
-x_test=scaler.transform(x_test)
-# fit.transform은 train데이터만 써야만한다
 
 # 2.모델구성
 model=Sequential()

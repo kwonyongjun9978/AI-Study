@@ -18,11 +18,10 @@ x_train, x_test, y_train, y_test=train_test_split(
 
 #Scaler(데이터 전처리) 
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
-scaler = MinMaxScaler()
-# scaler.fit(x_train)
-# x_train=scaler.transform(x_train)
+scaler = StandardScaler()
+# scaler = MinMaxScaler()
 x_train=scaler.fit_transform(x_train)
-x_test=scaler.transform(x_test)
+x_test=scaler.transform(x_test) # fit.transform은 train데이터만 써야만한다
 
 # 2.모델구성
 model=Sequential()
@@ -56,7 +55,6 @@ y_predict=model.predict(x_test)
 from sklearn.metrics import mean_squared_error, r2_score
 r2=r2_score(y_test,y_predict)
 print("R2 : ", r2)
-
 
 '''
 변환전
