@@ -17,10 +17,10 @@ x_train, x_test, y_train, y_test=train_test_split(
     shuffle=True,
     random_state=333
 )
+
+#Scaler(데이터 전처리) 
 scaler = StandardScaler()
 # scaler = MinMaxScaler()
-# scaler.fit(x_train)
-# x_train=scaler.transform(x_train)
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
 
@@ -81,15 +81,6 @@ hist = model.fit(x_train, y_train, epochs=10000, batch_size=150,
 #4.평가,예측
 loss=model.evaluate(x_test, y_test) 
 print('loss : ', loss)
-
-print("===============================")
-print(hist) #
-print("===============================")
-print(hist.history) 
-print("===============================")
-print(hist.history['loss'])   
-print("===============================")
-print(hist.history['val_loss'])   
 
 y_predict=model.predict(x_test)
 

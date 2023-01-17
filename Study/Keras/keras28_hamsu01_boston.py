@@ -17,9 +17,9 @@ x_train, x_test, y_train, y_test=train_test_split(
     random_state=333
 )
 
-scaler = MinMaxScaler()
-# scaler.fit(x_train)
-# x_train=scaler.transform(x_train)
+#Scaler(데이터 전처리) 
+scaler = StandardScaler()
+# scaler = MinMaxScaler()
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
 

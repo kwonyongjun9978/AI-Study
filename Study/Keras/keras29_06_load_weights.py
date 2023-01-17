@@ -18,7 +18,9 @@ x_train, x_test, y_train, y_test=train_test_split(
     random_state=333
 )
 
-scaler = MinMaxScaler()
+#Scaler(데이터 전처리) 
+scaler = StandardScaler()
+# scaler = MinMaxScaler()
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
 
@@ -38,7 +40,7 @@ model.load_weights(path + 'keras29_05_save_weights1.h5') #에러
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae']) 
 
-from tensorflow.keras.callbacks import EarlyStopping #대문자=class, 소문자=함수 
+from tensorflow.keras.callbacks import EarlyStopping  
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min',          
                               patience=40, 
@@ -54,10 +56,9 @@ model.load_weights(path + 'keras29_05_save_weights2.h5')
 save_weights는 모델 저장은 안되고 순수하게 가중치만 저장된다.
 컴파일, 훈련 전에 save_weights 하면 가중치가 아예 없음.
 컴파일, 훈련 이후에 save_weights 하면 컴파일, 훈련된 가중치만 저장된다.
-
-컴파일 하지 않고 load_weights 하면
-You must compile your model before training/testing. Use `model.compile(optimizer, loss)` 에러 뜸.
+컴파일 하지 않고 load_weights 하면 You must compile your model before training/testing. Use `model.compile(optimizer, loss)` 에러 뜸.
 load_weights 쓰려면 모델이랑 컴파일까지 알아야 함.
+weights를 로드하면 세이브했던 결과와 동일하다.
 '''
 #4.평가,예측
 loss=model.evaluate(x_test, y_test) 
@@ -68,6 +69,7 @@ y_predict=model.predict(x_test)
 from sklearn.metrics import mean_squared_error, r2_score
 r2=r2_score(y_test,y_predict)
 print("R2 : ", r2)
+
 
 
 

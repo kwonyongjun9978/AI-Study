@@ -28,10 +28,10 @@ x_train, x_validation, y_train, y_validation = train_test_split(x, y,
 x_train, x_test, y_train, y_test = train_test_split(x_train, y_train,
     test_size=0.3, shuffle=False
 )
+
+#Scaler(데이터 전처리) 
 scaler = StandardScaler()
 # scaler = MinMaxScaler()
-# scaler.fit(x_train)
-# x_train=scaler.transform(x_train)
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
 

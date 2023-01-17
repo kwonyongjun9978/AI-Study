@@ -17,9 +17,9 @@ x_train, x_test, y_train, y_test=train_test_split(
     random_state=333
 )
 
-scaler = MinMaxScaler()
-# scaler.fit(x_train)
-# x_train=scaler.transform(x_train)
+#Scaler(데이터 전처리) 
+scaler = StandardScaler()
+# scaler = MinMaxScaler()
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
 
@@ -27,12 +27,8 @@ x_test=scaler.transform(x_test)
 
 #3.컴파일, 훈련
 
-#모델+가중치save
-path='./_save/'
-# model.save(path + 'keras29_03_save_model.h5')
-#R2 :  0.8579221121943994
-
 #모델+가중치 불러오기
+path='./_save/'
 model=load_model(path+'keras29_03_save_model.h5')
 #R2 :  0.8579221121943994
 
@@ -46,11 +42,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 r2=r2_score(y_test,y_predict)
 print("R2 : ", r2)
 
-
-
-
-
-
+#모델+가중치를 로드하면 세이브했던 결과와 동일하다
 
 
                   

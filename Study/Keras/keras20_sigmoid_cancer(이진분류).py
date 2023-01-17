@@ -28,6 +28,11 @@ model.add(Dense(20, activation='relu'))
 model.add(Dense(10, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
 
+# print(x_train)
+# print(y_train)
+# print(x_test)
+# print(y_test)
+
 #3. 컴파일, 훈련
 model.compile(loss='binary_crossentropy', optimizer='adam',
               metrics=['accuracy'])

@@ -18,7 +18,9 @@ x_train, x_test, y_train, y_test=train_test_split(
     random_state=333
 )
 
-scaler = MinMaxScaler()
+#Scaler(데이터 전처리) 
+scaler = StandardScaler()
+# scaler = MinMaxScaler()
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
 
@@ -38,7 +40,7 @@ model.save_weights(path + 'keras29_05_save_weights1.h5')
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae']) 
 
-from tensorflow.keras.callbacks import EarlyStopping #대문자=class, 소문자=함수 
+from tensorflow.keras.callbacks import EarlyStopping 
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min',          
                               patience=40, 

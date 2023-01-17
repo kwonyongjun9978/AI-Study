@@ -14,21 +14,23 @@ x_train, x_test, y_train, y_test=train_test_split(
     x,y,
     train_size=0.8,
     shuffle=True,
-    random_state=123
+    random_state=333
 )
 
-scaler = MinMaxScaler()
+#Scaler(데이터 전처리) 
+scaler = StandardScaler()
+# scaler = MinMaxScaler()
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
 
 #2.모델구성(순차형)
 model=Sequential()
 model.add(Dense(256, activation='relu', input_shape=(13,)))
-model.add(Dropout(0.5))
-model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.3))
-model.add(Dense(64, activation='relu'))
+model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.2))
+model.add(Dense(64, activation='relu'))
+model.add(Dropout(0.1))
 model.add(Dense(32, activation='relu'))
 model.add(Dense(16, activation='relu'))
 model.add(Dense(1, activation='relu'))
@@ -51,38 +53,36 @@ model.summary()
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae']) 
 
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint #대문자=class, 소문자=함수 
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint 
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min',          
-                              patience=50, 
-                              restore_best_weights=False, 
-                              verbose=1 )  
+                              patience=200, 
+                              restore_best_weights=True, 
+                              verbose=2)  
 
 import datetime
-date = datetime.datetime.now() #현재 시간 반환
-print(date) #2023-01-12 15:02:49.383746
-print(type(date)) #<class 'datetime.datetime'>
-date=date.strftime("%m%d_%H%M") #문자열 타입으로 변환
-print(date) #0112_1502
-print(type(date)) #<class 'str'>
+date = datetime.datetime.now() 
+print(date) 
+print(type(date)) 
+date=date.strftime("%m%d_%H%M") 
+print(date) 
+print(type(date)) 
 
 filepath='./_save/MCP/'
-filename='{epoch:04d}-{val_loss:.4f}.hdf5' #0037-0.0048.hdf8
+filename='{epoch:04d}-{val_loss:.4f}.hdf5' 
 
 #ModelCheckpoint
 ModelCheckpoint = ModelCheckpoint(monitor='val_loss',
                                   mode='auto',
-                                  verbose=1,
+                                  verbose=2,
                                   save_best_only=True,
-                                  #filepath=path+'MCP/keras30_ModelCheckPoint3.hdf5'
                                   filepath=filepath+'k31_1_'+date+'_'+filename)
                                                                                            
-hist = model.fit(x_train, y_train, epochs=5000, batch_size=2, 
+hist = model.fit(x_train, y_train, epochs=1000, batch_size=2, 
                  validation_split=0.2, callbacks=[earlyStopping, ModelCheckpoint], 
-                 verbose=1)  
+                 verbose=2)  
 
 #4.평가,예측
-# print("=========================1. 기본 출력===========================")
 mse=model.evaluate(x_test, y_test) 
 print('mse : ', mse)
 
@@ -91,7 +91,13 @@ y_predict=model.predict(x_test)
 r2=r2_score(y_test,y_predict)
 print("R2 : ", r2)
 
-
+'''
+Epoch 00392: val_loss did not improve from 5.80611
+Epoch 00392: early stopping
+4/4 [==============================] - 0s 1ms/step - loss: 19.3484 - mae: 2.5393
+mse :  [19.34838104248047, 2.5393197536468506]
+R2 :  0.8027265452002512
+'''
 
 
 

@@ -14,18 +14,38 @@ y=datasets['target']
 # print(np.unique(y, return_counts=True)) #(array([1, 2, 3, 4, 5, 6, 7]), array([211840,283301,35754,2747,9493,17367,20510],dtype=int64))
 
 # 원핫인코딩
-y = y.reshape(581012, 1)
-# print(y.shape) #(581012, 1)
-from sklearn.preprocessing import OneHotEncoder
-ohe = OneHotEncoder()
-y = ohe.fit_transform(y)
-# print(y[:15])
-# print(type(y)) #<class 'scipy.sparse._csr.csr_matrix'>
-# print(y.shape) #(581012, 7)
-y=y.toarray()
-# print(y[:15])
-# print(type(y)) #<class 'numpy.ndarray'>
-# print(y.shape) #(581012, 7)
+#방법2(pandas-get_dummies)
+import pandas as pd
+y=pd.get_dummies(y)
+print(y[:10])
+#(방법2-2)
+#print(type(y)) #<class 'pandas.core.frame.DataFrame'>(판다스에서는 헤더와 인덱스가 자동생성된다)
+y=y.values
+#print(type(y)) #<class 'numpy.ndarray'>
+#print(y.shape)
+#y=y.to_numpy() 로 해줘도 된다.
+
+# #y = np.array(y) #(방법2-1)
+
+'''
+방법2
+(방법2-2)
+get_dummies : 명목변수만 원핫인코딩을 해준다.
+=> 해결방법: 자료형 확인
+=> print(type()) 으로 자료형을 확인
+y_predict는 <class 'numpy.ndarray'>
+y_test는 <class 'pandas.core.frame.DataFrame'>가 나온다.
+즉, y_test의 Dataframe을 numpy.ndarray로 바꿔줘야한다.
+=> .values 로 pandas DataFrame을 Numpy ndarray로 바꿔주거나
+=> .to_numpy() 로 pandas DataFrame을 Numpy ndarray로 바꿔주기.
+
+(방법2-3)
+get_dummies를 쓰면 자료형이 <class 'pandas.core.frame.DataFrame'>이다.
+여기서 굳이 자료형을 <class 'numpy.ndarray'>로 바꾸지 않고
+np.argmax를 tf.argmax로 바꿔서 결과를 구할수도 있다.
+대신 마지막 결과에 나오는 데이터형이 <class 'numpy.ndarray'>가 아니라
+<class 'tensorflow.python.framework.ops.EagerTensor'> 이다.
+'''
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,y,

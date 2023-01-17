@@ -18,7 +18,9 @@ x_train, x_test, y_train, y_test=train_test_split(
     random_state=123
 )
 
-scaler = MinMaxScaler()
+#Scaler(데이터 전처리) 
+scaler = StandardScaler()
+# scaler = MinMaxScaler()
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
 
@@ -37,7 +39,7 @@ model.summary() #Total params: 47,361
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae']) 
 
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint #대문자=class, 소문자=함수 
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint  
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min',          
                               patience=50, 
@@ -53,9 +55,10 @@ ModelCheckpoint = ModelCheckpoint(monitor='val_loss',
                                 
                                                                       
 hist = model.fit(x_train, y_train, epochs=5000, batch_size=2, 
-                 validation_split=0.2, callbacks=[earlyStopping, ModelCheckpoint], 
+                 validation_split=0.25, callbacks=[earlyStopping, ModelCheckpoint], 
                  verbose=1)  
 
+#모델+가중치save
 model.save(path+'keras_30_ModelCheckPoint3_save_model.h5')
 
 #4.평가,예측

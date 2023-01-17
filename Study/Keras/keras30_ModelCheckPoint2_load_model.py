@@ -18,7 +18,9 @@ x_train, x_test, y_train, y_test=train_test_split(
     random_state=333
 )
 
-scaler = MinMaxScaler()
+#Scaler(데이터 전처리) 
+scaler = StandardScaler()
+# scaler = MinMaxScaler()
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
 
@@ -37,7 +39,7 @@ model.summary() #Total params: 47,361
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae']) 
 
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint #대문자=class, 소문자=함수 
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint  
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min',          
                               patience=40, 
@@ -70,6 +72,9 @@ r2=r2_score(y_test,y_predict)
 print("R2 : ", r2)
 
 #MCP 불러오기  R2 :  0.8757832219281168
+
+#ModelCheckPoint를 로드하면 세이브했던 결과와 동일하다.
+
 
 
 

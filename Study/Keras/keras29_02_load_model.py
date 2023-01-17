@@ -17,9 +17,9 @@ x_train, x_test, y_train, y_test=train_test_split(
     random_state=333
 )
 
-scaler = MinMaxScaler()
-# scaler.fit(x_train)
-# x_train=scaler.transform(x_train)
+#Scaler(데이터 전처리) 
+scaler = StandardScaler()
+# scaler = MinMaxScaler()
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
 
@@ -27,10 +27,6 @@ x_test=scaler.transform(x_test)
 
 #모델 불러오기
 path='./_save/'
-# path='../_save/'
-# path='C:/Users/rnsuz/OneDrive/문서/GitHub/AI-Study/study/_save'
-# model.save(path + 'keras29_01_save_model.h5')
-# model.save('./_save/keras29_01_save_model.h5')
 
 model=load_model(path+'keras29_01_save_model.h5')
 model.summary()
@@ -38,7 +34,7 @@ model.summary()
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae']) 
 
-from tensorflow.keras.callbacks import EarlyStopping #대문자=class, 소문자=함수 
+from tensorflow.keras.callbacks import EarlyStopping  
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min',          
                               patience=40, 
