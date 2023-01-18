@@ -8,8 +8,6 @@ from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 #1. 데이터
 path='./_data/ddarung/' 
-#2개 돌릴경우
-# path='../_data/ddarung/' 
 
 train_csv=pd.read_csv(path+'train.csv', index_col=0) 
 test_csv=pd.read_csv(path+'test.csv', index_col=0) 
@@ -21,13 +19,14 @@ train_csv = train_csv.interpolate(method='linear', limit_direction='forward')
 x=train_csv.drop(['count'], axis=1)
 y=train_csv['count']
 
-x_train, x_validation, y_train, y_validation = train_test_split(x, y,
-    train_size=0.85, test_size=0.15, shuffle=False
+x_train, x_test, y_train, y_test=train_test_split(
+    x,y,
+    train_size=0.8,
+    shuffle=True,
+    random_state=444
 )
 
-x_train, x_test, y_train, y_test = train_test_split(x_train, y_train,
-    test_size=0.3, shuffle=False
-)
+#Scaler(데이터 전처리) 
 scaler = StandardScaler()
 # scaler = MinMaxScaler()
 x_train=scaler.fit_transform(x_train)
@@ -56,15 +55,15 @@ earlyStopping = EarlyStopping(monitor='val_loss',
                               mode='min', 
                               patience=300, 
                               restore_best_weights=True, 
-                              verbose=1)
+                              verbose=2)
 
 import datetime
-date = datetime.datetime.now() #현재 시간 반환
+date = datetime.datetime.now() 
 print(date) 
-print(type(date)) #<class 'datetime.datetime'>
-date=date.strftime("%m%d_%H%M") #문자열 타입으로 변환
+print(type(date)) 
+date=date.strftime("%m%d_%H%M") 
 print(date) 
-print(type(date)) #<class 'str'>
+print(type(date)) 
 
 filepath='./_save/MCP/'
 filename='{epoch:04d}-{val_loss:.4f}.hdf5' 
@@ -76,8 +75,9 @@ ModelCheckpoint = ModelCheckpoint(monitor='val_loss',
                                   save_best_only=True,
                                   filepath=filepath+'k31_4_'+date+'_'+filename)
 
-hist=model.fit(x_train, y_train, epochs=10000, batch_size=8, validation_data=(x_validation, y_validation)
-               ,callbacks=[earlyStopping, ModelCheckpoint], verbose=1)
+hist=model.fit(x_train, y_train, epochs=10000, batch_size=8, 
+               validation_split=0.25
+               ,callbacks=[earlyStopping, ModelCheckpoint], verbose=2)
 
 #4.평가,예측
 loss=model.evaluate(x_test, y_test) 
@@ -94,7 +94,13 @@ y_submit=model.predict(test_csv)
 
 submission['count']=y_submit
 
-submission.to_csv(path+'submission_011201.csv')
+submission.to_csv(path+'submission_011801.csv')
 
-
+'''
+Epoch 00546: val_loss did not improve from 30.81214
+Epoch 00546: early stopping
+10/10 [==============================] - 0s 555us/step - loss: 26.5893
+loss :  26.5893497467041
+RMSE :  41.109200287913296
+'''
 
