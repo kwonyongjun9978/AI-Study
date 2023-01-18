@@ -19,25 +19,19 @@ y=train_csv['count']
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,y,
-    train_size=0.7,
+    train_size=0.8,
     shuffle=True,
-    random_state=44
+    random_state=444
 )
+
+#Scaler(데이터 전처리) 
 scaler = StandardScaler()
 # scaler = MinMaxScaler()
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
+
 test_csv=scaler.transform(test_csv)
 print(x_train.shape)
-
-#2.모델구성
-# model=Sequential()
-# model.add(Dense(32, input_dim=8, activation='relu')) 
-# model.add(Dense(256, activation='relu'))
-# model.add(Dense(512, activation='relu'))
-# model.add(Dense(128, activation='relu'))
-# model.add(Dense(16, activation='relu'))
-# model.add(Dense(1))
 
 # 2.모델구성(함수형)
 input1=Input(shape=(8,))
@@ -59,13 +53,13 @@ model.compile(loss='mse', optimizer='adam')
 from tensorflow.keras.callbacks import EarlyStopping 
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min', 
-                              patience=150, 
+                              patience=300, 
                               restore_best_weights=True, 
-                              verbose=1)  
+                              verbose=2)  
 
-hist = model.fit(x_train, y_train, epochs=1000, batch_size=32,
+hist = model.fit(x_train, y_train, epochs=10000, batch_size=64,
                  validation_split=0.2, callbacks=[earlyStopping], 
-                 verbose=1)
+                 verbose=2)
 
 #4.평가,예측
 loss=model.evaluate(x_test, y_test) 
@@ -81,22 +75,11 @@ y_submit=model.predict(test_csv)
 
 submission['count']=y_submit
 
-submission.to_csv(path+'submission_011301.csv')
-
-# import matplotlib.pyplot as plt
-# plt.figure(figsize=(9,6)) 
-# plt.plot(hist.history['loss'], c='red', marker='.', label='loss')
-# plt.plot(hist.history['val_loss'], c='blue', marker='.', label='val_loss')
-# plt.grid() 
-# plt.xlabel('epochs') 
-# plt.ylabel('loss')   
-# plt.title('BIKE loss') 
-# plt.legend() 
-# plt.show()
+submission.to_csv(path+'submission_011801.csv')
 
 '''
-loss :  21531.525390625
-RMSE :  146.73624568750537
+loss :  20308.974609375
+RMSE :  142.50955986002919
 '''
 
 

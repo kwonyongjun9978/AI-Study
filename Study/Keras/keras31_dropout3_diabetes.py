@@ -82,12 +82,12 @@ r2=r2_score(y_test,y_predict)
 print("R2 : ", r2)
 
 '''
-Epoch 00285: val_loss did not improve from 3432.39526
-Epoch 00285: early stopping
-3/3 [==============================] - 0s 530us/step - loss: 3266.6528
-loss :  3266.65283203125
-RMSE :  57.15463909687873
-R2 :  0.4770162494564556
+Epoch 00283: val_loss did not improve from 3503.41040
+Epoch 00283: early stopping
+3/3 [==============================] - 0s 0s/step - loss: 3146.6763
+loss :  3146.67626953125
+RMSE :  56.09524152540849
+R2 :  0.4962242406396765
 '''
 
 
