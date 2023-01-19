@@ -14,61 +14,6 @@ y=datasets['target']
 # print(np.unique(y, return_counts=True)) #(array([1, 2, 3, 4, 5, 6, 7]), array([211840,283301,35754,2747,9493,17367,20510],dtype=int64))
 
 # 원핫인코딩
-#<1.keras-to_categorical vs 2.pandas-get_dummies vs 3.scikit-onehotencoder>
-#방법1(keras-to_categorical)
-# from tensorflow.keras.utils import to_categorical
-# y=to_categorical(y)
-# #print(y.shape) #(581012, 8)
-# #print(type(y)) #<class 'numpy.ndarray'>
-# #print(y[:10])
-# #print(np.unique(y[:, 0], return_counts=True)) #모든 행의 0번째 컬럼 #(array([0.], dtype=float32), array([581012], dtype=int64))
-# #print(np.unique(y[:, 1], return_counts=True)) #(array([0., 1.], dtype=float32), array([369172, 211840], dtype=int64))
-# y=np.delete(y,0,axis=1)
-# #print(y.shape) #(581012, 7)
-# #print(y[:10])
-# #print(np.unique(y[:, 0], return_counts=True)) #(array([0., 1.], dtype=float32), array([369172, 211840], dtype=int64))
-
-'''
-방법1
-to_categorical의 특성 : 무조건 0부터 시작하게끔 한다. => 0이 없을 경우 class 하나 더 만듦.
-y 데이터가 [1 2 3 4 5 6 7]일 경우 to_categorical(y)하면 [0 1 2 3 4 5 6 7]로 0을 더 추가해 만듦.
-=> 해결방법: 첫번째 칼럼 삭제하기!
-=> y = np.delete(y, 0, axis=1)
-np.delete(데이터, 0번째, 행삭제는 axis=0, 열삭제는 axis=1)
-'''
-
-#방법2(pandas-get_dummies)
-# import pandas as pd
-# y=pd.get_dummies(y)
-# print(y[:10])
-# #(방법2-2)
-# #print(type(y)) #<class 'pandas.core.frame.DataFrame'>(판다스에서는 헤더와 인덱스가 자동생성된다)
-# y=y.values
-# #print(type(y)) #<class 'numpy.ndarray'>
-# #print(y.shape)
-# #y=y.to_numpy() 로 해줘도 된다.
-# #y = np.array(y) #(방법2-1)
-
-'''
-방법2
-(방법2-2)
-get_dummies : 명목변수만 원핫인코딩을 해준다.
-=> 해결방법: 자료형 확인
-=> print(type()) 으로 자료형을 확인
-y_predict는 <class 'numpy.ndarray'>
-y_test는 <class 'pandas.core.frame.DataFrame'>가 나온다.
-즉, y_test의 Dataframe을 numpy.ndarray로 바꿔줘야한다.
-=> .values 로 pandas DataFrame을 Numpy ndarray로 바꿔주거나
-=> .to_numpy() 로 pandas DataFrame을 Numpy ndarray로 바꿔주기.
-
-(방법2-3)
-get_dummies를 쓰면 자료형이 <class 'pandas.core.frame.DataFrame'>이다.
-여기서 굳이 자료형을 <class 'numpy.ndarray'>로 바꾸지 않고
-np.argmax를 tf.argmax로 바꿔서 결과를 구할수도 있다.
-대신 마지막 결과에 나오는 데이터형이 <class 'numpy.ndarray'>가 아니라
-<class 'tensorflow.python.framework.ops.EagerTensor'> 이다.
-'''
-
 #방법3(scikit-onehotencoder)
 # print(y.shape) #(581012,)
 # print(type(y)) #<class 'numpy.ndarray'>
@@ -84,7 +29,6 @@ y=y.toarray()
 # print(y[:15])
 # print(type(y)) #<class 'numpy.ndarray'>
 # print(y.shape) #(581012, 7)
-
 
 '''
 방법3
@@ -112,21 +56,11 @@ x_train, x_test, y_train, y_test = train_test_split(
     stratify=y 
 )
 
-# scaler = StandardScaler()
-scaler = MinMaxScaler()
-# scaler.fit(x_train)
-# x_train=scaler.transform(x_train)
+#Scaler(데이터 전처리) 
+scaler = StandardScaler()
+# scaler = MinMaxScaler()
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
-
-#2. 모델구성
-# model=Sequential()
-# model.add(Dense(256, activation='relu', input_shape=(54,)))
-# model.add(Dense(128, activation='relu'))
-# model.add(Dense(64, activation='relu'))
-# model.add(Dense(32, activation='relu'))
-# model.add(Dense(16, activation='relu'))
-# model.add(Dense(7, activation='softmax'))
 
 # 2.모델구성(함수형)
 input1=Input(shape=(54,))
@@ -151,15 +85,15 @@ earlyStopping = EarlyStopping(monitor='val_loss',
                               mode='min', 
                               patience=20, 
                               restore_best_weights=True, 
-                              verbose=1)
+                              verbose=2)
 
 import datetime
-date = datetime.datetime.now() #현재 시간 반환
+date = datetime.datetime.now() 
 print(date) 
-print(type(date)) #<class 'datetime.datetime'>
-date=date.strftime("%m%d_%H%M") #문자열 타입으로 변환
+print(type(date)) 
+date=date.strftime("%m%d_%H%M") 
 print(date) 
-print(type(date)) #<class 'str'>
+print(type(date)) 
 
 filepath='./_save/MCP/'
 filename='{epoch:04d}-{val_loss:.4f}.hdf5' 
@@ -167,7 +101,7 @@ filename='{epoch:04d}-{val_loss:.4f}.hdf5'
 #ModelCheckpoint
 ModelCheckpoint = ModelCheckpoint(monitor='val_loss',
                                   mode='auto',
-                                  verbose=1,
+                                  verbose=2,
                                   save_best_only=True,
                                   filepath=filepath+'k31_10_'+date+'_'+filename)
 
@@ -175,7 +109,7 @@ start=time.time()
 model.fit(x_train, y_train, epochs=500, batch_size=3000,
           validation_split=0.2,
           callbacks=[earlyStopping, ModelCheckpoint],
-          verbose=1)
+          verbose=2)
 end=time.time()
 
 #4 평가, 예측
@@ -196,4 +130,8 @@ print("acc(정확도) : ", acc)
 
 print("걸린시간 : ", end-start)
 
-
+'''
+loss :  0.24077723920345306
+accuracy :  0.9054241180419922
+acc(정확도) :  0.9054241284648417
+'''

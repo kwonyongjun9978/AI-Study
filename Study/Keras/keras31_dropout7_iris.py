@@ -6,7 +6,7 @@ from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 #1. 데이터
 datasets=load_iris()
-#print(datasets.DESCR)         #클래스 개수 확인        
+#print(datasets.DESCR)              
 #print(datasets.feature_names)  
 
 x=datasets.data
@@ -30,19 +30,12 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 # print(y_train)
 # print(y_test)
+
+#Scaler(데이터 전처리) 
 scaler = StandardScaler()
 # scaler = MinMaxScaler()
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
-
-#2. 모델구성
-# model=Sequential()
-# model.add(Dense(50, activation='relu', input_shape=(4,)))
-# model.add(Dense(40, activation='relu'))
-# model.add(Dense(30, activation='relu'))
-# model.add(Dense(20, activation='relu'))
-# model.add(Dense(10, activation='relu'))
-# model.add(Dense(3, activation='softmax'))
 
 # 2.모델구성(함수형)
 input1=Input(shape=(4,))
@@ -54,12 +47,7 @@ dense5=Dense(10, activation='relu')(dense4)
 output1=Dense(3, activation='softmax')(dense5)
 model=Model(inputs=input1, outputs=output1)
 model.summary()
-'''
-다중분류
-마지막 레이어의 activation은 무조건 softmax
-클래스의 개수를 최종 Output layer 노드의 개수로 설정
-loss 는 categorical_crossentropy
-'''                                    
+                                  
 #3. 컴파일, 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam',
               metrics=['accuracy'])
@@ -72,12 +60,12 @@ earlyStopping = EarlyStopping(monitor='val_loss',
                               verbose=1)
 
 import datetime
-date = datetime.datetime.now() #현재 시간 반환
+date = datetime.datetime.now() 
 print(date) 
-print(type(date)) #<class 'datetime.datetime'>
-date=date.strftime("%m%d_%H%M") #문자열 타입으로 변환
+print(type(date)) 
+date=date.strftime("%m%d_%H%M") 
 print(date) 
-print(type(date)) #<class 'str'>
+print(type(date)) 
 
 filepath='./_save/MCP/'
 filename='{epoch:04d}-{val_loss:.4f}.hdf5' 
@@ -85,14 +73,14 @@ filename='{epoch:04d}-{val_loss:.4f}.hdf5'
 #ModelCheckpoint
 ModelCheckpoint = ModelCheckpoint(monitor='val_loss',
                                   mode='auto',
-                                  verbose=1,
+                                  verbose=2,
                                   save_best_only=True,
                                   filepath=filepath+'k31_7_'+date+'_'+filename)
 
 model.fit(x_train, y_train, epochs=1000, batch_size=8,
           validation_split=0.2,
           callbacks=[earlyStopping, ModelCheckpoint],
-          verbose=1)
+          verbose=2)
 
 #4 평가, 예측
 loss, accuracy = model.evaluate(x_test,y_test)
@@ -113,4 +101,9 @@ print("   y_test(원래값) : ", y_test)
 acc=accuracy_score(y_test, y_predict)
 print(acc)
 
-
+'''
+loss :  0.01450495794415474
+accuracy :  1.0
+y_predict(예측값) :  [2 0 2 0 0 1 0 2 1 1 1 1 2 2 2 0 0 2 1 0 2 0 1 0 0 1 1 2 2 1]
+   y_test(원래값) :  [2 0 2 0 0 1 0 2 1 1 1 1 2 2 2 0 0 2 1 0 2 0 1 0 0 1 1 2 2 1]
+'''

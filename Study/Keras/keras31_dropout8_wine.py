@@ -30,21 +30,11 @@ x_train, x_test, y_train, y_test = train_test_split(
     stratify=y 
 )
 
+#Scaler(데이터 전처리) 
 scaler = StandardScaler()
 # scaler = MinMaxScaler()
-# scaler.fit(x_train)
-# x_train=scaler.transform(x_train)
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
-
-#2. 모델구성
-# model=Sequential()
-# model.add(Dense(256, activation='relu', input_shape=(13,)))
-# model.add(Dense(128, activation='relu'))
-# model.add(Dense(64, activation='relu'))
-# model.add(Dense(32, activation='relu'))
-# model.add(Dense(16, activation='relu'))
-# model.add(Dense(3, activation='softmax'))
 
 # 2.모델구성(함수형)
 input1=Input(shape=(13,))
@@ -68,15 +58,15 @@ earlyStopping = EarlyStopping(monitor='val_loss',
                               mode='min', 
                               patience=40, 
                               restore_best_weights=True, 
-                              verbose=1)
+                              verbose=2)
 
 import datetime
-date = datetime.datetime.now() #현재 시간 반환
+date = datetime.datetime.now() 
 print(date) 
-print(type(date)) #<class 'datetime.datetime'>
-date=date.strftime("%m%d_%H%M") #문자열 타입으로 변환
+print(type(date)) 
+date=date.strftime("%m%d_%H%M") 
 print(date) 
-print(type(date)) #<class 'str'>
+print(type(date)) 
 
 filepath='./_save/MCP/'
 filename='{epoch:04d}-{val_loss:.4f}.hdf5' 
@@ -84,14 +74,14 @@ filename='{epoch:04d}-{val_loss:.4f}.hdf5'
 #ModelCheckpoint
 ModelCheckpoint = ModelCheckpoint(monitor='val_loss',
                                   mode='auto',
-                                  verbose=1,
+                                  verbose=2,
                                   save_best_only=True,
                                   filepath=filepath+'k31_8_'+date+'_'+filename)
 
 model.fit(x_train, y_train, epochs=1000, batch_size=2,
           validation_split=0.2,
           callbacks=[earlyStopping, ModelCheckpoint],
-          verbose=1)
+          verbose=2)
 
 #4 평가, 예측
 loss, accuracy = model.evaluate(x_test,y_test)
@@ -107,3 +97,10 @@ y_test=np.argmax(y_test, axis=1)
 print("y_test(원래값) : ", y_test)
 acc=accuracy_score(y_test, y_predict)
 print(acc)
+
+'''
+loss :  0.013979668729007244
+accuracy :  1.0
+y_predict(예측값) :  [1 0 0 0 1 0 2 2 0 2 1 1 1 2 1 1 0 0 1 1 2 1 0 1 2 0 1 0 2 0 0 1 1 2 2 2]
+y_test(원래값) :  [1 0 0 0 1 0 2 2 0 2 1 1 1 2 1 1 0 0 1 1 2 1 0 1 2 0 1 0 2 0 0 1 1 2 2 2]
+'''

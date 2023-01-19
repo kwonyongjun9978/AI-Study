@@ -39,19 +39,11 @@ x_train, x_test, y_train, y_test = train_test_split(
     stratify=y 
 )
 
+#Scaler(데이터 전처리) 
 scaler = StandardScaler()
 # scaler = MinMaxScaler()
 x_train=scaler.fit_transform(x_train)
 x_test=scaler.transform(x_test)
-
-#2. 모델구성
-# model=Sequential()
-# model.add(Dense(256, activation='relu', input_shape=(64,)))
-# model.add(Dense(128, activation='relu'))
-# model.add(Dense(64, activation='relu'))
-# model.add(Dense(32, activation='relu'))
-# model.add(Dense(16, activation='relu'))
-# model.add(Dense(10, activation='softmax'))
 
 # 2.모델구성(함수형)
 input1=Input(shape=(64,))
@@ -75,15 +67,15 @@ earlyStopping = EarlyStopping(monitor='val_loss',
                               mode='min', 
                               patience=200, 
                               restore_best_weights=True, 
-                              verbose=1)
+                              verbose=2)
 
 import datetime
-date = datetime.datetime.now() #현재 시간 반환
+date = datetime.datetime.now() 
 print(date) 
-print(type(date)) #<class 'datetime.datetime'>
-date=date.strftime("%m%d_%H%M") #문자열 타입으로 변환
+print(type(date)) 
+date=date.strftime("%m%d_%H%M") 
 print(date) 
-print(type(date)) #<class 'str'>
+print(type(date)) 
 
 filepath='./_save/MCP/'
 filename='{epoch:04d}-{val_loss:.4f}.hdf5' 
@@ -91,14 +83,14 @@ filename='{epoch:04d}-{val_loss:.4f}.hdf5'
 #ModelCheckpoint
 ModelCheckpoint = ModelCheckpoint(monitor='val_loss',
                                   mode='auto',
-                                  verbose=1,
+                                  verbose=2,
                                   save_best_only=True,
                                   filepath=filepath+'k31_9_'+date+'_'+filename)
 
 model.fit(x_train, y_train, epochs=30000, batch_size=32,
           validation_split=0.2,
           callbacks=[earlyStopping, ModelCheckpoint],
-          verbose=1)
+          verbose=2)
 
 #4 평가, 예측
 loss, accuracy = model.evaluate(x_test,y_test)
@@ -115,4 +107,7 @@ print("y_test(원래값) : ", y_test)
 acc=accuracy_score(y_test, y_predict)
 print(acc)
 
-
+'''
+loss :  0.3344237804412842
+accuracy :  0.980555534362793
+'''
