@@ -1,6 +1,6 @@
 import numpy as np
 from tensorflow.keras.datasets import mnist
-
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 #1. 데이터
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
@@ -41,29 +41,28 @@ model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min',          
-                              patience=10, 
+                              patience=50, 
                               restore_best_weights=True, 
-                              verbose=1 )
+                              verbose=2)
 
 import datetime
-date = datetime.datetime.now() #현재 시간 반환
+date = datetime.datetime.now() 
 print(date) 
-print(type(date)) #<class 'datetime.datetime'>
-date=date.strftime("%m%d_%H%M") #문자열 타입으로 변환
+print(type(date)) 
+date=date.strftime("%m%d_%H%M") 
 print(date) 
-print(type(date)) #<class 'str'>
+print(type(date)) 
 
 filepath='./_save/MCP/'
-filename='{epoch:04d}-{val_loss:.4f}.hdf5' #0037-0.0048.hdf8 
+filename='{epoch:04d}-{val_loss:.4f}.hdf5'  
 
 ModelCheckpoint = ModelCheckpoint(monitor='val_loss',
                                   mode='auto',
                                   verbose=1,
                                   save_best_only=True,
-                                  #filepath=path+'MCP/keras30_ModelCheckPoint3.hdf5'
                                   filepath=filepath+'k34_1_'+date+'_'+filename)
 
-model.fit(x_train, y_train, epochs=100, batch_size=32,
+model.fit(x_train, y_train, epochs=1000, batch_size=32,
           validation_split=0.2,
           callbacks=[earlyStopping, ModelCheckpoint],
           verbose=1)
@@ -83,6 +82,6 @@ Dense일 때는 CPU 쓰면 더 좋았지만 CNN일 때는 GPU 쓰는 게 더 빠
 '''
 
 '''
-loss :  0.11643264442682266
-acc :  0.970300018787384
+loss :  0.11296992003917694
+acc :  0.9707000255584717
 '''

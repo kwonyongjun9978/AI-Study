@@ -79,7 +79,7 @@ relu, sigmoid, tanh, elu 등이 있음.
 
 <Input shape : 4-dimensional tensor>
 (batch_size, height, width, channels) : data_format='channels_last' (Tensorflow에서는 이게 default)
-(batch_size, channels, height, width) : data_format='channels_first' (Theano library에서는 이게 default)
+(batch_size, channels, height, width) : data_format='channels_first' (Tensorflow library에서는 이게 default)
 라이브러리나 프레임워크에 따라 데이터 형태의 기본값이 다를 수 있으므로 유의해야한다.
 batch_size : 데이터의 샘플 수 : 훈련의 수
 height, width : 세로, 가로 (행, 열)
