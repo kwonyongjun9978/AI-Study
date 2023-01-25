@@ -4,10 +4,8 @@ from tensorflow.keras.datasets import mnist
 #1. 데이터
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
-print(x_train.shape, y_train.shape) #(60000, 28, 28) (뒤에 1이 없으니까 흑백) (60000,)
+print(x_train.shape, y_train.shape) #(60000, 28, 28) (60000,)
 print(x_test.shape, y_test.shape)   #(10000, 28, 28) (10000,)
-
-#60000장의 데이터 셋을 가지고 훈련을 한다
 
 x_train=x_train.reshape(60000,28,28,1) 
 x_test=x_test.reshape(10000,28,28,1)   
@@ -18,17 +16,19 @@ print(x_test.shape, y_test.shape)   #(10000, 28, 28, 1) (10000,)
 print(np.unique(y_train, return_counts=True))
 
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, Dense, Flatten
+from tensorflow.keras.layers import Conv2D, Dense, Flatten, MaxPooling2D
 
 #2. 모델
 model=Sequential()
-model.add(Conv2D(filters=128, kernel_size=(2,2), input_shape=(28,28,1),
-                 activation='relu'))             #(27,27,128)
-model.add(Conv2D(filters=64, kernel_size=(2,2))) #(26,26,64)
-model.add(Conv2D(filters=64, kernel_size=(2,2))) #(25,25,64)
-model.add(Flatten()) #40000
-model.add(Dense(32, activation='relu'))   #input_shape=(40000,)
-                                          #(60000,40000)=(batch_size,input_dim)
+model.add(Conv2D(filters=128, kernel_size=(3,3), input_shape=(28,28,1),
+                 padding='same', #valid
+                 activation='relu'))                              #(28,28,128)    
+model.add(MaxPooling2D())  #연산량이 줄어든다                       (14,14,128)
+model.add(Conv2D(filters=64, kernel_size=(2,2), padding='same'))  #(14,14,64)
+model.add(MaxPooling2D())
+model.add(Conv2D(filters=32, kernel_size=(2,2))) 
+model.add(Flatten()) 
+model.add(Dense(32, activation='relu'))                                            
 model.add(Dense(10, activation='softmax'))
 
 model.summary()
@@ -59,7 +59,7 @@ ModelCheckpoint = ModelCheckpoint(monitor='val_loss',
                                   mode='auto',
                                   verbose=1,
                                   save_best_only=True,
-                                  filepath=filepath+'k34_1_'+date+'_'+filename)
+                                  filepath=filepath+'k35_1_'+date+'_'+filename)
 
 model.fit(x_train, y_train, epochs=1000, batch_size=32,
           validation_split=0.2,
@@ -72,15 +72,18 @@ print('loss : ', results[0])
 print('acc : ', results[1])
 
 '''
-CNN에 넣으려면 독립변수 데이터를 4차원 텐서로 reshape 해야한다.
-reshape 할 때는 원하는 모양을 적으면 된다.
-스칼라 (3, )를 벡터 (3,1)로 바꿀 때에는 .reshape(3,1) 또는 .reshape(-1,1)로 표현 가능했지만,
-텐서로 바꿀 때에는 -1이 안 통한다. 그냥 다 적어주는 게 좋다.
-one-hot 안 해줬으므로 categorical이 아니라 sparse_categorical 쓴다.
-Dense일 때는 CPU 쓰면 더 좋았지만 CNN일 때는 GPU 쓰는 게 더 빠르다.
-'''
-
-'''
+기존성능
 loss :  0.11296992003917694
 acc :  0.9707000255584717
+
+padding적용
+loss :  0.09387045353651047
+acc :  0.97079998254776
+
+padding+MaxPooling적용
+loss :  0.06569646298885345
+acc :  0.9819999933242798
 '''
+
+
+

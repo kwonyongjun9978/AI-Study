@@ -11,36 +11,27 @@ print(x_test.shape, y_test.shape)   #(10000, 32, 32, 3) (10000, 1)
 
 print(np.unique(y_train, return_counts=True))
 
+#scaler
+x_train, x_test = x_train / 255.0, x_test / 255.0
+
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, Dense, Flatten, Dropout
+from tensorflow.keras.layers import Conv2D, Dense, Flatten, Dropout, MaxPooling2D
 
 #2. 모델
-model = tf.keras.Sequential()
-model.add(layers.Conv2D(64, (3, 3), activation='relu', padding='same', input_shape=(32, 32, 3)))
-model.add(layers.BatchNormalization())
-model.add(layers.Conv2D(64, (3, 3), activation='relu', padding='same'))
-model.add(layers.BatchNormalization())
-model.add(layers.MaxPooling2D((2, 2)))
-model.add(layers.Dropout(0.2))
+model=Sequential()
+model.add(Conv2D(filters=128, kernel_size=(4,4), input_shape=(32,32,3),
+                 padding='same',
+                 strides=2,     #stride 기본값 = 1, maxpooling에서는 stride 기본값이 = 2
+                 activation='relu')) 
+model.add(MaxPooling2D())            
+model.add(Conv2D(filters=64, kernel_size=(3,3), activation='relu', padding='same', strides=2)) 
+model.add(MaxPooling2D())
+model.add(Conv2D(filters=48, kernel_size=(2,2), activation='relu', padding='same')) 
+model.add(Flatten()) 
+model.add(Dense(128, activation='relu'))                                           
+model.add(Dense(100, activation='softmax'))
 
-model.add(layers.Conv2D(128, (3, 3), activation='relu', padding='same'))
-model.add(layers.BatchNormalization())
-model.add(layers.Conv2D(128, (3, 3), activation='relu', padding='same'))
-model.add(layers.BatchNormalization())
-model.add(layers.MaxPooling2D((2, 2)))
-model.add(layers.Dropout(0.3))
-
-model.add(layers.Conv2D(256, (3, 3), activation='relu', padding='same'))
-model.add(layers.BatchNormalization())
-model.add(layers.Conv2D(256, (3, 3), activation='relu', padding='same'))
-model.add(layers.BatchNormalization())
-model.add(layers.MaxPooling2D((2, 2)))
-model.add(layers.Dropout(0.4))
-
-model.add(layers.Flatten())
-model.add(layers.Dense(1024, activation='relu'))
-model.add(layers.Dropout(0.5))
-model.add(layers.Dense(100, activation='softmax'))
+model.summary()
 
 #3. 컴파일, 훈련
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',
@@ -68,9 +59,9 @@ ModelCheckpoint = ModelCheckpoint(monitor='val_loss',
                                   mode='auto',
                                   verbose=1,
                                   save_best_only=True,
-                                  filepath=filepath+'k34_3_'+date+'_'+filename)
+                                  filepath=filepath+'k35_4_'+date+'_'+filename)
 
-model.fit(x_train, y_train, epochs=300, batch_size=64,
+model.fit(x_train, y_train, epochs=300, batch_size=32,
           validation_split=0.2,
           callbacks=[earlyStopping, ModelCheckpoint],
           verbose=1)
@@ -81,6 +72,6 @@ print('loss : ', results[0])
 print('acc : ', results[1])
 
 '''
-loss :  1.624843716621399
-acc :  0.5684999823570251
+loss :  2.8021600246429443
+acc :  0.3118000030517578
 '''

@@ -19,7 +19,7 @@ model.add(Dense(4, activation='relu'))  #(N,1)
 
 model.summary()
 #filters의 개수 = 그다음 output 노드의 개수
-#하이퍼파라미터 튜닝 : filters ,kernel_size 조절 + activation 선택
+#하이퍼파라미터 튜닝 : filters ,kernel_size 조절, activation 선택, padding설정
 
 '''
 <CNN에서 이미지를 인식하는 방법>
