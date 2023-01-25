@@ -24,7 +24,7 @@ from tensorflow.keras.layers import Conv2D, Dense, Flatten, MaxPooling2D
 #2. 모델
 model=Sequential()
 model.add(Conv2D(filters=128, kernel_size=(3,3), input_shape=(28,28,1),
-                 padding='same', #valid
+                 padding='same', 
                  activation='relu'))                                  
 model.add(MaxPooling2D())                      
 model.add(Conv2D(filters=64, kernel_size=(2,2), padding='same'))  

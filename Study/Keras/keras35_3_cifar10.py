@@ -26,8 +26,7 @@ model.add(Conv2D(filters=64, kernel_size=(3,3), activation='relu', padding='same
 model.add(MaxPooling2D())
 model.add(Conv2D(filters=32, kernel_size=(2,2), activation='relu')) 
 model.add(Flatten()) 
-model.add(Dense(16, activation='relu'))   
-                                          
+model.add(Dense(16, activation='relu'))                                            
 model.add(Dense(10, activation='softmax'))
 
 #3. 컴파일, 훈련
