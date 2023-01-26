@@ -23,8 +23,10 @@ print(x.shape) #(7, 3, 1) 3차원
 
 #2. 모델구성
 model = Sequential()
-model.add(SimpleRNN(units =256, activation='relu', input_shape=(3,1)))
-                                                   #(N, 3, 1) -> ([batch, timesteps, feature])
+# model.add(SimpleRNN(units =256, activation='relu', input_shape=(3,1)))
+                                                     #(N, 3, 1) -> ([batch, timesteps, feature])
+model.add(SimpleRNN(units=256, input_length=3, input_dim=1))
+# model.add(SimpleRNN(units=256, input_dim=1, input_length=3))  #가독성이 떨어진다..                                                                                                  
 model.add(Dense(128, activation='relu'))
 model.add(Dense(64, activation='relu'))
 model.add(Dense(32, activation='relu'))
