@@ -5,8 +5,6 @@ from tensorflow.keras.layers import Dense, SimpleRNN, LSTM
 #1. 데이터
 dataset = np.array([1,2,3,4,5,6,7,8,9,10]) #(10, )
 
-#시계열 데이터는 y 가 없다
-
 x = np.array([[1,2,3],
               [2,3,4],
               [3,4,5],

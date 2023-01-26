@@ -17,8 +17,8 @@ x = x.reshape(13,3,1)
 #2. 모델구성
 model = Sequential()          #(N , 3, 1)
 model.add(LSTM(256, input_shape=(3,1), activation='relu', 
-               return_sequences=True))
-model.add(LSTM(128, activation='relu'))                                                                                               
+               return_sequences=True))   # (N, 3, 256)
+model.add(LSTM(128, activation='relu'))  # (N, 128)                                                                                              
 model.add(Dense(128, activation='relu'))
 model.add(Dense(64, activation='relu'))
 model.add(Dense(32, activation='relu'))
@@ -26,7 +26,11 @@ model.add(Dense(16, activation='relu'))
 model.add(Dense(1, activation='relu'))
 
 model.summary()
-
+'''
+■ 연속으로 LSTM 구성할 때 reshape 하는 방법
+LSTM은 3차원 자료 줘야하는데 LSTM 거치면 2차원 자료로 바뀌므로 LSTM 연속으로 layer 추가하고 싶으면 다시 reshape 해야 한다.
+reshape 하는 방법에는 2가지가 있는데, reshape layer를 추가하거나 이전 LSTM에서 return_sequence=True로 설정하면 된다.
+'''
 #3. 컴파일,훈련
 model.compile(loss='mse', optimizer='adam')
 
