@@ -1,6 +1,6 @@
 import numpy as np
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, SimpleRNN
+from tensorflow.keras.layers import Dense, SimpleRNN, LSTM ,GRU
 
 #1. 데이터
 dataset = np.array([1,2,3,4,5,6,7,8,9,10]) #(10, )
@@ -25,8 +25,8 @@ print(x.shape) #(7, 3, 1) 3차원
 model = Sequential()
 # model.add(SimpleRNN(units =256, activation='relu', input_shape=(3,1)))
                                                      #(N, 3, 1) -> ([batch, timesteps, feature])
-model.add(SimpleRNN(units=256, input_length=3, input_dim=1))
-# model.add(SimpleRNN(units=256, input_dim=1, input_length=3))  #가독성이 떨어진다..                                                                                                  
+# model.add(LSTM(units=256, input_shape=(3,1))) 
+model.add(GRU(units=256, input_shape=(3,1)))                                                                                                                                                                                                 
 model.add(Dense(128, activation='relu'))
 model.add(Dense(64, activation='relu'))
 model.add(Dense(32, activation='relu'))
@@ -36,5 +36,4 @@ model.add(Dense(1, activation='relu'))
 model.summary()
 
 # Param 개수
-# units * (feature + bias + units)
-# 256 * (256 + 1 + 1) = 66048
+# 3 * (units * (feature + bias + units + ?))
