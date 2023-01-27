@@ -15,7 +15,7 @@ model.add(Conv2D(5, (2,2))) #(N,3,3,5)
 model.add(Flatten()) #(N,45,) (3x3x5=45) #DNN
 model.add(Dense(units=10)) #(N,10)
           #인풋은 (batch_size, input_dim)
-model.add(Dense(4, activation='relu'))  #(N,1)
+model.add(Dense(1, activation='relu'))  #(N,1)
 
 model.summary()
 #filters의 개수 = 그다음 output 노드의 개수

@@ -51,8 +51,8 @@ print(x_test.shape)
 
 #2. 모델구성
 model = Sequential()
-# model.add(LSTM(512, input_shape=(4,1), activation='relu'))
-model.add(Bidirectional(LSTM(512, input_shape=(4,1), activation='relu'))) 
+# model.add(LSTM(100, input_shape=(4,1), activation='relu'))
+model.add(Bidirectional(LSTM(512), input_shape=(4,1)))
 model.add(Dense(256, activation='relu'))                                                                                                
 model.add(Dense(128, activation='relu'))
 model.add(Dense(64, activation='relu'))
@@ -61,7 +61,7 @@ model.add(Dense(16, activation='relu'))
 model.add(Dense(1, activation='relu'))
 
 model.summary()
-'''
+
 #3. 컴파일,훈련
 model.compile(loss='mse', optimizer='adam')
 
@@ -72,7 +72,7 @@ loss=model.evaluate(x_test,y_test)
 print('loss : ', loss)
 result = model.predict(x_predict)
 print('100~106예측 결과 : ', result)
-'''
+
 '''
 loss :  0.0017833933234214783
 100~106예측 결과 :  [[ 99.99341 ]
