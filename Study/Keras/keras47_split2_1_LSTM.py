@@ -21,19 +21,29 @@ x = bbb[:, :-1]
 y = bbb[:, -1]
 
 print (x,y)
-print (x.shape, y.shape) # (96,4)
+print (x.shape, y.shape) # (96, 4) (96,)
 
-x = x.reshape(96,4,1)
 
 x_predict = np.array(range(96,106))  # 예상 y = 100, 107
 
-x_predict = split_x(x_predict, 4)
+x_predict = split_x(x_predict, 4) #timesteps = 4 
 print(x_predict)
 
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(
+    x,y,shuffle=True, random_state=444
+) #train_size의 default값 : 0.75
+
+print(x_train.shape, y_train.shape)
+print(x_test.shape, y_test.shape)
+
+x_train = x_train.reshape(72,4,1)
+x_test = x_test.reshape(24,4,1)
 x_predict = x_predict.reshape(7, 4, 1)
 
 print(x_predict.shape)
-print(x.shape)
+print(x_train.shape)
+print(x_test.shape)
 
 #2. 모델구성
 model = Sequential()
@@ -50,7 +60,7 @@ model.summary()
 #3. 컴파일,훈련
 model.compile(loss='mse', optimizer='adam')
 
-model.fit(x,y,epochs=100, batch_size=2)
+model.fit(x,y,epochs=200, batch_size=8)
 
 #4.평가,예측
 loss=model.evaluate(x,y)
@@ -59,12 +69,12 @@ result = model.predict(x_predict)
 print('결과 : ', result)
 
 '''
-loss :  0.0027463457081466913
-결과 :  [[ 99.98287 ]
-        [100.98821 ]
-        [101.99371 ]
-        [102.99968 ]
-        [104.00616 ]
-        [105.0129  ]
-        [106.019806]]
+loss :  0.0017833933234214783
+결과 :  [[ 99.99341 ]
+        [100.99639 ]
+        [101.99952 ]
+        [103.002716]
+        [104.00601 ]
+        [105.009445]
+        [106.01296 ]]
 '''
