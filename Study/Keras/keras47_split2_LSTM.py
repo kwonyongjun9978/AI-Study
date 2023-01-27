@@ -4,8 +4,6 @@ from tensorflow.keras.layers import Dense, LSTM
 
 a = np.array(range(1, 101))
 
-#예상 y = 100, 107
-
 timesteps = 5  #x는 4개, y는 1개
 
 def split_x(dataset, timesteps):
@@ -19,31 +17,23 @@ bbb = split_x(a, timesteps)
 print(bbb)
 print(bbb.shape) #(96, 5)
 
-x=bbb[:, :-1]
-y=bbb[:, -1] 
-print(x,y)
+x = bbb[:, :-1]
+y = bbb[:, -1]
 
-print(x.shape, y.shape) #(96, 4) (96,)
+print (x,y)
+print (x.shape, y.shape) # (96,4)
 
 x = x.reshape(96,4,1)
 
+x_predict = np.array(range(96,106))  # 예상 y = 100, 107
 
-x_predict = np.array(range(96, 106))
+x_predict = split_x(x_predict, 4)
+print(x_predict)
 
-timesteps = 4  
+x_predict = x_predict.reshape(7, 4, 1)
 
-def split_y(dataset, timesteps):
-    aaa=[]
-    for i in range(len(dataset) - timesteps + 1):
-        subset = dataset[i : (i + timesteps)]
-        aaa.append(subset)
-    return np.array(aaa)
-
-ddd = split_y(x_predict, timesteps)
-print(ddd)
-print(ddd.shape) #(7, 4)
-
-ddd = ddd.reshape(7,4,1)
+print(x_predict.shape)
+print(x.shape)
 
 #2. 모델구성
 model = Sequential()
@@ -65,6 +55,16 @@ model.fit(x,y,epochs=100, batch_size=2)
 #4.평가,예측
 loss=model.evaluate(x,y)
 print('loss : ', loss)
-x_predict=np.array(ddd)
 result = model.predict(x_predict)
 print('결과 : ', result)
+
+'''
+loss :  0.0027463457081466913
+결과 :  [[ 99.98287 ]
+        [100.98821 ]
+        [101.99371 ]
+        [102.99968 ]
+        [104.00616 ]
+        [105.0129  ]
+        [106.019806]]
+'''
