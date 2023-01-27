@@ -1,6 +1,6 @@
 import numpy as np
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, LSTM, Bidirectional, Conv1D
+from tensorflow.keras.layers import Dense, LSTM, Bidirectional, Conv1D, Flatten
 a = np.array(range(1, 101))
 
 timesteps = 5  
@@ -56,6 +56,7 @@ model = Sequential()
 model.add(Conv1D(256, 2, input_shape=(4,1), activation='relu'))                                                                                             
 model.add(Dense(128, activation='relu'))
 model.add(Dense(64, activation='relu'))
+model.add(Flatten())
 model.add(Dense(32, activation='relu'))
 model.add(Dense(16, activation='relu'))
 model.add(Dense(1, activation='relu'))
