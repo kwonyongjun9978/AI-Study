@@ -40,7 +40,8 @@ from tensorflow.keras.layers import concatenate
 merge1 = concatenate([output1, output2], name='mg1')
 merge2 = Dense(128, activation='relu', name='mg2')(merge1)
 merge3 = Dense(64, name='mg3')(merge2)
-last_output = Dense(1, name='last')(merge3)
+merge4 = Dense(32, name='mg4')(merge3)
+last_output = Dense(1, name='last')(merge4)
 model = Model(inputs=[input1, input2], outputs=last_output)
 
 model.summary()
@@ -54,7 +55,7 @@ loss = model.evaluate([x1_test, x2_test], y_test)
 print('loss : ', loss)
 
 '''
-loss :  5.702054023742676
+loss :  0.0005524943117052317
 '''
 
 
