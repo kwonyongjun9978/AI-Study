@@ -40,8 +40,13 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 print(x_train.shape, y_train.shape)
 print(x_test.shape, y_test.shape)
-
-#feature값을 2로 변경([batch, timesteps, feature])
+'''
+feature값을 2로 변경([batch, timesteps, feature])
+■ feature를 2로 바꾸면 좋은 점?
+feature를 늘리면 자료에서 더 복잡한 관계와 패턴을 찾을 수 있어서 모델의 성능과 정확도가 올라가는 장점이 있지만,
+연산량이 늘어나 과적합될 수 있을 뿐만 아니라 훈련 시간이 늘어난다는 단점이 있다.
+=> 가장 좋은 균형을 찾는 것이 중요함.
+'''
 x_train = x_train.reshape(72,2,2)
 x_test = x_test.reshape(24,2,2)
 x_predict = x_predict.reshape(7,2,2)

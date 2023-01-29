@@ -18,13 +18,16 @@ print(np.unique(y_train, return_counts=True))
 x_train, x_test = x_train / 255.0, x_test / 255.0
 
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, LSTM
+from tensorflow.keras.layers import Dense, Conv1D, Flatten, Dropout
 
 #2. 모델
 model = Sequential()
-model.add(LSTM(256, input_shape=(96,3), activation='relu'))                                                                                                
+model.add(Conv1D(256, 2, input_shape=(96,3), activation='relu'))                                                                                                
 model.add(Dense(128, activation='relu'))
 model.add(Dense(64, activation='relu'))
+model.add(Flatten())
+model.add(Dense(64, activation='relu'))
+model.add(Dropout(0.3))
 model.add(Dense(32, activation='relu'))
 model.add(Dense(16, activation='relu'))
 model.add(Dense(10, activation='softmax'))

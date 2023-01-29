@@ -51,7 +51,6 @@ print(x_test.shape)
 
 #2. 모델구성
 model = Sequential()
-# model.add(LSTM(100, input_shape=(4,1), activation='relu'))
 model.add(Bidirectional(LSTM(512, return_sequences=True, 
                              activation='relu'), input_shape=(4,1)))
 model.add(LSTM(256, activation='relu'))                                                                                              
@@ -62,7 +61,10 @@ model.add(Dense(16, activation='relu'))
 model.add(Dense(1, activation='relu'))
 
 model.summary()
-
+'''
+Bidirectional 자체에는 return_sequences 가 없다.
+Bidirectional 안에 있는 LSTM layer에 return_sequences=True 해야 다음 LSTM layer를 추가할 수 있다.
+'''
 #3. 컴파일,훈련
 model.compile(loss='mse', optimizer='adam')
 

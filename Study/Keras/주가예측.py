@@ -27,3 +27,9 @@ model.fit(train_data, epochs=100, batch_size=1, verbose=2)
 
 # Make predictions on the test data
 predictions = model.predict(test_data)
+
+# 01 ~ 14까지 Conv1D로 만들어
+# 삼성전자와 아모레 주가를 앙상블 모델로 만들어 삼성전자 주가 예측하기
+# (컬럼 5개 이상 쓰기, 삼성 월요일 시가 예측해보기) ->소스 ,가중치 제출
+#양식
+#제목 : 권용준 00,000원

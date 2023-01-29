@@ -15,7 +15,7 @@ print(x.shape, y.shape) #(13, 3) (13,)
 x = x.reshape(13,3,1)
 
 #2. 모델구성
-model = Sequential()          #(N , 3, 1)
+model = Sequential()          #(N, 3, 1)
 model.add(LSTM(256, input_shape=(3,1), activation='relu', 
                return_sequences=True))   # (N, 3, 256)
 model.add(LSTM(128, activation='relu'))  # (N, 128)                                                                                              

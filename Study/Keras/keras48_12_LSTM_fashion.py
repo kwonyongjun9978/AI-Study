@@ -20,7 +20,7 @@ from tensorflow.keras.layers import Dense, LSTM
 
 #2. 모델
 model = Sequential()
-model.add(LSTM(256, input_shape=(28*28,1), activation='relu'))                                                                                                
+model.add(LSTM(256, input_shape=(28,28), activation='relu'))                                                                                                
 model.add(Dense(128, activation='relu'))
 model.add(Dense(64, activation='relu'))
 model.add(Dense(32, activation='relu'))
@@ -35,11 +35,11 @@ model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min',          
-                              patience=50, 
+                              patience=1, 
                               restore_best_weights=True, 
                               verbose=2)
 
-model.fit(x_train, y_train, epochs=1000, batch_size=32,
+model.fit(x_train, y_train, epochs=2, batch_size=32,
           validation_split=0.2,
           callbacks=[earlyStopping],
           verbose=1)

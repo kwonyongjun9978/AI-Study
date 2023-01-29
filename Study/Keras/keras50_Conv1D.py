@@ -1,6 +1,6 @@
 import numpy as np
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, LSTM, Bidirectional, Conv1D, Flatten
+from tensorflow.keras.layers import Dense, Conv1D, Flatten
 a = np.array(range(1, 101))
 
 timesteps = 5  
@@ -50,9 +50,6 @@ print(x_test.shape)
 
 #2. 모델구성
 model = Sequential()
-# model.add(Bidirectional(LSTM(512, return_sequences=True, 
-#                              activation='relu'), input_shape=(4,1)))
-# model.add(LSTM(256, activation='relu')) 
 model.add(Conv1D(256, 2, input_shape=(4,1), activation='relu'))                                                                                             
 model.add(Dense(128, activation='relu'))
 model.add(Dense(64, activation='relu'))
@@ -75,12 +72,12 @@ result = model.predict(x_predict)
 print('100~106예측 결과 : ', result)
 
 '''
-loss :  0.0017833933234214783
-100~106예측 결과 :  [[ 99.99341 ]
-                    [100.99639 ]
-                    [101.99952 ]
-                    [103.002716]
-                    [104.00601 ]
-                    [105.009445]
-                    [106.01296 ]]
+loss :  9.627764256947557e-07
+100~106예측 결과 :  [[100.00073 ]
+ [101.003944]
+ [102.00999 ]
+ [103.02132 ]
+ [104.03268 ]
+ [105.04404 ]
+ [106.0554  ]]
 '''

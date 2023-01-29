@@ -41,6 +41,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 print(x_train.shape, y_train.shape)
 print(x_test.shape, y_test.shape)
 
+# Conv2D는 4차원 데이터가 필요하기 때문에 (72,2,2) => (72,2,2,1) 로 reshape
 x_train = x_train.reshape(72,2,2,1)
 x_test = x_test.reshape(24,2,2,1)
 x_predict = x_predict.reshape(7,2,2,1)

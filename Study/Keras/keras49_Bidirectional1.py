@@ -61,7 +61,16 @@ model.add(Dense(16, activation='relu'))
 model.add(Dense(1, activation='relu'))
 
 model.summary()
-
+'''
+■ Bidirectional
+Bidirectional은 그 자체로 모델이 아니라 안에 layer를 넣고, input_shape을 따로 빼줘야한다.
+■ 단방향 LSTM vs 양방향 Bidirectional
+model.summary() 하면
+lstm (LSTM)                   (None, 256)               264192
+bidirectional (Bidirectional) (None, 512)               528384
+연산량이 Bidirectional이 LSTM보다 딱 2배 많다는 것을 알 수 있다.
+일반적으로 양방향 LSTM을 사용할 경우 시퀀스 데이터에서 더 많은 정보를 추출할 수 있기 때문에 성능이 더 좋게 나타난다. 
+'''
 #3. 컴파일,훈련
 model.compile(loss='mse', optimizer='adam')
 

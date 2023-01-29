@@ -1,32 +1,32 @@
-from tensorflow.keras.datasets import cifar100
-import tensorflow as tf
-from tensorflow.keras import layers
 import numpy as np
+from tensorflow.keras.datasets import fashion_mnist
 
-#1. 데이터
-(x_train, y_train), (x_test, y_test) = cifar100.load_data()
+(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
 
-print(x_train.shape, y_train.shape) #(50000, 32, 32, 3) (50000, 1)
-print(x_test.shape, y_test.shape)   #(10000, 32, 32, 3) (10000, 1)
+print(x_train.shape, y_train.shape)  #(60000, 28, 28) (60000,)
+print(x_test.shape, y_test.shape)    #(10000, 28, 28) (10000,)
 
-x_train = x_train.reshape(50000, 96, 32)
-x_test = x_test.reshape(10000, 96, 32)
-
-print(np.unique(y_train, return_counts=True))
+# import matplotlib.pyplot as plt
+# plt.imshow(x_train[10], 'gray')
+# plt.show()
 
 #scaler
 x_train, x_test = x_train / 255.0, x_test / 255.0
 
+print(np.unique(y_train, return_counts=True))
+
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, LSTM
+from tensorflow.keras.layers import Dense, Conv1D, Flatten, Dropout
 
 #2. 모델
 model = Sequential()
-model.add(LSTM(256, input_shape=(96,3), activation='relu'))                                                                                                
+model.add(Conv1D(256, 2, input_shape=(28,28), activation='relu'))                                                                                                
 model.add(Dense(128, activation='relu'))
 model.add(Dense(64, activation='relu'))
+model.add(Flatten())
+model.add(Dense(64, activation='relu'))
+model.add(Dropout(0.3))
 model.add(Dense(32, activation='relu'))
-model.add(Dense(16, activation='relu'))
 model.add(Dense(10, activation='softmax'))
 
 model.summary()
@@ -35,12 +35,12 @@ model.summary()
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',
               metrics=['acc'])
 
-from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 earlyStopping = EarlyStopping(monitor='val_loss', 
                               mode='min',          
                               patience=1, 
                               restore_best_weights=True, 
-                              verbose=1 )
+                              verbose=2)
 
 model.fit(x_train, y_train, epochs=2, batch_size=32,
           validation_split=0.2,
@@ -53,6 +53,11 @@ print('loss : ', results[0])
 print('acc : ', results[1])
 
 '''
-loss :  2.767543077468872
-acc :  0.3127000033855438
+cnn
+loss :  0.324116587638855
+acc :  0.8873000144958496
+
+dnn
+loss :  0.3319469094276428
+acc :  0.8866999745368958
 '''
