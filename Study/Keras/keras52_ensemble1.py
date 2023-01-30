@@ -1,4 +1,4 @@
-#앙상블 모델 = 두개의 모델을 하나의 모델로 합치는것
+#2개의 모델을 하나의 모델로 합치기
 #1. 데이터
 import numpy as np
 x1_datasets = np.array([range(100), range(301,401)]).transpose()
