@@ -1,4 +1,4 @@
-#3개의 모델을 2개의 모델로 합치기
+#1개의 모델을 2개의 모델로 합치기
 #1. 데이터
 import numpy as np
 x1_datasets = np.array([range(100), range(301,401)]).transpose()
@@ -55,7 +55,7 @@ output6 = Dense(32, activation='relu', name='ds65')(dense6)
 model = Model(inputs=input1, outputs=[output5, output6])
 
 #3. 컴파일, 훈련
-model.compile(loss = 'mse', optimizer='adam')
+model.compile(loss = 'mse', optimizer='adam', metrics=['mae'])
 model.fit(x1_train, [y1_train,y2_train], epochs=10, batch_size=1)
 
 #4. 평가, 예측
