@@ -11,8 +11,8 @@ y_train = np.load('c:/_data/dogs-vs-cats/dogrs-vs-cats_y_train.npy')
 x_test = np.load('c:/_data/dogs-vs-cats/dogrs-vs-cats_x_test.npy')
 y_test = np.load('c:/_data/dogs-vs-cats/dogrs-vs-cats_y_test.npy')
 
-print(x_train.shape, x_test.shape) #(25000, 200, 200, 1) (12500, 200, 200, 1)
-print(y_train.shape, y_test.shape) #(25000,) (12500,)
+print(x_train.shape, x_test.shape) #(10, 200, 200, 1) (10, 200, 200, 1)
+print(y_train.shape, y_test.shape) #(10,) (10,)
 
 #2. 모델
 from tensorflow.keras.models import Sequential
@@ -61,7 +61,12 @@ plt.legend() #선의 이름
 #plt.legend(loc='upper left') 
 plt.show()
 
-
+'''
+loss :  3.673834847450763e-10
+val_loss :  7.1758575439453125
+accuracy :  1.0
+val_acc :  0.5
+'''
 
 
 

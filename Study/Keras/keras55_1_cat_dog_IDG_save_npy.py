@@ -19,12 +19,12 @@ test_datagen = ImageDataGenerator(
 )
 
 xy_train = train_datagen.flow_from_directory(
-    'c:/_data/dogs-vs-cats/train/',       # 폴더 경로 지정
+    'c:/_data/dogs-vs-cats/train/',     # 폴더 경로 지정
     target_size=(200, 200),             # 이미지 사이즈 지정
-    batch_size=10000,                       
+    batch_size=10,                       
     class_mode='binary',                # 수치형으로 변환
     # class_mode='categorical',         # 원핫형태의 데이터로 변경            
-    color_mode='rgb',             # 흑백으로 변환
+    color_mode='rgb',                   # 흑백으로 변환
     shuffle=True,                       # 데이터를 섞어준다. 파이썬에서는 함수(괄호)안에서 ,를 마지막에 찍어도 작동이 된다.  
     # Found 25000 images belonging to 2 classes.
 )
@@ -32,7 +32,7 @@ xy_train = train_datagen.flow_from_directory(
 xy_test = test_datagen.flow_from_directory(
     'c:/_data/dogs-vs-cats/test/',
     target_size=(200,200),
-    batch_size=10000,
+    batch_size=10,
     class_mode='binary',
     # class_mode='categorical',
     color_mode='rgb',
@@ -45,8 +45,8 @@ print(xy_train) #<keras.preprocessing.image.DirectoryIterator object at 0x000001
 print(xy_train[0])
 print(xy_train[0][0])
 print(xy_train[0][1])
-print(xy_train[0][0].shape)  # (25000, 200, 200, 1)
-print(xy_train[0][1].shape)  # (25000,)
+print(xy_train[0][0].shape)  # (100, 200, 200, 3)
+print(xy_train[0][1].shape)  # (100,)
 
 np.save('c:/_data/dogs-vs-cats/dogrs-vs-cats_x_train.npy', arr=xy_train[0][0])
 np.save('c:/_data/dogs-vs-cats/dogrs-vs-cats_y_train.npy', arr=xy_train[0][1])
