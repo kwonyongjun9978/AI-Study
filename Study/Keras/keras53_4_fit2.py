@@ -20,7 +20,7 @@ test_datagen = ImageDataGenerator(
 xy_train = train_datagen.flow_from_directory(
     './_data/brain/train/',
     target_size=(100,100),
-    batch_size=1000,   #lne()
+    batch_size=10,   #lne()
     class_mode='binary',
     color_mode='grayscale',
     shuffle=True
@@ -28,9 +28,9 @@ xy_train = train_datagen.flow_from_directory(
 )
 
 xy_test = test_datagen.flow_from_directory(
-    './_data/brain/test/',
+    './_data/brain/test/', 
     target_size=(100,100),
-    batch_size=1000,
+    batch_size=10,
     class_mode='binary',
     color_mode='grayscale',
     shuffle=True
@@ -42,15 +42,15 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D
 
 model = Sequential()
-model.add(Conv2D(256, (3,3), input_shape=(100,100,1), activation='relu', padding='same'))
+model.add(Conv2D(128, (3,3), input_shape=(100,100,1), activation='relu', padding='same'))
 model.add(MaxPooling2D())
-model.add(Conv2D(128, (2,2), activation='relu', padding='same'))
+model.add(Conv2D(64, (2,2), activation='relu', padding='same'))
 model.add(MaxPooling2D())
-model.add(Conv2D(64, (2,2), activation='relu'))
+model.add(Conv2D(32, (2,2), activation='relu'))
 model.add(Flatten())
-model.add(Dense(64, activation='relu'))
-model.add(Dense(32, activation='relu'))
 model.add(Dense(16, activation='relu'))
+model.add(Dense(8, activation='relu'))
+model.add(Dense(4, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
 
 #3. 컴파일, 훈련
@@ -61,12 +61,13 @@ model.compile(loss='binary_crossentropy', optimizer='adam',
 #                     validation_data=xy_test,
 #                     validation_steps=4, )
 
-hist = model.fit( # xy_train[0][0], xy_train[0][1],
+hist = model.fit( #xy_train[0][0], xy_train[0][1],
                  xy_train, 
-                #  batch_size=16,
-                 epochs=10, 
-                 validation_data=(xy_test[0][0], xy_test[0][1]))
-                #  validation_split=0.2)
+              #  batch_size=16,
+                epochs=10, 
+                validation_data=(xy_test[0][0], xy_test[0][1]),
+                # validation_split=0.2
+                )
 
 #4. 평가, 예측
 accuracy = hist.history['acc']
