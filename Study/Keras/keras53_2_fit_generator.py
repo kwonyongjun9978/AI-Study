@@ -52,15 +52,19 @@ model.add(Dense(64, activation='relu'))
 model.add(Dense(32, activation='relu'))
 model.add(Dense(16, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
+# model.add(Dense(1, activation='softmax'))
+
 
 #3. 컴파일, 훈련
 model.compile(loss='binary_crossentropy', optimizer='adam',
               metrics=['acc'])
+# model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',
+#               metrics=['acc'])
 
 hist = model.fit_generator(xy_train, steps_per_epoch=16, epochs=300,
                     validation_data=xy_test,
                     validation_steps=4, ) #validation_steps=4는 120개의 데이터를 10개씩 4번 돌린다는 의미이다.
-
+                                          #steps_per_epoch=16 //batch_size를 10으로 잡았으므로 160/10을 하면 16
 #4. 평가, 예측
 accuracy = hist.history['acc']
 val_acc = hist.history['val_acc']

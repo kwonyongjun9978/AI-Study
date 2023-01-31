@@ -20,7 +20,7 @@ test_datagen = ImageDataGenerator(
 xy_train = train_datagen.flow_from_directory(
     './_data/brain/train/',
     target_size=(100,100),
-    batch_size=1000,
+    batch_size=1000,   #lne()
     class_mode='binary',
     color_mode='grayscale',
     shuffle=True
