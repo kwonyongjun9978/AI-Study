@@ -27,7 +27,7 @@ xy_train = train_datagen.flow_from_directory(
     target_size=(200, 200),             # 이미지 사이즈 지정
     batch_size=10,                       
     # class_mode='binary',  
-    class_mode='categorical',           #원핫형태의 데이터로 변경            
+    class_mode='categorical',           # 원핫형태의 데이터로 변경            
     color_mode='grayscale',             # 흑백으로 변환
     shuffle=True,                       # 데이터를 섞어준다. 파이썬에서는 함수(괄호)안에서 ,를 마지막에 찍어도 작동이 된다.  
     #Found 160 images belonging to 2 classes.
