@@ -21,23 +21,23 @@ test_datagen = ImageDataGenerator(
 xy_train = train_datagen.flow_from_directory(
     'c:/_data/dogs-vs-cats/train/',       # 폴더 경로 지정
     target_size=(200, 200),             # 이미지 사이즈 지정
-    batch_size=10000000,                       
+    batch_size=10000,                       
     class_mode='binary',                # 수치형으로 변환
     # class_mode='categorical',         # 원핫형태의 데이터로 변경            
-    color_mode='grayscale',             # 흑백으로 변환
+    color_mode='rgb',             # 흑백으로 변환
     shuffle=True,                       # 데이터를 섞어준다. 파이썬에서는 함수(괄호)안에서 ,를 마지막에 찍어도 작동이 된다.  
     # Found 25000 images belonging to 2 classes.
 )
 
 xy_test = test_datagen.flow_from_directory(
-    'c:/_data/dogs-vs-cats/test1/',
+    'c:/_data/dogs-vs-cats/test/',
     target_size=(200,200),
-    batch_size=10000000,
+    batch_size=10000,
     class_mode='binary',
     # class_mode='categorical',
-    color_mode='grayscale',
+    color_mode='rgb',
     shuffle=True
-    # Found 12500 images belonging to 1 classes.
+    # Found 12500 images belonging to 2 classes.
 )
 
 print(xy_train) #<keras.preprocessing.image.DirectoryIterator object at 0x00000181F09EE040>
@@ -50,9 +50,8 @@ print(xy_train[0][1].shape)  # (25000,)
 
 np.save('c:/_data/dogs-vs-cats/dogrs-vs-cats_x_train.npy', arr=xy_train[0][0])
 np.save('c:/_data/dogs-vs-cats/dogrs-vs-cats_y_train.npy', arr=xy_train[0][1])
-
-# np.save('c:/_data/dogs-vs-cats/dogrs-vs-cats_x_test.npy', arr=xy_test[0][0])
-# np.save('c:/_data/dogs-vs-cats/dogrs-vs-cats_y_test.npy', arr=xy_test[0][1])
+np.save('c:/_data/dogs-vs-cats/dogrs-vs-cats_x_test.npy', arr=xy_test[0][0])
+np.save('c:/_data/dogs-vs-cats/dogrs-vs-cats_y_test.npy', arr=xy_test[0][1])
 
 # print(type(xy_train)) #<class 'keras.preprocessing.image.DirectoryIterator'>
 # print(type(xy_train[0])) #<class 'tuple'>

@@ -19,7 +19,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D
 
 model = Sequential()
-model.add(Conv2D(256, (3,3), input_shape=(200,200,1), activation='relu', padding='same'))
+model.add(Conv2D(256, (3,3), input_shape=(200,200,3), activation='relu', padding='same'))
 model.add(MaxPooling2D())
 model.add(Conv2D(128, (2,2), activation='relu', padding='same'))
 model.add(MaxPooling2D())
