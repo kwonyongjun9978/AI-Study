@@ -61,12 +61,12 @@ model.compile(loss='binary_crossentropy', optimizer='adam',
 #                     validation_data=xy_test,
 #                     validation_steps=4, )
 
-hist = model.fit( #xy_train[0][0], xy_train[0][1],
+hist = model.fit( # xy_train[0][0], xy_train[0][1],
                  xy_train, 
-              #  batch_size=16,
-                epochs=10, 
-                validation_data=(xy_test[0][0], xy_test[0][1]),
-                # validation_split=0.2
+                  # batch_size=16,
+                 epochs=10, 
+                 validation_data=(xy_test[0][0], xy_test[0][1]),
+                  # validation_split=0.2
                 )
 
 #4. 평가, 예측
