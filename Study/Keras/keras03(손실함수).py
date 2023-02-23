@@ -15,7 +15,7 @@ model.add(Dense(1, input_dim=1))
 
 # 3. 컴파일, 훈련
 model.compile(loss='mae', optimizer='adam') # 손실함수 mae
-                                            # cf)손실함수란? https://heytech.tistory.com/361
+                                            # cf)손실함수란?  알고리즘이 예측한 값과 실제 정답의 차이를 비교하기 위한 함수, https://heytech.tistory.com/361
 model.fit(x,y,epochs=200)
 
 # 4. 평가, 예측

@@ -3,7 +3,7 @@ import tensorflow as tf  # 텐서플로를 입포트합니다. 하지만 너무 
 import numpy as np
 
 # 1.데이터
-x=np.array([1,2,3])
+x=np.array([1,2,3]) #List자료형 : 여러 값을 넣기 위한 자료형,  순서가 있고(인덱스 기반 접근), 중복이 가능하며, 수정이 가능한 특성
 y=np.array([1,2,3])
 
 # 2.모델구성
